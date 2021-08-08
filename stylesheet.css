@@ -27,21 +27,38 @@ strong {
 }
 
 
-/*
-.post{
-	border: 1px dashed #8e1c4f;
-	margin: 40px 22px auto;
+code,
+pre {
+  background: #eee;
 }
 
-.post h1 {
-	text-align: center;
-	font-weight: bold;
-	margin: 10px auto;
+code {
+  padding: 2px 4px;
+  vertical-align: text-bottom;
 }
 
-.post p {
-    text-align: justify;
-    margin: 5px 20px;
+pre {
+  padding: 1em;
 }
 
-*/
+
+a {
+  color: #e81c4f;
+}
+
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.header__content-image {
+  flex-basis: 40%;
+}
+
+.header__content-text {
+  padding-left: 20px;
+}
+
+
