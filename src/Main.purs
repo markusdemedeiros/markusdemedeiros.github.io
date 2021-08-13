@@ -39,7 +39,7 @@ component = H.mkComponent
   where
 
   initialState :: State
-  initialState = { value: "initial"}
+  initialState = { value: "Type something below!"}
 
 
   render :: State -> H.ComponentHTML Action () m
@@ -48,7 +48,9 @@ component = H.mkComponent
     [ HH.textarea [HP.spellcheck false
                   , HP.rows 25
                   , HP.id "console-disp"
-                  , HP.placeholder state.value]
+                  , HP.placeholder state.value
+                  , HP.readOnly true
+                  ]
     , HH.input[HP.spellcheck false
                   , HP.placeholder " >> "
                   , HP.id "console-inp"
