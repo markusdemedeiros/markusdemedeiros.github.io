@@ -1,13 +1,21 @@
 
 /* Stolen from https://jgthms.com/web-design-in-4-minutes/ */
 
+/* Colours
+ * #E8E8E8    off white
+ * #FFFFFF    white
+ * #FF6600    orange
+ * #3D3D3D    grey
+ * #313131    dark grey
+ */
+
 body {
   margin: 0 auto;
   max-width: 50em;
   font-family: "Helvetica", "Arial", sans-serif;
   line-height: 1.5;
   padding: 4em 1em;
-  color: #555;
+  color: #3D3D3D;
 }
 
 hr {
@@ -23,13 +31,20 @@ h2 {
 h1,
 h2,
 strong {
-  color: #333;
+  color: #313131;
 }
 
 
 code,
 pre {
-  background: #eee;
+  background: #3d3d3d;
+  color: #e8e8e8;
+
+    display: block;
+    white-space: pre;
+    max-width: 100%;
+    min-width: 100px;
+    padding: 0;
 }
 
 code {
@@ -43,14 +58,24 @@ pre {
 
 
 a {
-  color: #e81c4f;
+  color: #FF6600;
 }
+
+
+textarea {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  resize: none;
+}
+
 
 
 .header {
   display: flex;
   align-items: center;
   justify-content: center;
+  margin-bottom: 20pt;
 }
 
 .header__content-image {
@@ -61,4 +86,55 @@ a {
   padding-left: 20px;
 }
 
+.movable_div {
+  position: absolute;
+  z-index: 9;
+  background-color: #e81c4f;
+  text-align: center;
+  border: 1px solid black;
+  color: black;
+  width: 100px;
+  height: 50px;
+}
+
+#canvas {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+}
+
+#drag-blog {
+  background-color: #FF6600;
+  color: whitesmoke;
+  width: 100px;
+}
+
+
+#drag-2 {
+  background-color: #FF6600;
+  color: whitesmoke;
+  width: 100px;
+}
+
+#title-text {
+  color: #aeaeae;
+}
+
+.internal-content{
+    border-bottom: dashed 2px red;
+}
+
+textarea {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 40em; 
+}
+
+input {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 40em; 
+}
 

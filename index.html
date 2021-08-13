@@ -3,10 +3,10 @@
 
 <head>
 
-	<title>Homepage</title>
+	<title>Markus's Desk</title>
 
 	<link rel="stylesheet" href="stylesheet.css">
-
+	<script src="https://unpkg.com/interactjs/dist/interact.min.js"></script>
 </head>
 
 
@@ -18,15 +18,28 @@
 		<div class="header__content-text">
 			<h1> Markus de Medeiros </h1>
 			<aside> Student in mathematics and CS at UBC </aside>
+			<aside> </aside>
 			<hr>
+			<a href="https://github.com/markusdemedeiros">[ github ]</a>
+			<a href="mailto:markusdemedeiros@outlook.com?">[ email ]</a>
+			<a href="https://www.google.ca">[ cv ]</a>
+			<a href="https://www.google.ca">[ publications ]</a>
+			<p align="right"> <i id="title-text">powered by vim and coffee!</i></p>
 		</div>
 	</div>
-	<div class="page__content-container">
-		<p> Coming soon! Just you wait! </p>
-		<a href="www.google.com"> linky! </a>
-		<script src="src/homepage/dist/index.js"></script>
-	</div>
 
-</body>
+
+	<script type="text/javascript" charset="utf-8">
+		var randomStrings = [
+			"powered by vim and coffee!",
+			"trust the natural recursion!",
+			"monads: programmable semicolons!",
+			"real numbers don't exist!",
+		];
+		var randomText = document.getElementById("title-text");
+		randomText.innerText = (randomStrings[Math.ceil((Math.random() * randomStrings.length - 1))]);
+	</script>
+
+	<script src="./dist/index.js"></script>
 
 </html>
