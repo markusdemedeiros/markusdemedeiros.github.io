@@ -7227,7 +7227,7 @@ var PS = {};
   var handleCommand = function (s) {
       return function (state) {
           return {
-              console: "I recieved the command: " + s
+              console: "I heard the command: " + s
           };
       };
   };
