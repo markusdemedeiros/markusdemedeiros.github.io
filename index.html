@@ -2,9 +2,7 @@
 <html>
 
 <head>
-
 	<title>Markus's Desk</title>
-
 	<link rel="stylesheet" type="text/css" href="stylesheet.css">
 </head>
 
@@ -30,14 +28,14 @@
 
 
 	<script type="text/javascript" charset="utf-8">
-		var randomStrings = [
+		var string_list = [
 			"powered by vim and coffee!",
-			"trust the natural recursion!",
+			"trust the natural catamorphism!",
 			"monads: programmable semicolons!",
 			"real numbers don't exist!",
 		];
-		var randomText = document.getElementById("title-text");
-		randomText.innerText = (randomStrings[Math.ceil((Math.random() * randomStrings.length - 1))]);
+		document.getElementById("title-text").innerText 
+            = (string_list[Math.ceil((Math.random()*string_list.length-1))]);
 	</script>
 
 	<script src="./dist/index.js"></script>

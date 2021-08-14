@@ -1,5 +1,5 @@
 
-/* Stolen from https://jgthms.com/web-design-in-4-minutes/ */
+/* (Partially) stolen from https://jgthms.com/web-design-in-4-minutes/ */
 
 /* Colours
  * #E8E8E8    off white
@@ -27,33 +27,10 @@ h2 {
   padding-top: 1em;
 }
 
-
 h1,
 h2,
 strong {
   color: #313131;
-}
-
-
-code,
-pre {
-  background: #3d3d3d;
-  color: #e8e8e8;
-
-    display: block;
-    white-space: pre;
-    max-width: 100%;
-    min-width: 100px;
-    padding: 0;
-}
-
-code {
-  padding: 2px 4px;
-  vertical-align: text-bottom;
-}
-
-pre {
-  padding: 1em;
 }
 
 
@@ -68,7 +45,6 @@ textarea {
   margin-right: auto;
   resize: none;
 }
-
 
 
 .header {
@@ -86,42 +62,9 @@ textarea {
   padding-left: 20px;
 }
 
-.movable_div {
-  position: absolute;
-  z-index: 9;
-  background-color: #e81c4f;
-  text-align: center;
-  border: 1px solid black;
-  color: black;
-  width: 100px;
-  height: 50px;
-}
-
-#canvas {
-  position: absolute;
-  top: 0px;
-  left: 0px;
-}
-
-#drag-blog {
-  background-color: #FF6600;
-  color: whitesmoke;
-  width: 100px;
-}
-
-
-#drag-2 {
-  background-color: #FF6600;
-  color: whitesmoke;
-  width: 100px;
-}
 
 #title-text {
   color: #aeaeae;
-}
-
-.internal-content{
-    border-bottom: dashed 2px red;
 }
 
 textarea {
@@ -137,4 +80,3 @@ input {
   margin-right: auto;
   width: 40em; 
 }
-
