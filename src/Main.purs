@@ -83,7 +83,7 @@ handleAction (Enter) = do
 
 
 handleCommand :: String -> State -> State 
-handleCommand s  = (\state -> state { console = "I recieved the command: " <> s})
+handleCommand s  = (\state -> state { console = "I heard the command: " <> s})
 
 
 
