@@ -7227,7 +7227,7 @@ var PS = {};
   var handleCommand = function (s) {
       return function (state) {
           return {
-              console: "I heard the command: " + s
+              console: "I'm offline right now, my creator said he'd give me a brain after his \"holy war on monad tutorials\" and \"fixing your half-assed frontend\"... whatever that means. \x0a\x0aEcho: " + s
           };
       };
   };

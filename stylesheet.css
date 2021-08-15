@@ -1,4 +1,3 @@
-
 /* (Partially) stolen from https://jgthms.com/web-design-in-4-minutes/ */
 
 /* Colours
@@ -71,12 +70,14 @@ textarea {
   display: block;
   margin-left: auto;
   margin-right: auto;
-  width: 40em; 
+  width: 40em;
+  margin-bottom: 3pt;
 }
 
 input {
   display: block;
   margin-left: auto;
   margin-right: auto;
-  width: 40em; 
+  width: 39.9em;
 }
+
