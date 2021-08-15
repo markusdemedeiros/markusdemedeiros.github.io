@@ -8,7 +8,7 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "pulp build -O --to dist/index.js"
+    "build": "pulp build -O --to dist/index.js && python3 build_site.py"
   },
   "repository": {
     "type": "git",
