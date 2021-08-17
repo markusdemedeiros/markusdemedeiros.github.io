@@ -8,6 +8,7 @@
  * #313131    dark grey
  */
 
+
 body {
   margin: 0 auto;
   max-width: 50em;
@@ -46,11 +47,18 @@ textarea {
 }
 
 
-.header {
+header {
   display: flex;
   align-items: center;
   justify-content: center;
   margin-bottom: 20pt;
+}
+
+.content {
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20pt;
+
 }
 
 .header__content-image {

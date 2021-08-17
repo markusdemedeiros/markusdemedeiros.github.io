@@ -8,8 +8,8 @@
 
 
 <body>
-	<div class="header">
-		<div class="header__content-image">
+    <header>
+        <div class="header__content-image">
             <a href="index.html">
 			    <img src="img/peruPic.png" alt="Photo of me" width=300em>
             </a>
@@ -26,10 +26,7 @@
 			<a href="blog.html">[ blog ]</a>
 			<p align="right"> <i id="title-text"></i></p>
 		</div>
-	</div>
-
-
-	<script type="text/javascript" charset="utf-8">
+        <script type="text/javascript" charset="utf-8">
 		var string_list = [
 			"powered by vim and coffee!",
 			"trust the natural catamorphism!",
@@ -38,9 +35,12 @@
 		];
 		document.getElementById("title-text").innerText 
             = (string_list[Math.ceil((Math.random()*string_list.length-1))]);
-	</script>
+	    </script>
+	</div>
+    </header>
+    <section>
+<script src="dist/index.js"></script>
 
-    <script src="./dist/index.js"></script>
-
+    </section>
 
 </html>
