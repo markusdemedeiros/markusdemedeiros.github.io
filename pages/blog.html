@@ -5,30 +5,50 @@
 
 <h2> <strong class="section_heading">Section 0.</strong> Introduction </h2>
 <hr>
+
 <p> Hi. My name is Markus. I am a functional programmer. Today we are going to
     learn about monads. 👏 </p>
 
-<p> I'm going to try and keep it terse and practical, so let me know at the
-    links above or with a issue on github if you think there's something that
-    warrants elaboration. I'll also do my best to cite the pieces which go into
-    this, but it's been a couple years of depressing goole searches so if you think
-    I stole your idea I probably did. <i>Please</i> let me know and I will attribute
-    you ASAP. For the reader, you should also treat this page as a database of
-    useful monad tutorials. All the links here are very pointed and very good. </p>
+<p> The goal of this tutorial is threefold:
+<ol>
+    <li>Present a consistent and
+        simple mental model for monads and where they should be used </li>
+    <li>Motivate
+        the steps in actually implementing a monad as a design pattern</li>
+    <li>Summarize and collect existing monad tutorials that I find are most helpful
+        to beginners</li>
+</ol>
+
+To this end, <strong>please</strong> notify me via github if you believe
+something warrants extra explanation, or if you think I misappropriated your
+idea. Learning about monads from the smattering of resources online was a long
+journey for me, so I probably did. </p>
+
+<p> Let's get started. Monads can be summarized with one quote
+
+<blockquote>A monad is a <i class="quote_em">burrito</i><sup>[<a class="citation" href="#BY2009">BY</a>]</sup> in the <i
+        class="quote_em">category of endofunctors</i><sup>[<a class="citation"
+            href="https://cs.stackexchange.com/a/128628">SE</a>]</sup>
+</blockquote>
+
+Just kidding. </p>
 
 
-<pre data-src="example.hs"> </pre>
+<h2> <strong class="section_heading">Section 1.</strong> The Monad Design
+    Pattern</h2>
+<hr>
 
-
-<p> What is a programming language? To functional programmers like us, a
-    programming language consists of three big parts
+<p> What is a programming language? For functional programmers, a langauge has three main components:
 <ul>
     <li><b>Types</b>, which
         include function types</li>
     <li><b>Data</b>, to populate those types, and</li>
-    <li>a <b>Composition Rule</b> to combine functions and data in some useful way.
+    <li>a <b>Composition Rule</b> to combine well-typed functions and data in some useful way.
     </li>
 </ul>
+
+This characterization isn't made up either, it's no coincidence that
+
 
 This characterization of a programming language isn't made up out of whole
 cloth, if you ask a category theorist they will say the same thing in two-dollar
@@ -143,7 +163,7 @@ that later. </p>
         circuiting behavior with a value of Nothing :: Maybe Int. </p>
 
 <p>Monads are a way to combine effects. Congrats, our little language is
-    complete! This concludes the monad tutorial! Buy yourself a celebratory burrito!
+    complete! This concludes the monad tutorial! Buy yourself a celebratory burrito 🌯!
     (Note: If you're all excited and ready to implement your own monad, you must
     read Appendix A first. It's critically important for the details of this
     process) </p>
@@ -191,3 +211,22 @@ of each other in a principled way. ...
 <h3>Appendix: Laws</h3>
 <p><b>This section is a must read before you try
         implementing your own monad</b></p>
+
+
+
+<pre data-src="example.hs"> </pre>
+
+
+<h2>Citations</h2>
+<ul>
+    <li id="BY2009"> <a
+            href="https://byorgey.wordpress.com/2009/01/12/abstraction-intuition-and-the-monad-tutorial-fallacy/">Abstraction,
+            intuition, and the "monad tutorial fallacy"</a>. Brent Yorgey, <i>2009</i>.
+    </li>
+
+
+    <li id="BM2014"> <a href="https://bartoszmilewski.com/2014/11/04/category-the-essence-of-composition/">
+            Category, the Essence of Composition
+        </a>. Bartoz Milewski, <i>2014</i>.
+    </li>
+</ul>

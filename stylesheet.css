@@ -99,3 +99,26 @@ input {
   margin-top: 70pt;
   font-size: 160%;
 }
+
+blockquote {
+  border-left: 3pt solid #FF6600;
+  background-color: #e8e8e8;
+  margin: 1.5em 10px;
+  padding: 0.5em 10px;
+  color: #313131;
+}
+
+.quote_em {
+  color: #FF6600;
+}
+
+sup {
+  color: #aeaeae;
+  margin: 3px 4px;
+}
+
+.citation {
+  color: #FF6600;
+  text-decoration: none;
+  border-bottom: 1px dotted #FF6600;
+}
