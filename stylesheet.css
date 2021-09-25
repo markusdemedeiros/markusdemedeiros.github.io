@@ -89,3 +89,13 @@ input {
   width: 39.9em;
 }
 
+
+.section_heading {
+  color: #aeaeae;
+  font-size: 80%;
+}
+
+.blog_title {
+  margin-top: 70pt;
+  font-size: 160%;
+}

@@ -1,24 +1,193 @@
-<h1>Blog!</h1>
+<center>
+    <h1 class="blog_title">A Practical Introduction to Monads</h1>
+    <p><i>September 25 2021</i></p>
+</center>
 
-<p>
+<h2> <strong class="section_heading">Section 0.</strong> Introduction </h2>
+<hr>
+<p> Hi. My name is Markus. I am a functional programmer. Today we are going to
+    learn about monads. 👏 </p>
 
-The standard Lorem Ipsum passage, used since the 1500s
-"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+<p> I'm going to try and keep it terse and practical, so let me know at the
+    links above or with a issue on github if you think there's something that
+    warrants elaboration. I'll also do my best to cite the pieces which go into
+    this, but it's been a couple years of depressing goole searches so if you think
+    I stole your idea I probably did. <i>Please</i> let me know and I will attribute
+    you ASAP. For the reader, you should also treat this page as a database of
+    useful monad tutorials. All the links here are very pointed and very good. </p>
 
-<p></p>
-Section 1.10.32 of "de Finibus Bonorum et Malorum", written by Cicero in 45 BC
-"Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?"
 
-<p></p>
-1914 translation by H. Rackham
-"But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness. No one rejects, dislikes, or avoids pleasure itself, because it is pleasure, but because those who do not know how to pursue pleasure rationally encounter consequences that are extremely painful. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure. To take a trivial example, which of us ever undertakes laborious physical exercise, except to obtain some advantage from it? But who has any right to find fault with a man who chooses to enjoy a pleasure that has no annoying consequences, or one who avoids a pain that produces no resultant pleasure?"
+<pre data-src="example.hs"> </pre>
 
-<p></p>
-Section 1.10.33 of "de Finibus Bonorum et Malorum", written by Cicero in 45 BC
-"At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga. Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis voluptas assumenda est, omnis dolor repellendus. Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe eveniet ut et voluptates repudiandae sint et molestiae non recusandae. Itaque earum rerum hic tenetur a sapiente delectus, ut aut reiciendis voluptatibus maiores alias consequatur aut perferendis doloribus asperiores repellat."
 
-<p></p>
-1914 translation by H. Rackham
-"On the other hand, we denounce with righteous indignation and dislike men who are so beguiled and demoralized by the charms of pleasure of the moment, so blinded by desire, that they cannot foresee the pain and trouble that are bound to ensue; and equal blame belongs to those who fail in their duty through weakness of will, which is the same as saying through shrinking from toil and pain. These cases are perfectly simple and easy to distinguish. In a free hour, when our power of choice is untrammelled and when nothing prevents our being able to do what we like best, every pleasure is to be welcomed and every pain avoided. But in certain circumstances and owing to the claims of duty or the obligations of business it will frequently occur that pleasures have to be repudiated and annoyances accepted. The wise man therefore always holds in these matters to this principle of selection: he rejects pleasures to secure other greater pleasures, or else he endures pains to avoid worse pains."
+<p> What is a programming language? To functional programmers like us, a
+    programming language consists of three big parts
+<ul>
+    <li><b>Types</b>, which
+        include function types</li>
+    <li><b>Data</b>, to populate those types, and</li>
+    <li>a <b>Composition Rule</b> to combine functions and data in some useful way.
+    </li>
+</ul>
 
+This characterization of a programming language isn't made up out of whole
+cloth, if you ask a category theorist they will say the same thing in two-dollar
+words like *morphism* (monads are burritos in the category of endofunctors,
+after all). </p>
+
+<h2>The monad design pattern</h2>
+
+<p> Monads are a design pattern that solve the problem of wanting a language
+    like Haskell (and which can interop with Haskell code) but with a little effect
+    on the side. Some examples of these problems include
+<ul>
+    <li>Haskell, but we
+        can keep track of one state alongside our computation (State monad) </li>
+    <li>Haskell, but we keep track of if an error has been thrown and short circuit
+        if so (Maybe monad)</li>
+    <li>Haskell, but with multivalued functions modelled by
+        allowing many inputs and outputs for each function (List monad) </li>
+    <li>Haskell, but on the side of our computations we're parsing text (Parsec
+        monad)</li>
+    <li>Haskell, but we build an abstract syntax tree on the side
+        without nasty recursion badness (Free monad)</li>
+    <li>Purescript, but our
+        computations can modify the structure of a webpage (HalogenM monad)</li>
+</ul>
+These are the kinds of problems monads solve: we want a copy of Haskell that
+also has some extra effects. Notice the lack of <i>imperitave style
+    programming</i> or <i>impurity</i>. Monads can do that too, but we'll get to
+that later. </p>
+
+
+<h3>Building a new language</h3>
+
+<p> The new little language we build inside Haskell will be directly related to
+    Haskell. The types will be related to Haskell types, the data will be related to
+    Haskell data, and the function composition will behave well with base Haskell
+    composition. Along the way we will make precise what exactly this means, but a
+    good overview of the process of building a little language like this is
+<ol>
+    <li>Implement a Functor to build out new types</li>
+    <li>Implement Applicative to
+        get data and a copy of base function composition</li>
+    <li>Implent the bind
+        function >>= to handle composing effects</li>
+</ol>
 </p>
+
+<h3>1. Types</h3>
+
+<p> The types in out new lanuages will just be wrapped up versions of base
+    Haskell types, and an easy way to do that is with a functor M. If Int is a type
+    in Haskell (spoiler: it is) then M Int will be a type in our language. </p>
+
+<p> The fmap function of a functor gives a bridge between out langauge and base
+    Haskell, so that if we have a base Haskell function we can apply it to data
+    inside our new language. </p>
+
+<h3>2. Data</h3>
+
+<p>Now that we have types, we want to populate them. To do this we will
+    construct a pathway from base Haskell into our new langauge with the pure :: a
+    -> M a function. </p>
+
+<p> So great, now if I have 5 :: Int in base Haskell I can get pure 5 :: M Int
+    in our new langauge. What about functions? If you squint your eyes it turns out
+    we've already done this, since functions and data are the same thing here we can
+    just pure a function f :: Char -> Bool to get it's equivalent in our new
+    language pure f :: M (Char -> Bool)! </p>
+
+<p> However, these functions don't really act like functions yet because we
+    can't compose them. If I have a M Int and a M (Int -> String), we want to be
+    able to link them up to get a M String. This is exactly what the <*> operator
+        does! Let's implement it next, and make sure it follows the laws. </p>
+
+<p> And just like that, three functions later and we have a copy of base Haskell
+    composition in our new little language. If we can do show False in Haskell, we
+    can do (pure show) <*> (pure False) in out langauge and get a sensible reseult.
+</p>
+
+<p> <i>Note that, while it seems obvious, this is very important. For the Maybe
+        monad, the one with short circuiting errors, we define pure x = just x which
+        represents a non-error value. However, it is perfectly type satisfactory and
+        rule following to define pure x = Nothing, which would result in a different
+        Maybe monad representing computations which immediately give up without every
+        trying. The point is, people who tell you to <i>just follow the types, man</i>
+        are oblivious to the fact that we are writing definitions, and you should always
+        keep in mind the purpose of what the function your implementing will ultimately
+        represent in your final monad and how it's semantics should work. Frankly, this
+        (infuriating) trope is the reason I made this tutorial.</i> </p>
+
+
+<h3>3. Composing effects</h3>
+
+<p>If you've been following along at home, you'll know that right now the extra
+    stuff we're adding to our new little language is pretty boring. For example, if
+    you're implemting the Maybe monad you'll have pure = just and <*> = ... This is
+        truly phenomenal boilerplate, which I'm sure will delight the ex-java readers,
+        but you should note that as it stands there is no way for a computation to
+        actually fail and short circuit yet! </p>
+
+<p>Suppose we are in the middle of a computation in our new little Maybe
+    langauge and we have a x = Just 5 :: Maybe Int. Suppose also we have the
+    function checkFive :: Int -> Maybe Int which is id except for 5 which is
+    Nothing. Can we apply checkFive to our result so far to make it fail?</p>
+
+<p>If we use the tools we have, we could try x <*> (pure checkFive), but if you
+        run this you'll get a result of type Maybe (Maybe Int) with value Just
+        (Nothing). It sort of ran, but we're trying to model short circuiting here and
+        right now it isn't doing that. In essence, we need a way to combine these extra
+        effects together, and this is exactly what the bind function >>= m a -> (a -> m
+        b) -> m b does! Running again with x >>= checkFive we get the expected short
+        circuiting behavior with a value of Nothing :: Maybe Int. </p>
+
+<p>Monads are a way to combine effects. Congrats, our little language is
+    complete! This concludes the monad tutorial! Buy yourself a celebratory burrito!
+    (Note: If you're all excited and ready to implement your own monad, you must
+    read Appendix A first. It's critically important for the details of this
+    process) </p>
+
+<h2>What else can Monads do?</h2>
+
+<h3>Impurity</h3>
+
+<h3>Imperitave Style</h3>
+<p>There are lots of cool monads out there, with many
+    cool effects. In fact, the effects themselves are sometimes so cool we don't
+    really care about the computed value anymore. The >> operator is a version of
+    the bind operator which throws away the result of the computation, and
+    essentially allows us to just do stuff to the effects. </p>
+
+<p> Say I'm in the Writer monad (Haskell, but we keep a log of type String on
+    the side of our computaitions), and I have functions logHello, logUsername,
+    logLoginTime which all just spit out values into the log and return some unused
+    junk value of unit type (). If I just want to do them in sequence, I can chain
+    them like this
+
+    logHello >> logUsername >> logLoginTime
+
+    This looks a lot like C pseudocode
+
+    logHello(); logUsername(); logLoginTime();
+
+    and do notation allows us to write this composition, which looks a lot like a
+    sequence of commands, in a differnt style: do ...
+
+    Neat! The characterization of monads as programmable semicolons is good, but
+    it's incomplete. While able to use >> as a semicolon is a natural way to program
+    in a lot of contexts, we know that bind >>= is really the full story. Just
+    another saying which inspired this post. </p>
+
+
+<h3>Monad Transformers</h3> Monad Transformers allow us to stack effects on top
+of each other in a principled way. ...
+
+<h3>Free Monads</h3>
+
+<h3>Conclusion</h3>
+
+
+<h3>Appendix: Laws</h3>
+<p><b>This section is a must read before you try
+        implementing your own monad</b></p>
