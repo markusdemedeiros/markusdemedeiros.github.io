@@ -62,7 +62,6 @@ component = H.mkComponent
                       (\ev -> if (code ev == "Enter") 
                               then Enter
                               else NonEnter)]
-                  -- , HE.onValueChange (\s -> (ConsoleInput s))] 
     ]
 
 

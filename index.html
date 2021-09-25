@@ -4,15 +4,17 @@
 <head>
 	<title>Markus's Desk</title>
 	<link rel="stylesheet" type="text/css" href="stylesheet.css">
+	<link href="packages/prism/prism.css" rel="stylesheet" />
 </head>
 
 
 <body>
-	<div class="header">
+	<script src="packages/prism/prism.js"></script>
+	<header>
 		<div class="header__content-image">
-            <a href="index.html">
-			    <img src="img/peruPic.png" alt="Photo of me" width=300em>
-            </a>
+			<a href="index.html">
+				<img src="img/peruPic.png" alt="Photo of me" width=300em>
+			</a>
 		</div>
 		<div class="header__content-text">
 			<h1> Markus de Medeiros </h1>
@@ -26,21 +28,24 @@
 			<a href="blog.html">[ blog ]</a>
 			<p align="right"> <i id="title-text"></i></p>
 		</div>
-	</div>
+		<script type="text/javascript" charset="utf-8">
+			var string_list = [
+				"powered by vim and coffee!",
+				"trust the natural catamorphism!",
+				"monads: programmable semicolons!",
+				"real numbers don't exist!",
+			];
+			document.getElementById("title-text").innerText
+				= (string_list[Math.ceil((Math.random() * string_list.length - 1))]);
 
+		</script>
+		</div>
+	</header>
+	<section>
+		<script src="dist/index.js"></script>
 
-	<script type="text/javascript" charset="utf-8">
-		var string_list = [
-			"powered by vim and coffee!",
-			"trust the natural catamorphism!",
-			"monads: programmable semicolons!",
-			"real numbers don't exist!",
-		];
-		document.getElementById("title-text").innerText 
-            = (string_list[Math.ceil((Math.random()*string_list.length-1))]);
-	</script>
+	</section>
 
-    <script src="./dist/index.js"></script>
-
+</body>
 
 </html>
