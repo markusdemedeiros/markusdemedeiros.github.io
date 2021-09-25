@@ -27,6 +27,11 @@ h2 {
   padding-top: 1em;
 }
 
+h2 {
+  margin-top: 1em;
+  padding-top: 1em;
+}
+
 h1,
 h2,
 strong {
@@ -95,6 +100,10 @@ input {
   font-size: 80%;
 }
 
+.subsection_heading {
+  color: #aeaeae;
+}
+
 .blog_title {
   margin-top: 70pt;
   font-size: 160%;
@@ -114,11 +123,19 @@ blockquote {
 
 sup {
   color: #aeaeae;
-  margin: 3px 4px;
+  margin: 2px 2px;
+  line-height: 0;
+  vertical-align: super; 
+  font-size: 6pt;
 }
 
 .citation {
   color: #FF6600;
   text-decoration: none;
   border-bottom: 1px dotted #FF6600;
+}
+
+.footnote {
+  color: #FF6600;
+  text-decoration: none;
 }
