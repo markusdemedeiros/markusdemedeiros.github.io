@@ -82,14 +82,16 @@ Just kidding. </p>
     Pattern</h2>
 <hr>
 
-<p> What is a programming language? For functional programmers, a langauge has three main components:
-<ul>
-    <li><b>Types</b>, which
-        include function types</li>
-    <li><b>Data</b>, to populate those types, and</li>
-    <li>a <b>Composition Rule</b> to combine well-typed functions and data in some useful way.
-    </li>
-</ul>
+<p> What is a programming language to a functional programmer?
+<blockquote>
+    For functional programmers, a langauge is built from <i class="quote_em">three main components</i>:
+    <ul>
+        <li><i class="quote_em">Types</i>, which include function types</li>
+        <li><i class="quote_em">Data</i>, to populate those types, and</li>
+        <li>a <i class="quote_em">Composition Rule</i> to combine well-typed functions and data in some useful way.</li>
+    </ul>
+</blockquote>
+</p>
 
 <p>
     So <code class="language-haskell">23</code> is a piece of data with type <code class="language-haskell">Int</code>
@@ -104,240 +106,262 @@ Just kidding. </p>
     describes the behavior of a Haskell program at least at compile time.
 </p>
 
-<h3><strong class="subsection_heading">1.1.</strong> Extending Haskell</h2>
+<h3><strong class="subsection_heading">1.1.</strong> Extending Haskell</h3>
 
-    <p> Under this framework, the monad design pattern has a straightforward intepretation
-    <blockquote>A monad is a model of a <i class="quote_em">new langauge</i> which <i class="quote_em">includes a copy
-            of base Haskell</i> but whose composition rule may <i class="quote_em">may
-            do extra work</i> on the side. </blockquote>
-    <p>
-        Situations where you might want to extend Haskell to do a little bit extra come up fairly often. Here's a list
-        of little languages you might have wanted to work in in the past:
-    </p>
+<p> Under this framework, the monad design pattern has a straightforward intepretation
+<blockquote>A monad is a model of a <i class="quote_em">new langauge</i> which <i class="quote_em">includes a copy
+        of base Haskell</i> but whose composition rule may <i class="quote_em">may
+        do extra work</i> on the side. </blockquote>
+<p>
+    Situations where you might want to extend Haskell to do a little bit extra come up fairly often. Here's a list
+    of little languages you might have wanted to work in in the past:
+</p>
 
-    <ul>
-        <li>Haskell, but we
-            can keep track of <b>one mutable local variable</b> alongside our computation (<code
-                class="language-haskell">State</code> monad)</li>
-        <li>Haskell, but we track if an <b>error</b> has been thrown and <b>short circuit</b>
-            if so (<code class="language-haskell">Maybe</code> monad)</li>
-        <li>Haskell, but with <b>multivalued functions</b> modelled by
-            tracking lists of possible inputs and outputs instead of just a single value (<code
-                class="language-haskell">List</code> monad) </li>
-        <li>Haskell, but on the side of our computations we're <b>parsing some data source</b> (<code
-                class="language-haskell">Parsec</code>
-            monad)</li>
-        <li>Haskell, but we build an <b>abstract syntax tree</b> on the side
-            without recursion (<code class="language-haskell">Free</code> monads)</li>
-        <li>Purescript, but our
-            computations can <b>specify the structure of a webpage</b> (<code class="language-haskell">HalogenM</code>
-            monad)</li>
-    </ul>
-    <p>
-        These are the kinds of problems monads solve: we want a copy of Haskell that
-        also has some extra <b>effects</b>. Notice that the we're talking about are not necessarily the impure
-        side effects you might think of like <code class="language-haskell">IO</code>. In fact, given the same input all
-        the above monads will produce the same results which is the definition of being pure just like everything else
-        in base Haskell. While monads are very effective tools
-        for modelling inpurity, and we will discuss this later, thinking of monads as necessarily impure loses the
-        bigger picture. In the following sections, all our monads will be <b>pure</b>.
-    </p>
-
-
-    <h2> <strong class="section_heading">Section 2.</strong> Implementing a New Little Lang</h2>
-    <hr>
-
-    <p> Before we dive into implementing this new little language, let's clarify what <i>having a copy of base
-            Haskell</i> means. In our new language
-    <ol>
-        <li><b>Types</b> will be analagous copies of base Haskell types</li>
-        <li><b>Data</b> in base Haskell will be able to be promoted into corresponding data in our language</li>
-        <li>Our new composition rules <b>will not do anything unexpected</b> and will be <b>interoperable</b> with
-            existing Haskell code</li>
-    </ol>
-    All of these statements have precise meanings, called <b>laws</b>, and I've put them together in an appendix (TODO:
-    LINK). If you're
-    going to implement your own pure monad, you need to prove to yourself that your code obeys the laws.
-    </p>
-
-    <p>
-        We're going to write this new little language in three steps.
-    <ol>
-        <li><b>Implement <code class="language-haskell">Functor</code></b>: This will build the <b>types</b> in
-            our
-            language. </li>
-        <li><b>Implement <code class="language-haskell">Applicative</code></b>: This gives us <b>data</b>and a copy of
-            <b>base function composition</b>
-        </li>
-        <li><b>Implement <code class="language-haskell">Monad</code></b>: This last step finishes off the dynamics of
-            how our <b>extra effects compose</b> together</li>
-    </ol>
-    </p>
-
-    <h3><strong class="subsection_heading">2.1.</strong> Types: Functor </h2>
-
-        <p>Our langauge needs types. </p>
-
-        <p>The types will be wrapped up versions of base Haskell types, so let's kick out monad off let's use a higher
-            kinded type <code class="language-haskell">M a</code>. This way, if <code
-                class="language-haskell">Int</code>
-            is a type in base Haskell (spoiler alert, it is 😲) then <code class="language-haskell">M Int</code> will be
-            an analagous type in our new language. It's just that easy folks!
-        </p>
-
-        <p>We should also build a bridge between base Haskell and this new language, so we can apply base Haskell
-            functions into our langauge. We do this with <code
-                class="language-haskell">fmap :: (a -> b) -> M a -> M b</code>. </p>
-
-        <p> Here's the <code class="language-haskell">Functor</code> instance for the <code
-                class="language-haskell">Maybe</code> monad, which will eventually represent a langauge with short
-            circuiting errors: </p>
-
-        <pre data-src="blog_posts/monads_source/maybe1.hs"> </pre>
-
-        <h3><strong class="subsection_heading">2.1.</strong> Data and Base Composition: Applicative </h2>
-            <p>Now that our language has a lovely copy of the Haskell type system, let's populate it with a lovely copy
-                of
-                Haskell data! Specifically, the next thing we want to implement some linking function <code
-                    class="language-haskell">pure :: a -> M a</code> which can promote Haskell data into it's associated
-                type. If <code class="language-haskell">5</code> has type <code class="language-haskell">Int</code> in
-                base Haskell (again, sorry to blow your mind here but it totally does) then <code
-                    class="language-haskell">pure 5</code> will have type <code class="language-haskell">M Int</code> in
-                our new language <sup>(<a href="#foot_2" class="footnote">2</a>)</sup>.</p>
-
-            <p>We've also done a little more here than what meets the eye. Remember that in Haskell functions are data,
-                so our new langauge already has things in it that look like <code
-                    class="language-haskell">pure (+) :: M (Int -> Int -> Int)</code> and <code
-                    class="language-haskell">pure (== 6):: M(Int -> Bool)  </code>. However there's a problem: these
-                promoted functions
-                don't compose with promoted data yet, so they don't really act like functions any more at all! Try to
-                plug a <code class="language-haskell">Just 5</code> into <code class="language-haskell">Just (+3)</code>
-                without unwrapping it (or even worse, plugging it into <code class="language-haskell">Nothing</code>)!
-            </p>
-
-            <p>We fix this by defnining a new function to handle this composition <code
-                    class="language-haskell">(<*>) :: M (a -> b) -> M a -> M b</code>, and together with <code
-                    class="language-haskell">pure</code> these define an <b>applicative</b> or <b>applicative
-                    functor</b>. An applicative functor has a copy of base Haskell data and composition: any composition
-                we can do in base Haskell we can now do in our little language. Seriously! Look over the laws (TODO:
-                link) to convince yourself of what exactly what they have to do</p>
-
-            <p>
-                Here's the applicative functor instance for <code class="language-haskell">Maybe</code>:
-            <pre data-src="blog_posts/monads_source/maybe2.hs"> </pre>
-            </p>
+<ul>
+    <li>Haskell, but we
+        can keep track of <b>one mutable local variable</b> alongside our computation (<code
+            class="language-haskell">State</code> monad)</li>
+    <li>Haskell, but we track if an <b>error</b> has been thrown and <b>short circuit</b>
+        if so (<code class="language-haskell">Maybe</code> monad)</li>
+    <li>Haskell, but with <b>multivalued functions</b> modelled by
+        tracking lists of possible inputs and outputs instead of just a single value (<code
+            class="language-haskell">List</code> monad) </li>
+    <li>Haskell, but on the side of our computations we're <b>parsing some data source</b> (<code
+            class="language-haskell">Parsec</code>
+        monad)</li>
+    <li>Haskell, but we build an <b>abstract syntax tree</b> on the side
+        without recursion (<code class="language-haskell">Free</code> monads)</li>
+    <li>Purescript, but our
+        computations can <b>specify the structure of a webpage</b> (<code class="language-haskell">HalogenM</code>
+        monad)</li>
+</ul>
+<p>
+    These are the kinds of problems monads solve: we want a copy of Haskell that
+    also has some extra <b>effects</b>. Notice that the we're talking about are not necessarily the impure
+    side effects you might think of like <code class="language-haskell">IO</code>. In fact, given the same input all
+    the above monads will produce the same results which is the definition of being pure just like everything else
+    in base Haskell. While monads are very effective tools
+    for modelling inpurity, and we will discuss this later, thinking of monads as necessarily impure loses the
+    bigger picture. In the following sections, all our monads will be <b>pure</b>.
+</p>
 
 
-            <h3>3. Composing effects</h3>
+<h2> <strong class="section_heading">Section 2.</strong> Implementing a New Little Lang</h2>
+<hr>
 
-            <p>If you've been following along at home, you'll know that right now the extra
-                stuff we're adding to our new little language is pretty boring. For example, if
-                you're implemting the Maybe monad you'll have pure = just and <*> = ... This is
-                    truly phenomenal boilerplate, which I'm sure will delight the ex-java readers,
-                    but you should note that as it stands there is no way for a computation to
-                    actually fail and short circuit yet! </p>
+<p> Before we dive into implementing this new little language, let's clarify what <i>having a copy of base
+        Haskell</i> means. In our new language
+<ol>
+    <li><b>Types</b> will be analagous copies of base Haskell types</li>
+    <li><b>Data</b> in base Haskell will be able to be promoted into corresponding data in our language</li>
+    <li>Our new composition rules <b>will not do anything unexpected</b> and will be <b>interoperable</b> with
+        existing Haskell code</li>
+</ol>
+All of these statements have precise meanings, called <b>laws</b>, and I've put them together in an appendix (TODO:
+LINK). If you're
+going to implement your own pure monad, you need to prove to yourself that your code obeys the laws.
+</p>
 
-            <p>Suppose we are in the middle of a computation in our new little Maybe
-                langauge and we have a x = Just 5 :: Maybe Int. Suppose also we have the
-                function checkFive :: Int -> Maybe Int which is id except for 5 which is
-                Nothing. Can we apply checkFive to our result so far to make it fail?</p>
+<p>
+    We're going to write this new little language in three steps.
+<ol>
+    <li><b>Implement <code class="language-haskell">Functor</code></b>: This will build the <b>types</b> in
+        our
+        language. </li>
+    <li><b>Implement <code class="language-haskell">Applicative</code></b>: This gives us <b>data</b> and a copy of
+        <b>base function composition</b>
+    </li>
+    <li><b>Implement <code class="language-haskell">Monad</code></b>: This last step finishes off the dynamics of
+        how our <b>extra effects compose</b> together</li>
+</ol>
+</p>
 
-            <p>If we use the tools we have, we could try x <*> (pure checkFive), but if you
-                    run this you'll get a result of type Maybe (Maybe Int) with value Just
-                    (Nothing). It sort of ran, but we're trying to model short circuiting here and
-                    right now it isn't doing that. In essence, we need a way to combine these extra
-                    effects together, and this is exactly what the bind function >>= m a -> (a -> m
-                    b) -> m b does! Running again with x >>= checkFive we get the expected short
-                    circuiting behavior with a value of Nothing :: Maybe Int. </p>
+<h3><strong class="subsection_heading">2.1.</strong> Types: Functor </h3>
 
-            <p>Monads are a way to combine effects. Congrats, our little language is
-                complete! This concludes the monad tutorial! Buy yourself a celebratory burrito 🌯!
-                (Note: If you're all excited and ready to implement your own monad, you must
-                read Appendix A first. It's critically important for the details of this
-                process) </p>
+<p>Our langauge needs types. </p>
 
-            <h2>What else can Monads do?</h2>
+<p>The types will be wrapped up versions of base Haskell types, so let's kick out monad off let's use a higher
+    kinded type <code class="language-haskell">M a</code>. This way, if <code class="language-haskell">Int</code>
+    is a type in base Haskell (spoiler alert, it is 😲) then <code class="language-haskell">M Int</code> will be
+    an analagous type in our new language.
+</p>
 
-            <h3>Impurity</h3>
+<p> We should also build a bridge between base Haskell and this new language, to specify how outside Haskell
+    functions should be applied onto it. We do this by defining <code
+        class="language-haskell">fmap :: (a -> b) -> M a -> M b</code>, and remember to glance over the laws
+    (TODO: §X.1 Link) and make sure <code class="language-haskell">fmap</code> obeys them. The fact
+    that types in our language are just lifted Haskell types, alongside a lawful <code
+        class="language-haskell">fmap</code> bridge, ensures that our new langauge doesn't do anything so
+    strange as to break interoperability with existing Haskell code. </p>
 
-            <h3>Imperitave Style</h3>
-            <p>There are lots of cool monads out there, with many
-                cool effects. In fact, the effects themselves are sometimes so cool we don't
-                really care about the computed value anymore. The >> operator is a version of
-                the bind operator which throws away the result of the computation, and
-                essentially allows us to just do stuff to the effects. </p>
+<p> We're going to build the <code class="language-haskell">Maybe</code> monad at the end of each section, which
+    will eventually represent a langauge with short circuiting errors. Here's it's data definition and <code
+        class="language-haskell">Functor</code> instance: </p>
 
-            <p> Say I'm in the Writer monad (Haskell, but we keep a log of type String on
-                the side of our computaitions), and I have functions logHello, logUsername,
-                logLoginTime which all just spit out values into the log and return some unused
-                junk value of unit type (). If I just want to do them in sequence, I can chain
-                them like this
+<pre data-src="blog_posts/monads_source/maybe1.hs"> </pre>
 
-                logHello >> logUsername >> logLoginTime
+<h3><strong class="subsection_heading">2.2.</strong> Data and Base Composition: Applicative </h3>
 
-                This looks a lot like C pseudocode
+<p>Let's populate these freshly minted types with some data. </p>
 
-                logHello(); logUsername(); logLoginTime();
+<p>To bootstrap some data in this langauge, we can lift data from base Haskell by implementing a <code
+        class="language-haskell">pure :: a -> M a</code> function which brings some data into it's
+    associated type. Now if <code class="language-haskell">5 :: Int</code> in base Haskell, it means that
+    <code class="language-haskell">pure 5</code> will have type <code class="language-haskell">M 5</code> in
+    our new language (truly mind blowing<sup>(<a href="#foot_2" class="footnote">2</a>)</sup>, I know 🤯).
+</p>
 
-                and do notation allows us to write this composition, which looks a lot like a
-                sequence of commands, in a differnt style: do ...
+<p>And while you were reeling from that deep revelation, you might have missed the fact that <code
+        class="language-haskell">pure</code> accidentally just gave our new language functions too:</p>
 
-                Neat! The characterization of monads as programmable semicolons is good, but
-                it's incomplete. While able to use >> as a semicolon is a natural way to program
-                in a lot of contexts, we know that bind >>= is really the full story. Just
-                another saying which inspired this post. </p>
+<blockquote>Haskell is <i class="quote_em">Cartesian Closed</i>, meaining <i class="quote_em">Haskell
+        functions are also data</i>.</blockquote>
 
+<p>So our <code class="language-haskell">pure</code> function is can also promote functions, such as <code
+        class="language-haskell">pure (== 6) :: M (Int -> Bool)</code> and <code
+        class="language-haskell">pure (+) :: M (Int -> Int -> Int)</code>. However, there's a problem.
+    Promoted functions don't compose with promoted data yet. Try plugging <code
+        class="language-haskell">pure 4 :: M Int</code> into a function <code
+        class="language-haskell">pure show :: M (Int -> String)</code> without knowing how to "unwrap" it
+    and get the data underneath.
+    In general (like in <code class="language-haskell">Maybe</code> where data values could be <code
+        class="language-haskell">Nothing</code>) you won't be able to do this!<sup>(<a href="#foot_3"
+            class="footnote">3</a>)</sup>
+</p>
 
-            <h3>Monad Transformers</h3> Monad Transformers allow us to stack effects on top
-            of each other in a principled way. ...
+<p>Let's make our promoted functions behave like functions by explicitly defining a composition rule for
+    them: <code class="language-haskell">(<*>) :: M (a -> b) -> M a -> M b</code>. Together with <code
+        class="language-haskell">pure</code>, this defines an <b>applicative functor</b> or <b>applicative
+    </b>. An applicative functor is a little languge with a copy of base Haskell data and
+    composition: any composition we can do in base Haskell we can now do in our little language. Seriously!
+    It only takes three functions to steal the entire Haskell language 😈. Look over the laws
+    (TODO: §X.2 link) and try to convince yourself of this. </p>
 
-            <h3>Free Monads</h3>
-
-            <h3>Conclusion</h3>
-
-
-            <h3>Appendix: Laws</h3>
-            <p><b>This section is a must read before you try
-                    implementing your own monad</b></p>
-
-
-
-
-
-            <h2>Citations</h2>
-            <ul>
-                <li id="BY2009"> <a
-                        href="https://byorgey.wordpress.com/2009/01/12/abstraction-intuition-and-the-monad-tutorial-fallacy/">Abstraction,
-                        intuition, and the "monad tutorial fallacy"</a>. Brent Yorgey, <i>2009</i>.
-                </li>
-
-
-                <li id="BM2014"> <a href="https://bartoszmilewski.com/2014/11/04/category-the-essence-of-composition/">
-                        Category, the Essence of Composition
-                    </a>. Bartoz Milewski, <i>2014</i>.
-                </li>
-            </ul>
-
+<p>
+    Here's the applicative functor instance for <code class="language-haskell">Maybe</code>:
+<pre data-src="blog_posts/monads_source/maybe2.hs"> </pre>
+</p>
 
 
-            <h2>Footnotes</h2>
-            <ol>
-                <li id="foot_1"> There are some nuances here, Haskell itself isn't a category. However, many subsets of
-                    Haskell
-                    are.
-                </li>
-                <li id="foot_2"> Note that, while it seems obvious, this is very important. For the Maybe
-                    monad, the one with short circuiting errors, we define pure x = just x which
-                    represents a non-error value. However, it is perfectly type satisfactory and
-                    rule following to define pure x = Nothing, which would result in a different
-                    Maybe monad representing computations which immediately give up without every
-                    trying. The point is, people who tell you to <i>just follow the types, man</i>
-                    are oblivious to the fact that we are writing definitions, and you should always
-                    keep in mind the purpose of what the function your implementing will ultimately
-                    represent in your final monad and how it's semantics should work. Frankly, this
-                    (infuriating) trope is the reason I made this tutorial.</li>
+<h3><strong class="subsection_heading">2.3.</strong> Composing Effects: Monad</h3>
 
-            </ol>
+<p>If you've been following along at home, you'll know that right now the extra
+    stuff we're adding to our new little language is pretty boring. For example, if
+    you're implemting the Maybe monad you'll have pure = just and <*> = ... This is
+        truly phenomenal boilerplate, which I'm sure will delight the ex-java readers,
+        but you should note that as it stands there is no way for a computation to
+        actually fail and short circuit yet! </p>
+
+<p>Suppose we are in the middle of a computation in our new little Maybe
+    langauge and we have a x = Just 5 :: Maybe Int. Suppose also we have the
+    function checkFive :: Int -> Maybe Int which is id except for 5 which is
+    Nothing. Can we apply checkFive to our result so far to make it fail?</p>
+
+<p>If we use the tools we have, we could try x <*> (pure checkFive), but if you
+        run this you'll get a result of type Maybe (Maybe Int) with value Just
+        (Nothing). It sort of ran, but we're trying to model short circuiting here and
+        right now it isn't doing that. In essence, we need a way to combine these extra
+        effects together, and this is exactly what the bind function >>= m a -> (a -> m
+        b) -> m b does! Running again with x >>= checkFive we get the expected short
+        circuiting behavior with a value of Nothing :: Maybe Int. </p>
+
+<p>Monads are a way to combine effects. Congrats, our little language is
+    complete! This concludes the monad tutorial! Buy yourself a celebratory burrito 🌯!
+    (Note: If you're all excited and ready to implement your own monad, you must
+    read Appendix A first. It's critically important for the details of this
+    process) </p>
+
+<h2>What else can Monads do?</h2>
+
+<h3>Impurity</h3>
+
+<h3>Imperitave Style</h3>
+<p>There are lots of cool monads out there, with many
+    cool effects. In fact, the effects themselves are sometimes so cool we don't
+    really care about the computed value anymore. The >> operator is a version of
+    the bind operator which throws away the result of the computation, and
+    essentially allows us to just do stuff to the effects. </p>
+
+<p> Say I'm in the Writer monad (Haskell, but we keep a log of type String on
+    the side of our computaitions), and I have functions logHello, logUsername,
+    logLoginTime which all just spit out values into the log and return some unused
+    junk value of unit type (). If I just want to do them in sequence, I can chain
+    them like this
+
+    logHello >> logUsername >> logLoginTime
+
+    This looks a lot like C pseudocode
+
+    logHello(); logUsername(); logLoginTime();
+
+    and do notation allows us to write this composition, which looks a lot like a
+    sequence of commands, in a differnt style: do ...
+
+    Neat! The characterization of monads as programmable semicolons is good, but
+    it's incomplete. While able to use >> as a semicolon is a natural way to program
+    in a lot of contexts, we know that bind >>= is really the full story. Just
+    another saying which inspired this post. </p>
+
+
+<h3>Monad Transformers</h3> Monad Transformers allow us to stack effects on top
+of each other in a principled way. ...
+
+<h3>Free Monads</h3>
+
+<h3>Conclusion</h3>
+
+
+<h3>Appendix: Laws</h3>
+<p><b>This section is a must read before you try
+        implementing your own monad</b></p>
+
+
+<h3>Appendix: Terseness, and Cheap Syntax inside Monads </h3>
+
+
+<h2>Citations</h2>
+<ul>
+    <li id="BY2009"> <a
+            href="https://byorgey.wordpress.com/2009/01/12/abstraction-intuition-and-the-monad-tutorial-fallacy/">Abstraction,
+            intuition, and the "monad tutorial fallacy"</a>. Brent Yorgey, <i>2009</i>.
+    </li>
+
+
+    <li id="BM2014"> <a href="https://bartoszmilewski.com/2014/11/04/category-the-essence-of-composition/">
+            Category, the Essence of Composition
+        </a>. Bartoz Milewski, <i>2014</i>.
+    </li>
+</ul>
+
+
+
+<h2>Footnotes</h2>
+<ol>
+    <li id="foot_1"> There are some nuances here, Haskell itself isn't a category. However, many subsets
+        of
+        Haskell
+        are.
+    </li>
+    <li id="foot_2"> Note that, while it seems obvious, this is very important. For the Maybe
+        monad, the one with short circuiting errors, we define pure x = just x which
+        represents a non-error value. However, it is perfectly type satisfactory and
+        rule following to define pure x = Nothing, which would result in a different
+        Maybe monad representing computations which immediately give up without every
+        trying. The point is, people who tell you to <i>just follow the types, man</i>
+        are oblivious to the fact that we are writing definitions, and you should always
+        keep in mind the purpose of what the function your implementing will ultimately
+        represent in your final monad and how it's semantics should work. Frankly, this
+        (infuriating) trope is the reason I made this tutorial.</li>
+    <li id="foot_3"> This <i>unwrapping</i> problem, of not knowing how to combine promoted functions
+        and
+        data, is what people talk about when they compare applicative functors to <a
+            href="https://chrisdone.com/posts/monads-are-burritos/">Mexican food items</a>. Viva Monada
+        🇲🇽!
+    </li>
+
+</ol>
+
+Footnote to write: How a is a carrying type (find official terminology)
 	</section>
 
 </body>
