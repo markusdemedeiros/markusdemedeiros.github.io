@@ -1,9 +1,9 @@
--- A real valued function f(x) with asymptote at y
-asymptote :: Double -> Double -> Maybe Double
-asymptote y y = Nothing
-asymptote y x = Just (1/(y-x))
+-- A real valued function f(x) with singular at y
+singular :: Double -> Double -> Maybe Double
+singular y y = Nothing
+singular y x = Just (1/(y-x))
 
--- Two instances of asymptote functions
-as_5, as_3 :: Double -> Maybe Double
-as_5 = asymptote 5.0
-as_3 = asymptote 3.0
+-- Two instances of singular functions
+s_5, s_3 :: Double -> Maybe Double
+s_5 = singular 5.0
+s_3 = singular 3.0
