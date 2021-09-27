@@ -43,7 +43,7 @@
 	</header>
 	<section>
 		<center>
-    <h1 class="blog_title">A Practical Introduction to Monads</h1>
+    <h1 class="blog_title">A Practical Introduction to Monads (WIP)</h1>
     <p><i>September 25 2021</i></p>
 </center>
 
@@ -92,13 +92,16 @@ Just kidding. </p>
 </ul>
 
 <p>
-    This characterization isn't made up either, the three components above make Haskell well modelled by a
+    So <code class="language-haskell">23</code> is a piece of data with type <code class="language-haskell">Int</code>
+    and we can compose it with the function <code class="language-haskell">show :: Int -> String</code> to get some
+    resulting data <code class="language-haskell">"23" :: String</code>. This characterization
+    of Haskell isn't just made up either, the three components above make Haskell well modelled by a
     <b>category</b><sup>[<a class="citation" href="#BM2014">BM</a>](<a href="#foot_1" class="footnote">1</a>)</sup>.
     Category theorists
     will say Haskell is comprised of
     <i>objects</i>,
-    <i>morphisms</i>, and <i>composition</i>, which are exactly the same things, and is the reason the <i>monad</i> has
-    such an esoteric name.
+    <i>morphisms</i>, and <i>composition</i>. These are exactly the same things as above, and in a way completely
+    describes the behavior of a Haskell program at least at compile time.
 </p>
 
 <h3><strong class="subsection_heading">1.1.</strong> Extending Haskell</h2>
@@ -179,7 +182,7 @@ Just kidding. </p>
             kinded type <code class="language-haskell">M a</code>. This way, if <code
                 class="language-haskell">Int</code>
             is a type in base Haskell (spoiler alert, it is 😲) then <code class="language-haskell">M Int</code> will be
-            an analagous type in our new language.
+            an analagous type in our new language. It's just that easy folks!
         </p>
 
         <p>We should also build a bridge between base Haskell and this new language, so we can apply base Haskell
