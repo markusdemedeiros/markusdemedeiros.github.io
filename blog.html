@@ -77,8 +77,10 @@ journey for me, so I probably did. </p>
 
 Just kidding. </p>
 
+<p><i>The main content of this article is contained in sections <a href="#sec_1">§1</a>, <a href="#sec_2">§2</a>, and
+        appendix <a href="#app_1">§A1</a>.</i></p>
 
-<h2> <strong class="section_heading">Section 1.</strong> The Monad Design
+<h2 id="sec_1"> <strong class="section_heading">Section 1.</strong> The Monad Design
     Pattern</h2>
 <hr>
 
@@ -146,7 +148,7 @@ Just kidding. </p>
 </p>
 
 
-<h2> <strong class="section_heading">Section 2.</strong> Implementation </h2>
+<h2 id="sec_2"> <strong class="section_heading">Section 2.</strong> Implementation </h2>
 <hr>
 
 <p> Before we dive into implementing this new little language, let's clarify what <i>having a copy of base
@@ -308,7 +310,30 @@ numbers!
 
 <p>Thank you for reading, go forth and compose! 🙏</p>
 
-<h2>What else can Monads do?</h2>
+
+
+
+<h2 id="app_1"> <strong class="section_heading">Appendix 1.</strong> Laws </h2>
+<hr>
+This appendix outlines the monad laws, a summary of several pages in the Haskell Wiki (TODO: Cite haskellwiki)
+<h3><strong class="subsection_heading">A1.1.</strong> Functor</h3>
+<h3><strong class="subsection_heading">A1.2.</strong> Applicative</h3>
+<h3><strong class="subsection_heading">A1.3.</strong> Monad</h3>
+
+<h2 id="app_2"> <strong class="section_heading">Appendix 2.</strong> Typeclasses, Monad Syntax, <code
+        class="language-haskell">do</code> notation</h2>
+<hr>
+The chain of typeclasses you implement for monads give many oftentimes very convenient syntax. This section is a summary
+of several pages in the Haskell Wiki (todo: cite HaskellWiki).
+<h3><strong class="subsection_heading">A1.1.</strong> Functor</h3>
+<h3><strong class="subsection_heading">A1.2.</strong> Applicative</h3>
+<h3><strong class="subsection_heading">A1.3.</strong> Monad</h3>
+
+<h2 id="app_3"> <strong class="section_heading">Appendix 3.</strong> <code class="language-haskell">IO</code> and Other
+    Monad Tricks </h2>
+<hr>
+Monads model many <b>very</b> useful situations. We will give some examples, which will hopefully become clear once the
+general theory of Monads is understood.
 
 <h3>Impurity</h3>
 
@@ -345,18 +370,19 @@ of each other in a principled way. ...
 
 <h3>Free Monads</h3>
 
-<h3>Conclusion</h3>
+
+<h2 id="app_4"> <strong class="section_heading">Appendix 4.</strong> Category Theory </h2>
+<hr>
+Sometimes people will speak about monads in the strange language of Category theory. This section attempts to connect
+some notions from category theory to the mental model we built in section <a href="#sec_1">§1</a>, and assumes a
+familiarity of category theory as applied to Haskell.
 
 
-<h3>Appendix: Laws</h3>
-<p><b>This section is a must read before you try
-        implementing your own monad</b></p>
 
-
-<h3>Appendix: Terseness, and Cheap Syntax inside Monads </h3>
-
-
-<h2>Citations</h2>
+<h2>Citations </h2>
+<hr>
+All links in this section are very, very good. They are, in my mind, the best shot you have at eliminating any confusion
+you have about monads.
 <ul>
     <li id="BY2009"> <a
             href="https://byorgey.wordpress.com/2009/01/12/abstraction-intuition-and-the-monad-tutorial-fallacy/">Abstraction,
