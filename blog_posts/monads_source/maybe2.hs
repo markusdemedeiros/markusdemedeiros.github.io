@@ -7,4 +7,3 @@ instance Applicative Maybe where
     Nothing  <*> (Just x) = Nothing
     (Just f) <*> Nothing  = Nothing
     Nothing  <*> Nothing  = Nothing
-    
