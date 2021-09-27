@@ -320,24 +320,8 @@ This appendix outlines the monad laws, a summary of several pages in the Haskell
 <h3><strong class="subsection_heading">A1.2.</strong> Applicative</h3>
 <h3><strong class="subsection_heading">A1.3.</strong> Monad</h3>
 
-<h2 id="app_2"> <strong class="section_heading">Appendix 2.</strong> Typeclasses, Monad Syntax, <code
-        class="language-haskell">do</code> notation</h2>
-<hr>
-The chain of typeclasses you implement for monads give many oftentimes very convenient syntax. This section is a summary
-of several pages in the Haskell Wiki (todo: cite HaskellWiki).
-<h3><strong class="subsection_heading">A1.1.</strong> Functor</h3>
-<h3><strong class="subsection_heading">A1.2.</strong> Applicative</h3>
-<h3><strong class="subsection_heading">A1.3.</strong> Monad</h3>
 
-<h2 id="app_3"> <strong class="section_heading">Appendix 3.</strong> <code class="language-haskell">IO</code> and Other
-    Monad Tricks </h2>
-<hr>
-Monads model many <b>very</b> useful situations. We will give some examples, which will hopefully become clear once the
-general theory of Monads is understood.
-
-<h3>Impurity</h3>
-
-<h3>Imperitave Style</h3>
+<h3>(draft) Imperitave Style</h3>
 <p>There are lots of cool monads out there, with many
     cool effects. In fact, the effects themselves are sometimes so cool we don't
     really care about the computed value anymore. The >> operator is a version of
@@ -363,6 +347,27 @@ general theory of Monads is understood.
     it's incomplete. While able to use >> as a semicolon is a natural way to program
     in a lot of contexts, we know that bind >>= is really the full story. Just
     another saying which inspired this post. </p>
+
+
+
+
+<h2 id="app_2"> <strong class="section_heading">Appendix 2.</strong> Typeclasses, Monad Syntax, <code
+        class="language-haskell">do</code> notation</h2>
+<hr>
+The chain of typeclasses you implement for monads give many oftentimes very convenient syntax. This section is a summary
+of several pages in the Haskell Wiki (todo: cite HaskellWiki).
+<h3><strong class="subsection_heading">A1.1.</strong> Functor</h3>
+<h3><strong class="subsection_heading">A1.2.</strong> Applicative</h3>
+<h3><strong class="subsection_heading">A1.3.</strong> Monad</h3>
+
+<h2 id="app_3"> <strong class="section_heading">Appendix 3.</strong> <code class="language-haskell">IO</code> and Other
+    Monad Tricks </h2>
+<hr>
+Monads model many <b>very</b> useful situations. We will give some examples, which will hopefully become clear once the
+general theory of Monads is understood.
+
+<h3>Impurity</h3>
+
 
 
 <h3>Monad Transformers</h3> Monad Transformers allow us to stack effects on top
