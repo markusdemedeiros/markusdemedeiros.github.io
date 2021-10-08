@@ -1,4 +1,4 @@
--- A real valued function f(x) with singular at y
+-- A real valued function f(x) with singularity at y
 singular :: Double -> Double -> Maybe Double
 singular y y = Nothing
 singular y x = Just (1/(y-x))
