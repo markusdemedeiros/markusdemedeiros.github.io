@@ -441,58 +441,79 @@ powerful model in their own right!
 </p>
 
 
-<h3><strong class="subsection_heading">A1.3.</strong> Monad</h3>
+<h3><strong class="subsection_heading">A2.3.</strong> Monad</h3>
 
-<h3>(draft) Imperitave Style</h3>
-<p>There are lots of cool monads out there,
-    with many cool effects. In fact, the effects themselves are sometimes so cool we
-    don't really care about the computed value anymore. The >> operator is a version
-    of the bind operator which throws away the result of the computation, and
-    essentially allows us to just do stuff to the effects. </p>
+<p>There are a great deal of monad functions you get for free, so I will only summarize some.
+    Please refer to Hackage <sup>[<a class="citation" href="#H_CM">H</a>]</sup>
+    for a complete discussion.
 
-<p> Say I'm in the Writer monad (Haskell, but we keep a log of type String on
-    the side of our computaitions), and I have functions logHello, logUsername,
-    logLoginTime which all just spit out values into the log and return some unused
-    junk value of unit type (). If I just want to do them in sequence, I can chain
-    them like this
+<ul>
+    <li><code class="language-haskell">(>>) :: m a -> m b -> m b</code> sequence two monad actions, throwing away the
+        first result. </li>
+    <li><code class="language-haskell">(>=>) :: (a -> m b) -> (b -> m c) -> (a -> m c) </code> Klesli composition. From
+        a category theoretic perspective, this is the <i>monoid</i> binary operation on endofunctors which in Haskell
+        have type <code class="langauge-haskell">x -> m y</code>. As noted in the Haskell Wiki <code
+            class="language-haskell"> (<=<) = flip (>=>)</code> resembles function composition, which is no coincidence!
+    </li>
+</ul>
 
-    logHello >> logUsername >> logLoginTime
+Additionally, monads provide <b>generalizations of list functions</b>, shorthand for <b>conditional monad
+    expressions</b> (like <i>if</i> statements in imperative langauges), <b>alternative lifting operations</b>, and
+a <b>strict</b> version of <code class="language-haskell">fmap</code> denoted <code
+    class="language-haskell">(<$!>)</code>. The new little langauges we create using the monad design pattern
+automatically have this entire rich feature set, and are a breeze to work in! </p>
 
-    This looks a lot like C pseudocode
+<p>Of course, the crown jewel of "features for free" in monadic languages has to be <code
+        class="language-haskell">do</code> notation. As mentioned in the applicatives section, a common idiom is
+    computing focused on effects and <code class="language-haskell">do</code> notation is a syntax which allows us to
+    write code in this style! Put explicitly,
 
-    logHello(); logUsername(); logLoginTime();
+<blockquote>In a <code class="language-haskell">do</code> block
+    <ul>
+        <li>By default, functions on newlines are <i class="quote_em">sequenced </i>with the <code
+                class="language-haskell">(>>)</code> operator, so <i class="quote_em">effects pass forward</i> but the
+            <i class="quote_em">results are ignored</i>.
+        </li>
+        <li>Functions <code class="language-haskell">f :: m a</code> with results we want to keep can be stored as a <i
+                class="quote_em">local immutable value</i> using <code class="language-haskell">val <- f</code>.
+            If the next line in the <code class="language-haskell">do</code> block is <code
+                class="language-haskell">g</code>, this desugars to <code
+                class="language-haskell">f >>= (\val -> g)</code>. </li>
+    </ul>
+</blockquote>
+The trick of binding to a lambda function that <code class="language-haskell"><-</code> uses means that we can use
+<code class="language-haskell">val</code> as if it were a primitive value of type <code
+    class="language-haskell">a</code>! When people refer to monads as <i>programmable semicolons</i>, they refer to the
+fact that the definition of our monad's sequence and bind operators specify the composition of effects from line to
+line.
+</p>
 
-    and do notation allows us to write this composition, which looks a lot like a
-    sequence of commands, in a differnt style: do ...
-
-    Neat! The characterization of monads as programmable semicolons is good, but
-    it's incomplete. While able to use >> as a semicolon is a natural way to program
-    in a lot of contexts, we know that bind >>= is really the full story. Just
-    another saying which inspired this post. </p>
-
-
-
-
+<p> A special case of this is the x86 CPU monad with C runtime semantics, and for this reason I must formally
+    inform everyone who has ever written a line of C that they are actually functional programmers already, and have
+    just been running a sub-par interpreter. Hopefully that will boost Haskell's StackOverflow developer survey numbers
+    next year!
+</p>
 
 
 
 
 <h2 id="app_3"> <strong class="section_heading">Appendix 3.</strong> <code class="language-haskell">IO</code> and Other
     Monad Tricks </h2>
-<hr> Monads
-model many <b>very</b> useful situations. We will give some examples, which will
-hopefully become clear once the general theory of Monads is understood.
+<hr>
+<p>Monads
+    model many <b>very</b> useful situations. We will give some examples, which will
+    hopefully become clear once the general theory of Monads is understood.</p>
 
-<h3>Impurity</h3>
+<h3><strong class="subsection_heading">A3.1.</strong> Impurity </h3>
 
 <p>Most of the monads we've written so far extend Haskell in some small way like adding a tiny state, or just a little
     bit of a log. There's no need for this though- let's throw care to the wind and write literally the biggest monad
     possible! </p>
 
-<blockquote>(TODO: Get phrasing) The <code class="language-haskell">IO</code> monad is Haskell, but on
+<blockquote>The <code class="language-haskell">IO</code> monad is Haskell, but on
     the side we compute the state of the <i class="quote_em"> entire
         physical universe</i><sup>[<a class="citation" href="#TS">TS</a>]</sup>.</blockquote>
-
+</p>
 <p>This seems silly, but it's the size we need to extend Haskell to capture everything that can happen to a program. We
     need to model arbitrary delays, gamma rays flipping bits on hard disks, fleshy meat automata yanking out network
     cables at inoppurtune times. </p>
@@ -518,11 +539,23 @@ hopefully become clear once the general theory of Monads is understood.
 
 
 
-<h3>Monad Transformers</h3> Monad Transformers allow us to stack effects on top
-of each other in a principled way. ...
+<h3><strong class="subsection_heading">A3.2.</strong> Monad Transformers </h3>
+<p>
+    I defer here to the classic paper "Monad Transformers Step By Step" written by Martin Grabmüller in 2006. In
+    essence, a Monad Transformer allows us to stack monads on top of each other in a principled way, so that effects
+    combine together to create a model of composition we desire. In the paper Martin Grabmüller takes the perspective of
+    adding features to an interpreter, and for me watching the ease at which one can add error handling, IO, logging,
+    state, or any other of the glut of monads with a transformer to a language was the first time the practicality of
+    monads clicked.
+</p>
 
-<h3>Free Monads</h3>
+<p> I'd also recommend looking through the <code class="language-haskell">mtl</code> library source; as it is the
+    cannonical monad transformer library in Haskell. </p>
 
+
+
+<h3><strong class="subsection_heading">A3.3.</strong> Free Monads </h3>
+<p><i>This section is coming soon! </i></p>
 
 <h2 id="app_4"> <strong class="section_heading">Appendix 4.</strong> Category
     Theory </h2>
@@ -531,6 +564,7 @@ language of Category theory. This section attempts to connect some notions from
 category theory to the mental model we built in section <a href="#sec_1">§1</a>,
 and assumes a familiarity of category theory as applied to Haskell.
 
+<p><i>This section is coming soon! </i></p>
 
 
 <h2>Citations </h2>
@@ -598,10 +632,10 @@ about monads. <ul>
     <li id="foot_2"> There are some nuances here, Haskell
         itself isn't a category. However, many subsets of Haskell are. </li>
     <li id="foot_3"> Note that, while it seems obvious, this is very important. For the
-        Maybe monad, the one with short circuiting errors, we define pure x = just x
+        Maybe monad, we define <code class="language-haskell">pure x = just x</code>
         which represents a non-error value. However, it is perfectly type satisfactory
-        and rule following to define pure x = Nothing, which would result in a different
-        Maybe monad representing computations which immediately give up without every
+        and rule following to define <code class="language-haskell">pure x = Nothing</code>,
+        which would result in a different Maybe monad representing computations which immediately give up without every
         trying. The point is, people who tell you to <i>just follow the types, man</i>
         are oblivious to the fact that we are writing definitions, and you should always
         keep in mind the purpose of what the function your implementing will ultimately
@@ -614,8 +648,3 @@ about monads. <ul>
         Viva Monada 🇲🇽! </li>
 
 </ol>
-
-Footnote to write: How a is a carrying type (find official terminology)
-
-
-Style the citations and give them better names.
