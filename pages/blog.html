@@ -278,9 +278,9 @@ which computes <code class="language-haskell">s_3</code> plus <code class="langu
 
 <p> Solving this problem is the (warning: 🇫🇷) <i>raison d'etre</i> of the monad design pattern. We've
     copied Haskell so that we have effects which can stack up on the side, and to round off the monad we're going to
-    specify how these effects combine! This is the <b>extra work</b>, the <b>effects</b>, on the side of function
-    composition! All we need to do is specify a function to describe how we we want this extra work to happen<sup>[<a
-            class="citation" href="#SW2019">SW</a>]</sup>.
+    specify how these effects combine back down! This is the <b>extra work</b> (the <b>effects</b>) on the side of
+    function composition! All we need to do left is make a function which tells our monad how the extra work should
+    happen. <sup>[<a class="citation" href="#SW2019">SW</a>]</sup>.
 </p>
 
 
@@ -341,7 +341,9 @@ obey two laws <sup>[<a class="citation" href="#HW_f_2021">HW</a>]</sup>.
 id</code>. Doing nothing must not induce effects. </li>
     <li><b>Homomorphism:</b> <code class="language-haskell">fmap (f . g) = (fmap f) . (fmap g)</code></li>
 </ul>
-Read also "The Functor Design Pattern" (TODO: Link) for a deeper understanding of how Functors can be used.
+<p>
+    Read also <i>The Functor Design Pattern</i> <sup>[<a class="citation" href="#GG_2012">GG</a>]</sup> for an amazing
+    explanation of how Functors relate to other monadic concepts.</p>
 
 <h3><strong class="subsection_heading">A1.2.</strong> Applicative</h3>
 An <b>Applicative Functor</b> must obey four laws <sup>[<a class="citation" href="#HW_a_2021">HW</a>]</sup>
@@ -361,7 +363,25 @@ An <b>Applicative Functor</b> must obey four laws <sup>[<a class="citation" href
 
 <h3><strong class="subsection_heading">A1.3.</strong> Monad</h3>
 
-<p>TODO: make sure you write the fmap boilerplate</p>
+<p>A <b>monad</b> must satisfy three laws <sup>[<a class="citation" href="H_CM">H</a>]</sup></p>
+<ul>
+    <li><b>Left Identity</b>: <code class="language-haskell">return a >>= k = k a</code></li>
+    <li><b>Right Identity</b>: <code class="language-haskell">m >>= return = m</code></li>
+    <li><b>Associativity</b>: <code class="language-haskell">m >>= (\x -> k x >>= h) = (m >>= k) >>= h</code></li>
+</ul>
+<p>Writing a monad on top of an applicative functor also requires that <code
+        class="language-haskell">pure = return</code> and <code
+        class="language-haskell">m1 <*> m2 = m1 >>= (x1 -> m2 >>= (x2 -> return (x1 x2)))</code>, from which you can
+    deduce that <code class="language-haskell">fmap f xs </code> must be <code
+        class="language-haskell">xs >>= return . f</code>. Note that, after writing <code
+        class="language-haskell">(>>=)</code> and <code class="language-haskell">return</code>, the code for the functor
+    and applicative instance is boilerplate! This shortcut is how monads are often written, though the "long way" of
+    writing a functor, then an applicative, then <i>finally</i> the monad is a helpful framework for monad design (and
+    also sometimes for performance reasons). </p>
+
+<p>Furthermore, pay attention to the fact that <code class="language-haskell">(>>) = (*>)</code>. The fact that monad
+    and applicative sequence operators must be the same is the basis for ApplicativeDo notation, as described below.
+</p>
 
 
 <h2 id="app_2"> <strong class="section_heading">Appendix 2.</strong>
@@ -465,6 +485,37 @@ hopefully become clear once the general theory of Monads is understood.
 
 <h3>Impurity</h3>
 
+<p>Most of the monads we've written so far extend Haskell in some small way like adding a tiny state, or just a little
+    bit of a log. There's no need for this though- let's throw care to the wind and write literally the biggest monad
+    possible! </p>
+
+<blockquote>(TODO: Get phrasing) The <code class="language-haskell">IO</code> monad is Haskell, but on
+    the side we compute the state of the <i class="quote_em"> entire
+        physical universe</i><sup>[<a class="citation" href="#TS">TS</a>]</sup>.</blockquote>
+
+<p>This seems silly, but it's the size we need to extend Haskell to capture everything that can happen to a program. We
+    need to model arbitrary delays, gamma rays flipping bits on hard disks, fleshy meat automata yanking out network
+    cables at inoppurtune times. </p>
+
+<p>Fortunately, we don't have to <i>actually</i> simulate life, the universe and everything to do this. The physical
+    universe does this for free. However, it does mean that we can't encode initial conditions in any way that captures
+    all of the things that can possible happen during runtime and because of this, we cheat a little bit and say our
+    monad is <b>impure</b>. </p>
+<p>If there was some way the cram the entire universe into a data structure, this would be no
+    problem, and we'd be able to break values out of <code class="language-haskell">IO</code> using pattern matching or
+    some <code class="language-haskell">run_x</code> function like with other monads. But because we can't do this, and
+    also because it's not a lawful monad, we say <code class="language-haskell">IO</code> is a special <i>impure</i>
+    monad. </p>
+
+
+<p>If you really want to break out of the <code class="language-haskell">IO</code> monad, and you know what you're
+    doing, Haskell lets you with the <code class="language-haskell">unsafePerformIO :: IO a -> a</code> function from
+    <code class="language-haskell">System.IO.Unsafe</code>. There's nothing morally wrong about using this, but whenever
+    you break the type system you should write a proof about why nothing bad will happen. Types are a great way to write
+    proofs automatically, but sometimes a human touch doesn't hurt.
+</p>
+
+
 
 
 <h3>Monad Transformers</h3> Monad Transformers allow us to stack effects on top
@@ -508,12 +559,19 @@ about monads. <ul>
     <li id="HW_f_2021"> <a
             href="https://hackage.haskell.org/package/base-4.15.0.0/docs/Data-Functor.html">Data.Functor</a>.
         Haskell Wiki, <i>2021</i>.</li>
+
+    <li id="GG_2012"> <a href="https://www.haskellforall.com/2012/09/the-functor-design-pattern.html">The Functor Design
+            Pattern</a>. Gabriella Gonzales, <i>2012</i>. </li>
     <li id="HW_a_2021"> <a
             href="https://hackage.haskell.org/package/base-4.15.0.0/docs/Control-Applicative.html">Control.Applicative</a>.
         Haskell Wiki,
         <i>2021</i>.
     <li id="H"> <a href="https://hackage.haskell.org/package/base-4.15.0.0/docs/Prelude.html">Prelude</a>.
         Hackage.</li>
+    </li>
+
+    <li id="H_CM"> <a
+            href="https://hackage.haskell.org/package/base-4.15.0.0/docs/Control-Monad.html">Control.Monad</a>. Hackage.
     </li>
 
 
@@ -525,6 +583,8 @@ about monads. <ul>
     <li id="HW_m_2021"> <a href="https://wiki.haskell.org/Functor">Functor</a>. Haskell Wiki,
         <i>2021</i>.
     </li>
+
+    <li id="TS"><a href="https://www.youtube.com/watch?v=fCoQb-zqYDI">What is IO monad?</a>. Tsoding, <i>2018</i>. </li>
 
 </ul>
 
@@ -558,6 +618,4 @@ about monads. <ul>
 Footnote to write: How a is a carrying type (find official terminology)
 
 
-Citation: You could have written the state monad.
-
-Rename asymptote to singular (better function name)
+Style the citations and give them better names.
