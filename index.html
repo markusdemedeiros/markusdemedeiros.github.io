@@ -2,49 +2,93 @@
 <html>
 
 <head>
-	<title>Markus's Desk</title>
-	<link rel="stylesheet" type="text/css" href="stylesheet.css">
-	<link href="packages/prism/prism.css" rel="stylesheet" />
+  <title>Markus's Desk</title>
+  <link rel="stylesheet" type="text/css" href="stylesheet.css">
+  <link href="packages/prism/prism.css" rel="stylesheet" />
 </head>
 
 
 <body>
-	<script src="packages/prism/prism.js"></script>
-	<header>
-		<div class="header__content-image">
-			<a href="index.html">
-				<img src="img/peruPic.png" alt="Photo of me" width=300em>
-			</a>
-		</div>
-		<div class="header__content-text">
-			<h1> Markus de Medeiros </h1>
-			<aside> Student in mathematics and CS at UBC </aside>
-			<aside> </aside>
-			<hr>
-			<a href="https://github.com/markusdemedeiros">[ github ]</a>
-			<a href="mailto:markusdemedeiros@outlook.com?">[ email ]</a>
-			<a href="https://www.markusde.ca">[ cv ]</a>
-			<a href="https://www.markusde.ca">[ arxiv ]</a>
-			<a href="blog.html">[ blog ]</a>
-			<p align="right"> <i id="title-text"></i></p>
-		</div>
-		<script type="text/javascript" charset="utf-8">
-			var string_list = [
-				"powered by vim and coffee!",
-				"trust the natural catamorphism!",
-				"monads: programmable semicolons!",
-				"real numbers don't exist!",
-			];
-			document.getElementById("title-text").innerText
-				= (string_list[Math.ceil((Math.random() * string_list.length - 1))]);
+  <script src="packages/prism/prism.js"></script>
+  <header>
+    <div class="header__content-image">
+      <a href="index.html">
+        <img src="img/peruPic.png" alt="Photo of me" width=300em>
+      </a>
+    </div>
+    <div class="header__content-text">
+      <h1> Markus de Medeiros </h1>
+      <aside> Student in mathematics and CS at UBC </aside>
+      <aside> </aside>
+      <hr>
+      <a href="https://github.com/markusdemedeiros">[ github ]</a>
+      <a href="mailto:mjd9606@nyu.edu?">[ email ]</a>
+      <a href="https://github.com/markusdemedeiros/cv">[ cv ]</a>
+      <a href="https://types.pl/web/@markusde">[ mastodon ]</a>
 
-		</script>
-		</div>
-	</header>
-	<section>
-		<script src="dist/index.js"></script>
+      <!--  <a href="https://www.markusde.ca">[ arxiv ]</a> -->
+      <!--  <a href="blog.html">[ blog ]</a> -->
+      <p align="right"> <i id="title-text"></i></p>
+    </div>
+    <script type="text/javascript" charset="utf-8">
+      var string_list = [
+        "powered by vim and coffee!",
+        "trust the natural catamorphism!",
+        "monads: programmable semicolons!",
+        "real numbers don't exist!",
+      ];
+      document.getElementById("title-text").innerText
+        = (string_list[Math.ceil((Math.random() * string_list.length - 1))]);
 
-	</section>
+    </script>
+    </div>
+  </header>
+  <section>
+
+    <h2> About Me </h2>
+
+    <p>I'm Markus, a (⊢ undergraduate ∗ (undergraduate —∗ PhD)) student at (⊢ (SPL@UBC) ∗ (SPL@UBC —∗ ACSYS@NYU))
+      working
+      with (⊢ (Alex Summers) ∗ (Alex Summers —∗ Joseph Tassarotti)).</p>
+
+    <p> I am broadly interested in <b>formal methods</b>, and especially insofar as they can be automated.
+      My BSc thesis is about automatically translating the type-correctness information from the Rust
+      compiler
+      into a memory safety proof in a separation logic, as part of the <a
+        href="https://www.pm.inf.ethz.ch/research/prusti.html">Prusti</a> project. </p>
+
+
+    <br>
+    <hr>
+
+    <h2> Blog Posts </h2>
+    <table align="center" class="blog__posts_table">
+      <tr>
+        <th> Title </th>
+        <th> Updated </th>
+        <th> Content </th>
+      </tr>
+      <tr>
+        <td> <a href="https://github.com/markusdemedeiros/markusdemedeiros.github.io/blob/main/posts/hello_world.md">
+            Hello World </a></td>
+        <td> June 16, 2023</td>
+        <td> meta </td>
+      </tr>
+    </table>
+
+    <br>
+    <hr>
+
+    <h2> Misc </h2>
+    <p>I don't have anything to host that I wouldn't put on my blog or cv; my BSc thesis will be online here soon™.
+      In the meantime, here is my cute dog!</p>
+
+    <div align="center"><img align="center" src="img/jazz.jpg" alt="Brown dog sitting on a couch" width=250em></div>
+
+
+
+
+  </section>
 
 </body>
 
