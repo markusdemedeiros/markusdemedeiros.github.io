@@ -1,4 +1,8 @@
-# Surviving your Math Degree
+---
+title:  'Surviving your Math Degree'
+date: 'July 14, 2023'
+content: 'academics'
+...
 
 I just graduated from UBC with a combined degree in math and computer science. I'm probably not the most qualified to talk about this, but here are some things which helped me survive that whole ordeal.
 
