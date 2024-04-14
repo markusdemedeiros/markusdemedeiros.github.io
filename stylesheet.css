@@ -8,11 +8,13 @@
  * #313131    dark grey
  */
 
+html {
+  font-family: Georgia,Times,Times New Roman,serif;
+}
 
 body {
   margin: 0 auto;
-  max-width: 50em;
-  font-family: "Helvetica", "Arial", sans-serif;
+  max-width: 45em;
   line-height: 1.5;
   padding: 4em 1em;
   color: #3D3D3D;
@@ -44,6 +46,7 @@ strong {
 
 a {
   color: #FF6600;
+  text-decoration: none
 }
 
 
