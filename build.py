@@ -18,5 +18,3 @@ for filename in os.listdir(posts):
     post_dest   = os.path.join(pages, os.path.splitext(filename)[0]) + ".html"
     print("rendering: ", post_dest)
     subprocess.run(["pandoc", "--ascii", post_source, "-o", post_dest, "--template=" + template, "--mathml"])
-
-# TODO: Update index on homepage from metadata?
