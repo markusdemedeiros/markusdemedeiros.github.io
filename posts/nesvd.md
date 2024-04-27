@@ -1,5 +1,5 @@
 ---
-title:  'NESVD talk: ERIS'
+title:  'NESVD Talk: ERIS'
 date: 'April 27, 2024'
 content: 'academics'
 ...
