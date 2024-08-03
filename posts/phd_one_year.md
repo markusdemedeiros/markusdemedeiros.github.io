@@ -6,7 +6,7 @@ content: 'academics'
 
 
 I've been a PhD student for a year now. 
-On paper I'm about 20% of the way through my funding-- clearly this means that I just have to do the same thing four more
+On paper, I'm about 20% of the way through my funding-- clearly this means that I just have to do the same thing four more
 times, and clock out as a freshly minted doc, right?
 
 And to think they told me grad school would be hard. 
@@ -24,8 +24,8 @@ What did I do with it?
 
 **Last year I published two papers with my research group**: [Eris](eris.html), and [Tachis](tachis.html). 
 In both of these projects, I was one of seven coauthors. 
-Despire the fact that my research group is rather large (playing abbreviation games to fit the page count is one thing... 
-playing abbreviation games to fit the header limit is another) I felt that we were very well-cooridnated on the 
+Despite the fact that my research group is rather large (playing abbreviation games to fit the page count is one thing... 
+playing abbreviation games to fit the header limit is another) I felt that we were very well-coordinated on the 
 projects we worked on last year. 
 
 
@@ -36,12 +36,12 @@ but not so far-reaching that anyone's work felt inaccessible.
 A lot of my time last year was spent just getting my feet wet by mechanizing increasingly difficult problems; it was 
 satisfying that each step of the way provided some value to the group alongside progressing my own skills.
 
-(Of course it helps that eveyone else in the group is friendly, smart, and fun.
+(Of course it helps that everyone else in the group is friendly, smart, and fun.
 As a whole I'd say we're pretty [magnificent](https://en.wikipedia.org/wiki/The_Magnificent_Seven).)
 
 
-**Last year I applied for a scholarhsip** which was due in October.
-Writing this application was challenging, and even through I didn't end up getting it I felt that it was a worthwhile excercise. 
+**Last year I applied for a scholarship** which was due in October.
+Writing this application was challenging, and even through I didn't end up getting it I felt that it was a worthwhile exercise.
 Specifically, the application involved arguing about the plan for and impact of my research-- which as a grad student 
 toddler really meant understanding what research meant to _Joe_[^1]. 
 
@@ -56,7 +56,7 @@ which is super valuable while I'm still developing my own sense of research tast
 Despite a long history of hating presentations, it turns out that I love a crowd when it's something I really care about! 
 The high point had to be pointing at a slide of Iris rules and calling it "eye candy for the deranged".
 
-![*fig 1. The afformentioned eye candy.*](../img/Eris_Iris_Screenshot.png "A bunch of Iris rules on a slide"){#id .class width=500} 
+![*Fig 1. The aformentioned eye candy.*](../img/Eris_Iris_Screenshot.png "A bunch of Iris rules on a slide"){#id .class width=500} 
 
 I'm really looking forward to presenting more!
 
@@ -64,7 +64,8 @@ I'm really looking forward to presenting more!
 
 
 **Last year I attended some local workshops**. 
-In total I attended four-- I like that I get so many chances to meet new people from the area (including semi-new computer-people, of course)!
+In total, I attended four. 
+I like that I get so many chances to meet new people from the area (including semi-new computer-people, of course)!
 
 I remember Ron Garcia pointing out it was great that there are so many excellent schools are so close together in the 
 northeast. 
@@ -85,7 +86,7 @@ This is another point I think I undervalued when choosing where to do my PhD: I'
 a better way to understand which parts of your research are useful, than seeing them get put to use firsthand.
 
 
-**Last year I was pysically present in several classes**, and I was mentally absent for basically all of them. 
+**Last year I was physically present in several classes**, and I was mentally absent for basically all of them. 
 Without patting myself on the back too hard (god, that sounds like a dreadful effort) I think I've done a masterful 
 job at putting in the absolute minimum effort possible to meet my grade requirements. 
 As much as I'd like this title to say I *finished* my classes, I decided to drop a machine learning course after 45 minutes 
@@ -109,7 +110,7 @@ However, my shallow understanding of probability, cryptography, distributed syst
 topics that are tangential to our main line of work, doesn't help me come up with new and interesting 
 directions we can explore.
 
-The arrow of time is steadliy marching me forward to the point where choosing a dissertation topic 
+The arrow of time is steadily marching me forward to the point where choosing a dissertation topic 
 becomes a major issue; proactively reading about related topics is one way I can help myself pick
 something compelling to work on when that time comes. 
 
@@ -133,7 +134,7 @@ While it's hard to make time for small projects, I think that making "getting my
 will pay dividends when I'm looking for more cool paper ideas. 
 
 **Next year I want to write more**!
-I love to yap, and I especially love to yap about the techical stuff I'm working on.[^2]
+I love to yap, and I especially love to yap about the technical stuff I'm working on.[^2]
 Next year I want to try to document the things I'm figuring out, as it happens.
 I find a lot of value in reading about other people's views on a topic, and writing outside
 of a paper crunch could help my improve my technical explanation skills. 
@@ -143,6 +144,6 @@ of a paper crunch could help my improve my technical explanation skills.
 There is no conclusion to this. Ask me again in four to nine years if anything I wrote here is true.
 
 
-[^1]: AKA "Joey T.", according to anoynymous nickname-starting sources originating from Massachutses. 
+[^1]: AKA "Joey T.", according to anonymous nickname-starting sources originating from Massachusetts.
 [^2]: Since last August I've posted... holy shit I've posted 4600 times on Mastodon alone.
 [^3]: The guy also started comparing the development of ChatGPT against human evolution, which, y'know, is a real dumb guy thing to do. 
