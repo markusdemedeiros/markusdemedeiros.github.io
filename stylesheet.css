@@ -93,14 +93,14 @@ table {
 table td,
 table th {
   border: 1px dotted #0d0d0d;
-  padding-left: 30px;
-  padding-right: 30px;
+  padding-left: 6px;
+  padding-right: 6px;
   padding-top: 2px;
   padding-bottom: 2px;
 }
 
 .blog__posts_table {
-  width: 200%;
+  width: 80%;
 }
 
 tr:nth-of-type(even) {
