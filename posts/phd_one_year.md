@@ -1,110 +1,148 @@
 ---
 title:  "I've been a PhD student for a year. Now what?"
-date: 'July 20, 2024'
+date: 'Aug 3, 2024'
 content: 'academics'
 ...
 
 
 I've been a PhD student for a year now. 
-On paper I'm about 20% of the way through my funding, clearly this means that I just have to do the same thing four more
-times and clock out as a freshly minted doc.
-
+On paper I'm about 20% of the way through my funding-- clearly this means that I just have to do the same thing four more
+times, and clock out as a freshly minted doc, right?
 
 And to think they told me grad school would be hard. 
 
-
-Nevertheless, as the summer starts drawing to a close it seems like a good time to reflect on how things have gone so far. 
+Nevertheless, as the summer starts drawing to a close it seems like a good time to reflect on how things have gone so far, 
+and how I can do better as I complete the rest of my PhD cakewalk. 
+It's also a little bit of a retrospective on my choice to study with Joe Tassarotti at NYU, which I think was largely a 
+very good one, even if at the time I had no idea why. 
 
 
 ## I've been a PhD student for a year
+
+What did I do with it?
 
 
 **Last year I published two papers with my research group**: [Eris](eris.html), and [Tachis](tachis.html). 
 In both of these projects, I was one of seven coauthors. 
 Despire the fact that my research group is rather large (playing abbreviation games to fit the page count is one thing... 
-playing abbreviation name to fit the header limit is another) I felt that we were very well-cooridnated on the 
+playing abbreviation games to fit the header limit is another) I felt that we were very well-cooridnated on the 
 projects we worked on last year. 
 
 
-A lot of my experiences last year boil down to ending up in such a great research group.
-The projects we worked on had were ambitious enough for me to take meaningful ownership over aspects of the development,
-but not so substantial that anyone's work was out of reach. 
-As a beginner it felt like the perfect way to get my feet wet, and it was very satisfying to gradually work on 
-harder problems as time went on! 
+I feel very fortunate to have ended up in such a great research group-- the people, the project, and the timing lined up 
+serendipitously for me as someone just starting out. 
+The projects we worked on were ambitious enough for me to take meaningful ownership over aspects of the development,
+but not so far-reaching that anyone's work felt inaccessible. 
+A lot of my time last year was spent just getting my feet wet by mechanizing increasingly difficult problems; it was 
+satisfying that each step of the way provided some value to the group alongside progressing my own skills.
 
-(Of course it helps that eveyone in the group is friendly and fun.
-I'd even go so far as to even say that we're [magnificent](https://en.wikipedia.org/wiki/The_Magnificent_Seven).)
+(Of course it helps that eveyone else in the group is friendly, smart, and fun.
+As a whole I'd say we're pretty [magnificent](https://en.wikipedia.org/wiki/The_Magnificent_Seven).)
 
 
-**Last year I applied for a grant** which was due in October.
-Writing this application was challenging, and even through I didn't end up getting it I felt it was a very worthwhile excercise. 
-Specifically the application involved arguing about the plan for and impact of my research-- while really meant understanding 
-what that meant to _Joe_[^1]. 
+**Last year I applied for a scholarhsip** which was due in October.
+Writing this application was challenging, and even through I didn't end up getting it I felt that it was a worthwhile excercise. 
+Specifically, the application involved arguing about the plan for and impact of my research-- which as a grad student 
+toddler really meant understanding what research meant to _Joe_[^1]. 
 
-Among other reasons, I wanted to work with Joe because I got the impression that we have a similar perspective on what 
-our reaserch is meant to accomplish. 
-Writing this application so soon after starting did a good job at setting the tone for real.
-Often, I find that having a model of Joe's take on the world makes it easier for me to understand him, as I both 
-try to learn the context of our field and find my own place inside it. 
+One of my primary reasons for choosing to do my PhD at NYU was that I felt that Joe had a good instinct for 
+choosing important and interesting problems to work on.
+Spending time reflecting on Joe's vision, and arguing for it, set the tone between us in a very concrete way. 
+Over the past year I can recall several times when knowing Joe's perspective helped keep me focused on the big picture, 
+which is super valuable while I'm still developing my own sense of research taste.
 
 
 **Last year I presented our work** at the [NESVD](nesvd.html) workshop. 
-Despite a long history of hating it, it turns out that I love presenting when it's something I really care about! 
-I'm really looking forward to doing it more. 
+Despite a long history of hating presentations, it turns out that I love a crowd when it's something I really care about! 
+The high point had to be pointing at a slide of Iris rules and calling it "eye candy for the deranged".
+
+![*fig 1. The afformentioned eye candy.*](../img/Eris_Iris_Screenshot.png "A bunch of Iris rules on a slide"){#id .class width=500} 
+
+I'm really looking forward to presenting more!
 
 
-**Last year I attended local meetups**. 
-In total I attended four-- I like that I get so many chances to meet new people from the area (including semi-new computer-people, of course!)
+
+
+**Last year I attended some local workshops**. 
+In total I attended four-- I like that I get so many chances to meet new people from the area (including semi-new computer-people, of course)!
+
+I remember Ron Garcia pointing out it was great that there are so many excellent schools are so close together in the 
+northeast. 
+As is typical for my interactions with Ron, he was totally right, but at the time I had no idea how right he was. 
 
 
 **Last year I started working at AWS**.
-I work on [SampCert](https://github.com/leanprover/SampCert), a library for verified differential privacy properties in Lean. 
+I work on [SampCert](https://github.com/leanprover/SampCert), a library for verifying differential privacy properties in Lean. 
 A large part of my day-to-day is writing proofs about probabilistic programs in Lean-- it's a lot like my PhD research,
 but I also get plenty of chances to hear from teams in totally different areas of verification too. 
+It's been valuable to learn about the many meanings of *impact* in our field, several of which differ
+from the meaning of *impact* I see written about in papers.
+Blog post coming soon. 
+Maybe. 
 
-
-It's been valuable to learning about the variety of meanings for *impact* in our field, and I feel lucky to have an advisor 
-who is well-connected with the people we claim motivate our work. 
+Of course, I'm super thankful that Joe is in close contact with the industry. 
+This is another point I think I undervalued when choosing where to do my PhD: I'm not convinced that there's
+a better way to understand which parts of your research are useful, than seeing them get put to use firsthand.
 
 
 **Last year I was pysically present in several classes**, and I was mentally absent for basically all of them. 
-I think I've done a masterful job at putting in the absolute minimum effort possible to meet my grade requirements. 
+Without patting myself on the back too hard (god, that sounds like a dreadful effort) I think I've done a masterful 
+job at putting in the absolute minimum effort possible to meet my grade requirements. 
 As much as I'd like this title to say I *finished* my classes, I decided to drop a machine learning course after 45 minutes 
-because it seemed like I couldn't slack off and write Rocq all class. 
+because it seemed like I couldn't slack off and write Rocq all class[^3]. 
+
+When I chose NYU I was excited to take abstract interpretation with Patrick Cousot, and I was also enticed by the fact that 
+the math and computer science departments were so tightly coupled. 
+This turned out to be both irrelevant and untrue: all of my classes were total snores, and I basically never
+have any reason to interact with the math department whatsoever. 
+While I would have appreciated a separate math and CS department during my undergrad, coursework is so useless during my PhD
+that it just does not matter. 
 
 
 
 ## Now what?
 
-What do I want to accomplish next year?
-
 **Next year I want to understand our application domains better**. 
-When it comes time to pick examples, I have a good enough understanding to grind through a proof as long as it's vigilantly 
-checked by the computer. 
-However to get really good, I want to be able to think more informally about the types of problems we're verifying. 
-This means trying to audit a honest-to-god probability course, and working through the cryptography section of my Zotero. 
+When it comes time to pick examples, Joe can usually point my in the direction of one, and I 
+can usually understand it enough to grind out a proof.
+However, my shallow understanding of probability, cryptography, distributed systems, and the thousand other 
+topics that are tangential to our main line of work, doesn't help me come up with new and interesting 
+directions we can explore.
+
+The arrow of time is steadliy marching me forward to the point where choosing a dissertation topic 
+becomes a major issue; proactively reading about related topics is one way I can help myself pick
+something compelling to work on when that time comes. 
 
 
 **Next year I want to teach**.
-I've missed teaching, and I have to do it eventually anyways. 
-It's looking like I might be able to be a section leader for one of the undergraduate PL courses. 
+I liked TAing during my undergrad, and I have to do it eventually anyways. 
+It seems like I may be able to be a section leader for one of the undergraduate PL courses, and I'm 
+looking forward to that!
 
 
 **Next year I want to work on my research independence**.
-I have been chewing on some ideas I think are interesting new directions for our project, and I'm super excited to 
+I have been chewing on a new direction for our project for a few months, and I'm super excited to 
 get back to working on it full-time. 
-Knock on wood obviously, but I think it will be pretty cool to build up the narrative the whole way through. 
+I've never really developed an idea from start to finish, and trying to take on more of a leading
+role in a group research project is a big step towards that. 
 
-More practically, I want to take on little, non-publishable projects (Joe please un-read that sentence).
+I also want to spend time working on little, non-publishable projects (Joe please un-read that sentence).
 At AWS, I saw several examples of how even just trying to get the technical part of verification working can lead to unexpected
 design problems. 
-It's hard to make time for small projects, but I think that trying to make them more of a priority could help me find 
-more new cool stuff to work on! 
+While it's hard to make time for small projects, I think that making "getting my hands dirty" a priority 
+will pay dividends when I'm looking for more cool paper ideas. 
 
-**Next year I want to write more!**
-I absolutely have no issues yapping, even about technical stuff. 
-Next year I should try to document what I'm figuring out on here, I find it really useful when other people do that and there's really no reason why I can't do that same.
+**Next year I want to write more**!
+I love to yap, and I especially love to yap about the techical stuff I'm working on.[^2]
+Next year I want to try to document the things I'm figuring out, as it happens.
+I find a lot of value in reading about other people's views on a topic, and writing outside
+of a paper crunch could help my improve my technical explanation skills. 
+
+## Conclusion
+
+There is no conclusion to this. Ask me again in four to nine years if anything I wrote here is true.
 
 
 [^1]: AKA "Joey T.", according to anoynymous nickname-starting sources originating from Massachutses. 
 [^2]: Since last August I've posted... holy shit I've posted 4600 times on Mastodon alone.
+[^3]: The guy also started comparing the development of ChatGPT against human evolution, which, y'know, is a real dumb guy thing to do. 
