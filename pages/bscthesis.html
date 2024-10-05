@@ -26,14 +26,14 @@
     <p><strong>Abstract</strong></p>
     <blockquote>
     <p>Prusti is a Rust verification tool which automatically infers a
-    proof of mem- ory safety from the Rust compiler internals. Prusti&#x2019;s
+    proof of memory safety from the Rust compiler internals. Prusti&#x2019;s
     core inference was originally described in terms of a data structure
-    called the Place Capabil- ity Summary (or PCS) which describes the
+    called the Place Capability Summary (or PCS) which describes the
     capabilities the Rust program has to memory at each program point.
     The PCS is not implemented in the current version of Prusti; this
     thesis explores a method for inferring the PCS as a separate step
     from the rest of Prusti. In doing so, we define a new data structure
-    we call the Coupling Graph, which establishes approxi- mate aliasing
+    we call the Coupling Graph, which establishes approximate aliasing
     relationships between places in a form that is straightforward to
     derive from the compiler. Our approach enables a PCS to be derived
     for programs involving reborrowing inside complex dataflow such as
