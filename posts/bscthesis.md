@@ -4,7 +4,7 @@ date: 'Oct 5, 2024'
 content: 'academics'
 ...
 
-This is an upload of my BSc. thesis, co-supervised by Alexander Summers and Aurel Bílý (ETH Zurich). I presented an overview this work to the Prusti team in the summer of 2023; the slides are available below as well.
+This is an upload of my BSc. thesis, co-supervised by Alexander Summers (UBC) and Aurel Bílý (ETH Zurich). I presented an overview this work to the Prusti team in the summer of 2023; the slides are available below as well.
 
 
 [[Thesis]](../pdf/Thesis.pdf) _Coupled Borrows: Modelling Rust's Aliasing Information with Capabilities_
