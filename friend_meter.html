@@ -1,0 +1,811 @@
+<body bgcolor=#ffffff>
+
+<!! EXPLICITLY POSITION THE CANVAS TO WHERE WE WANT IT TO APPEAR ON THE SCREEN>
+
+<canvas id='canvas1' width=800 height=800 style="position:absolute;left:350;top:70"></canvas>
+<table><tr><td>
+
+<!! INTERACTIVE HTML BUTTONS TO SELECT DIFFERENT PARTS OF THE VEHICLE>
+
+<td width=110><td valign=top><br>
+<font face=helvetica size=5>
+Friend meter <input type=range id=rude style="width: 400"></input>
+</table>
+<script>
+
+rude.value = 0;
+
+// MATRIX FUNCTIONS
+
+let mInverse = m => {
+   let dst = [], det = 0, cofactor = (c, r) => {
+      let s = (i, j) => m[c+i & 3 | (r+j & 3) << 2];
+      return (c+r & 1 ? -1 : 1) * ( (s(1,1) * (s(2,2) * s(3,3) - s(3,2) * s(2,3)))
+                                  - (s(2,1) * (s(1,2) * s(3,3) - s(3,2) * s(1,3)))
+                                  + (s(3,1) * (s(1,2) * s(2,3) - s(2,2) * s(1,3))) );
+   }
+   for (let n = 0 ; n < 16 ; n++) dst.push(cofactor(n >> 2, n & 3));
+   for (let n = 0 ; n <  4 ; n++) det += m[n] * dst[n << 2]; 
+   for (let n = 0 ; n < 16 ; n++) dst[n] /= det;
+   return dst;
+}
+let matrixMultiply = (a, b) => {
+   let dst = [];
+   for (let n = 0 ; n < 16 ; n++)
+      dst.push(a[n&3]*b[n&12] + a[n&3|4]*b[n&12|1] + a[n&3|8]*b[n&12|2] + a[n&3|12]*b[n&12|3]);
+   return dst;
+}
+let C = t => Math.cos(t);
+let S = t => Math.sin(t);
+let mIdentity = () => [ 1,0,0,0, 0,1,0,0, 0,0,1,0, 0,0,0,1 ];
+let mPerspective = (fl, m) => matrixMultiply(m, [1,0,0,0, 0,1,0,0, 0,0,1,-1/fl, 0,0,0,1]);
+let mRotateX = (t, m) => matrixMultiply(m, [1,0,0,0, 0,C(t),S(t),0, 0,-S(t),C(t),0, 0,0,0,1]);
+let mRotateY = (t, m) => matrixMultiply(m, [C(t),0,-S(t),0, 0,1,0,0, S(t),0,C(t),0, 0,0,0,1]);
+let mRotateZ = (t, m) => matrixMultiply(m, [C(t),S(t),0,0, -S(t),C(t),0,0, 0,0,1,0, 0,0,0,1]);
+let mScale = (x,y,z, m) => matrixMultiply(m, [x,0,0,0, 0,y,0,0, 0,0,z,0, 0,0,0,1]);
+let mTranslate = (x,y,z, m) => matrixMultiply(m, [1,0,0,0, 0,1,0,0, 0,0,1,0, x,y,z,1]);
+
+// MATRIX OBJECT, BUILT FROM MATRIX FUNXTIONS
+
+function Matrix() {
+   let stack = [mIdentity()], top = 0;
+   let set = arg => { stack[top] = arg; return this; }
+   let get = () => stack[top];
+
+   this.identity = () => set(mIdentity());
+   this.perspective = fl => set(mPerspective(fl, get()));
+   this.rotateX = t => set(mRotateX(t, get()));
+   this.rotateY = t => set(mRotateY(t, get()));
+   this.rotateZ = t => set(mRotateZ(t, get()));
+   this.scale = (x,y,z) => set(mScale(x,y,z, get()));
+   this.translate = (x,y,z) => set(mTranslate(x,y,z, get()));
+   this.get = () => get();
+   this.save = () => set(stack[top++].slice());
+   this.restore = () => --top;
+}
+
+// INITIALIZE GL
+
+let start_gl = (canvas, vertexSize, vertexShader, fragmentShader) => {
+   let gl = canvas.getContext("webgl");
+   let program = gl.createProgram();
+   gl.program = program;
+   let addshader = (type, src) => {
+      let shader = gl.createShader(type);
+      gl.shaderSource(shader, src);
+      gl.compileShader(shader);
+      if (! gl.getShaderParameter(shader, gl.COMPILE_STATUS))
+         throw "Cannot compile shader:\n\n" + gl.getShaderInfoLog(shader);
+      gl.attachShader(program, shader);
+   };
+   addshader(gl.VERTEX_SHADER  , vertexShader  );
+   addshader(gl.FRAGMENT_SHADER, fragmentShader);
+   gl.linkProgram(program);
+   if (! gl.getProgramParameter(program, gl.LINK_STATUS))
+      throw "Could not link the shader program!";
+   gl.useProgram(program);
+   gl.bindBuffer(gl.ARRAY_BUFFER, gl.createBuffer());
+   gl.enable(gl.DEPTH_TEST);
+   gl.depthFunc(gl.LEQUAL);
+   let vertexAttribute = (name, size, position) => {
+      let attr = gl.getAttribLocation(program, name);
+      gl.enableVertexAttribArray(attr);
+      gl.vertexAttribPointer(attr, size, gl.FLOAT, false, vertexSize * 4, position * 4);
+   }
+   vertexAttribute('aPos', 3, 0);
+   vertexAttribute('aNor', 3, 3);
+   return gl;
+}
+
+// CREATE A TRIANGLE_STRIP MESH
+
+let createMesh = (nu, nv, p) => {
+   let mesh = [];
+   for (let j = nv-1 ; j >= 0 ; j--) {
+      for (let i = 0 ; i <= nu ; i++)
+         mesh.push(p(i/nu,(j+1)/nv), p(i/nu,j/nv));
+      mesh.push(p(1,j/nv), p(0,j/nv));
+   }
+   return mesh.flat();
+}
+
+
+
+
+
+
+
+
+
+// Defining platonic solids:
+// - Got the coordinates from Wikipedia  https://en.wikipedia.org/wiki/Platonic_solid
+// - Plugged them into a 3D graphing calculator to determine which groups are faces
+// - Listed the groups in order (clockwise or counterclockwise, doesn't matter) in a "faces" list
+
+// Rendering platonic solids:
+// - Shift the points so that their mean is 0
+// - Normalize every point
+// - Now, the normal at each vertex will be the normalized mean of the points on a face
+//   due to rotational symmetry
+// - Triangulate each face
+// - Collect the face + normal data into a flat list in the form expected by our vertex shader
+
+
+
+let norm3 = (N) => {
+   let L = Math.sqrt(N[0] * N[0] + N[1] * N[1] + N[2] * N[2]);
+   return [N[0]/L, N[1]/L, N[2]/L];
+}
+
+// Face points are radially symmetric, so the normal of the face is the mean of the points.
+let faceNormal = (face) => {
+   let N = [0,0,0];
+   for (let j = 0; j < face.length; j++) {
+      N[0] += face[j][0];
+      N[1] += face[j][1];
+      N[2] += face[j][2];
+   }
+   // Don't need to divide to get the mean, since I am normalizing anyways
+   return norm3(N);
+}
+
+// FIXME: I think we just want to debias the points, and normalize them at the end
+
+
+
+// Shift all points so that their mean is the origin
+// Then normalize all points
+let normalizePoints = (points) => {
+   // Calculate the mean of the points
+   // This means I don't need to manually center my points when defining the solids
+   let bias = [0, 0, 0];
+   for (let j = 0; j < points.length; j++) {
+       bias[0] += points[j][0];
+       bias[1] += points[j][1];
+       bias[2] += points[j][2];
+   }
+   bias[0] = bias[0] / points.length;
+   bias[1] = bias[1] / points.length;
+   bias[2] = bias[2] / points.length;
+
+   // Now update each point by shifting it by bias, and then normalizing
+   for (let j = 0; j < points.length; j++) {
+      let shifted = [points[j][0] - bias[0],
+                     points[j][1] - bias[1],
+                     points[j][2] - bias[2]
+      ];
+      points[j] = norm3(shifted);
+   }
+
+   return points;
+}
+
+// Triangulate a face
+// The face must consist of at least 3 points
+let triangulateFace = (face) => {
+   let nPoints = face.length;
+   let triangles = [];
+   for (let j = 1; j + 1 < face.length; j ++) {
+      triangles.push([face[0],face[j],face[j+1]]);
+   }
+   return triangles;
+}
+
+
+// Compute the normal to a face
+// Compute the trianglation of a face
+// Meld the data so that its in the format glsl expects
+let renderFace = (face) => {
+   let normal = faceNormal(face);
+   let triangle_points  = triangulateFace(face).flat();
+   let result = [];
+   for (let j = 0; j < triangle_points.length; j++) {
+      result = result.concat(triangle_points[j]);
+      result = result.concat(normal);
+   }
+  return result;
+}
+
+// Render a solid out of a list of faces
+let renderSolid = (faces) => {
+   return faces.map(renderFace).flat();
+}
+
+// Tetrahedron (4-faced solid)
+let ps4 = normalizePoints([
+  [ 1,  1,  1],
+  [ 1, -1, -1],
+  [-1,  1, -1],
+  [-1, -1,  1],
+]);
+
+let ps4_faces = [
+  [ps4[0], ps4[1], ps4[2]],
+  [ps4[0], ps4[1], ps4[3]],
+  [ps4[0], ps4[2], ps4[3]],
+  [ps4[1], ps4[2], ps4[3]],
+]
+
+// Cube (6-faced solid)
+let ps6 = normalizePoints([
+  [ 0, 0, 0 ],
+  [ 0, 0, 1 ],
+  [ 0, 1, 0 ],
+  [ 0, 1, 1 ],
+  [ 1, 0, 0 ],
+  [ 1, 0, 1 ],
+  [ 1, 1, 0 ],
+  [ 1, 1, 1 ],
+]);
+
+let ps6_faces = [
+  [ps6[0], ps6[1], ps6[3], ps6[2]],
+  [ps6[0], ps6[1], ps6[5], ps6[4]],
+  [ps6[0], ps6[4], ps6[6], ps6[2]],
+  [ps6[7], ps6[3], ps6[1], ps6[5]],
+  [ps6[7], ps6[6], ps6[2], ps6[3]],
+  [ps6[7], ps6[6], ps6[4], ps6[5]],
+]
+
+// Octahedron (8-faced solid)
+let ps8 = normalizePoints([
+  [ -1,  0,  0 ],
+  [  1,  0,  0 ],
+  [  0, -1,  0 ],
+  [  0,  1,  0 ],
+  [  0,  0, -1 ],
+  [  0,  0,  1 ],
+]);
+
+let ps8_faces = [
+  [ps8[0], ps8[2], ps8[5]],
+  [ps8[0], ps8[3], ps8[5]],
+  [ps8[0], ps8[2], ps8[4]],
+  [ps8[0], ps8[3], ps8[4]],
+  [ps8[1], ps8[2], ps8[5]],
+  [ps8[1], ps8[3], ps8[5]],
+  [ps8[1], ps8[2], ps8[4]],
+  [ps8[1], ps8[3], ps8[4]],
+];
+
+
+
+// Dodecahedron (12-faced solid)
+let P = (1 + Math.sqrt(5)) / 2;
+let N = -1 * P;
+let p = 1 / P;
+let n = 1 / N;
+
+let ps12 = normalizePoints([
+   [  1,  1,  1 ], // 0
+   [  1,  1, -1 ], // 1
+   [  1, -1,  1 ], // 2
+   [  1, -1, -1 ], // 3
+
+   [ -1,  1,  1 ], // 4
+   [ -1,  1, -1 ], // 5
+   [ -1, -1,  1 ], // 6
+   [ -1, -1, -1 ], // 7
+
+   [  0,  p,  P ], // 8
+   [  0,  p,  N ], // 9
+   [  0,  n,  P ], // 10
+   [  0,  n,  N ], // 11
+
+   [  p,  P,  0 ], // 12
+   [  p,  N,  0 ], // 13
+   [  n,  P,  0 ], // 14
+   [  n,  N,  0 ], // 15
+
+   [  P,  0,  p ], // 16
+   [  P,  0,  n ], // 17
+   [  N,  0,  p ], // 18
+   [  N,  0,  n ], // 19
+]);
+
+let ps12_faces = [
+  [ps12[ 8], ps12[ 0], ps12[16], ps12[ 2], ps12[10]],
+  [ps12[ 8], ps12[ 4], ps12[14], ps12[12], ps12[ 0]],
+  [ps12[ 8], ps12[10], ps12[ 6], ps12[18], ps12[ 4]],
+  [ps12[10], ps12[ 2], ps12[13], ps12[15], ps12[ 6]],
+  [ps12[ 6], ps12[15], ps12[ 7], ps12[19], ps12[18]],
+  [ps12[ 2], ps12[16], ps12[17], ps12[ 3], ps12[13]],
+  [ps12[ 0], ps12[12], ps12[ 1], ps12[17], ps12[16]],
+  [ps12[ 4], ps12[18], ps12[19], ps12[ 5], ps12[14]],
+  [ps12[15], ps12[13], ps12[ 3], ps12[11], ps12[ 7]],
+  [ps12[12], ps12[14], ps12[ 5], ps12[ 9], ps12[ 1]],
+  [ps12[17], ps12[ 3], ps12[11], ps12[ 9], ps12[ 1]],
+  [ps12[19], ps12[ 5], ps12[ 9], ps12[11], ps12[ 7]],
+];
+
+
+// Icosahedron (20-faced solid)
+let ps20 = normalizePoints([
+   [  0,  1,  P ], // 0
+   [  0,  1,  N ], // 1
+   [  0, -1,  P ], // 2
+   [  0, -1,  N ], // 3
+   [  1,  P,  0 ], // 4
+   [  1,  N,  0 ], // 5
+   [ -1,  P,  0 ], // 6
+   [ -1,  N,  0 ], // 7
+   [  P,  0,  1 ], // 8
+   [  N,  0,  1 ], // 9
+   [  P,  0, -1 ], // 10
+   [  N,  0, -1 ], // 11
+]);
+
+
+let ps20_faces = [
+  [ps20[ 0], ps20[ 6], ps20[ 4]],
+  [ps20[ 0], ps20[ 9], ps20[ 6]],
+  [ps20[ 0], ps20[ 2], ps20[ 9]],
+  [ps20[ 0], ps20[ 8], ps20[ 2]],
+  [ps20[ 0], ps20[ 4], ps20[ 8]],
+  [ps20[ 2], ps20[ 7], ps20[ 9]],
+  [ps20[ 2], ps20[ 5], ps20[ 7]],
+  [ps20[ 2], ps20[ 8], ps20[ 5]],
+  [ps20[ 9], ps20[11], ps20[ 6]],
+  [ps20[ 9], ps20[ 7], ps20[11]],
+  [ps20[ 8], ps20[10], ps20[ 5]],
+  [ps20[ 8], ps20[ 4], ps20[10]],
+  [ps20[ 3], ps20[ 1], ps20[11]],
+  [ps20[ 3], ps20[11], ps20[ 7]],
+  [ps20[ 3], ps20[ 7], ps20[ 5]],
+  [ps20[ 3], ps20[ 5], ps20[10]],
+  [ps20[ 3], ps20[10], ps20[ 1]],
+  [ps20[ 1], ps20[ 6], ps20[11]],
+  [ps20[ 1], ps20[ 4], ps20[ 6]],
+  [ps20[ 1], ps20[10], ps20[ 4]],
+];
+
+
+
+
+
+
+// Final solids
+
+let p_tetrahedron   = renderSolid(ps4_faces);
+let p_cube          = renderSolid(ps6_faces);
+let p_octahedron    = renderSolid(ps8_faces);
+let p_dodecahedron  = renderSolid(ps12_faces);
+let p_icosahedron   = renderSolid(ps20_faces);
+
+
+
+
+// Hand model 
+// w = wrist side width
+// f = finger side width
+// l = wrist-to-finger length
+// d = depth
+// t = thumb joint width
+// h : 1 for right hand, -1 for left hand
+let hand = (w, f, l, d, t, h) => {
+  // Compute normal vector for thumb
+  let tN = Math.sqrt(t * t * (f - w) * (f - w));
+  let tNx = -t / tN;
+  let tNy = (w - f) / tN;
+
+
+  // Points
+  let Ax = 0;
+  let Ay = 0;
+  let Bx = w;
+  let By = 0;
+  let Cx = w;
+  let Cy = l;
+  let Dx = w - f;
+  let Dy = l;
+  let Ex = w - f;
+  let Ey = t;
+
+  return [ // Top face
+	   h * Ax, Ay, 0, 0, 0, 1,
+	   h * Bx, By, 0, 0, 0, 1,
+	   h * Cx, Cy, 0, 0, 0, 1,
+	   h * Cx, Cy, 0, 0, 0, 1,
+	   h * Dx, Dy, 0, 0, 0, 1,
+	   h * Ax, Ay, 0, 0, 0, 1,
+	   h * Dx, Dy, 0, 0, 0, 1,
+	   h * Ex, Ey, 0, 0, 0, 1,
+	   h * Ax, Ay, 0, 0, 0, 1,
+           // Bottom face
+	   h * Ax, Ay, -d, 0, 0, -1,
+	   h * Bx, By, -d, 0, 0, -1,
+	   h * Cx, Cy, -d, 0, 0, -1,
+	   h * Cx, Cy, -d, 0, 0, -1,
+	   h * Dx, Dy, -d, 0, 0, -1,
+	   h * Ax, Ay, -d, 0, 0, -1,
+	   h * Dx, Dy, -d, 0, 0, -1,
+	   h * Ex, Ey, -d, 0, 0, -1,
+	   h * Ax, Ay, -d, 0, 0, -1,
+           // Front face 
+	   h * Cx, Cy,  0, 0, 1, 0,
+	   h * Dx, Dy,  0, 0, 1, 0,
+	   h * Dx, Dy, -d, 0, 1, 0,
+	   h * Dx, Dy, -d, 0, 1, 0,
+	   h * Cx, Cy, -d, 0, 1, 0,
+	   h * Cx, Cy,  0, 0, 1, 0,
+	   // Back face
+	   h * Ax, Ay,  0, 0, -1, 0,
+	   h * Bx, By,  0, 0, -1, 0,
+	   h * Bx, By, -d, 0, -1, 0,
+	   h * Bx, By, -d, 0, -1, 0,
+	   h * Ax, Ay, -d, 0, -1, 0,
+	   h * Ax, Ay,  0, 0, -1, 0,
+           // Right face 
+           h * Bx, By,  0, h * 1, 0, 0,
+           h * Cx, Cy,  0, h * 1, 0, 0,
+           h * Cx, Cy, -d, h * 1, 0, 0,
+           h * Cx, Cy, -d, h * 1, 0, 0,
+           h * Bx, By, -d, h * 1, 0, 0,
+           h * Bx, By,  0, h * 1, 0, 0,
+           // Left face
+           h * Ex, Ey,  0, h * -1, 0, 0,
+           h * Dx, Dy,  0, h * -1, 0, 0,
+           h * Dx, Dy, -d, h * -1, 0, 0,
+           h * Dx, Dy, -d, h * -1, 0, 0,
+           h * Ex, Ey, -d, h * -1, 0, 0,
+           h * Ex, Ey,  0, h * -1, 0, 0,
+           // Thumb face
+           h * Ax, Ay,  0, h * tNx, tNy, 0, 
+           h * Ex, Ey,  0, h * tNx, tNy, 0, 
+           h * Ex, Ey, -d, h * tNx, tNy, 0, 
+           h * Ex, Ey, -d, h * tNx, tNy, 0, 
+           h * Ax, Ay, -d, h * tNx, tNy, 0, 
+           h * Ax, Ay,  0, h * tNx, tNy, 0, 
+]; 
+};
+
+
+
+
+
+
+
+// DEFINE VARIOUS KINDS OF TRIANGLE_STRIP MESHES
+
+let sphere = (nu, nv) => createMesh(nu, nv, (u,v) => {
+   let theta = 2 * Math.PI * u;
+   let phi = Math.PI * (v - .5);
+   let x = C(phi) * C(theta),
+       y = C(phi) * S(theta),
+       z = S(phi);
+   return [ x,y,z, x,y,z ];
+});
+
+let tube = (nu, nv) => createMesh(nu, nv, (u,v) => {
+   let x = C(2 * Math.PI * u),
+       y = S(2 * Math.PI * u),
+       z = 2 * v - 1;
+   return [ x,y,z, x,y,0 ];
+});
+
+let disk = (nu, nv) => createMesh(nu, nv, (u,v) => {
+   let x = v * C(2 * Math.PI * u),
+       y = v * S(2 * Math.PI * u);
+   return [ x,y,0, 0,0,1 ];
+});
+
+let cylinder = (nu, nv) => createMesh(nu, nv, (u,v) => {
+   let x = C(2 * Math.PI * u),
+       y = S(2 * Math.PI * u);
+   switch (5 * v >> 0) {
+   case 0: return [ 0,0,-1, 0,0,-1 ];
+   case 1: return [ x,y,-1, 0,0,-1 ];
+   case 2: return [ x,y,-1, x,y, 0 ];
+   case 3: return [ x,y, 1, x,y, 0 ];
+   case 4: return [ x,y, 1, 0,0, 1 ];
+   case 5: return [ 0,0, 1, 0,0, 1 ];
+   }
+});
+
+let torus = (nu, nv) => createMesh(nu, nv, (u,v) => {
+   let ct = C(2 * Math.PI * u);
+   let st = S(2 * Math.PI * u);
+   let cp = C(2 * Math.PI * v);
+   let sp = S(2 * Math.PI * v);
+   let x = (1 + .5 * cp) * ct,
+       y = (1 + .5 * cp) * st,
+       z =      .5 * sp;
+   return [ x,y,z, cp*ct,cp*st,sp ];
+});
+
+// SHORTCUT TO MAKE IT EASIER TO DEFINE CUBE AND OCTAHEDRON
+
+let strToTris = str => {
+   let tris = [];
+   for (let n = 0 ; n < str.length ; n++)
+      switch (str.charAt(n)) {
+      case 'N': tris.push(-1    ); break;
+      case 'n': tris.push(-0.577); break;
+      case '0': tris.push( 0    ); break;
+      case 'p': tris.push( 0.577); break;
+      case 'P': tris.push( 1    ); break;
+      }
+   return tris;
+}
+
+// DEFINE SOME MESHES MADE FROM TRIANGLES
+
+let cube = strToTris(`PNP00P PPP00P NPP00P  NPP00P NNP00P PNP00P
+                      NPN00N PPN00N PNN00N  PNN00N NNN00N NPN00N
+                      PPNP00 PPPP00 PNPP00  PNPP00 PNNP00 PPNP00
+                      NNPN00 NPPN00 NPNN00  NPNN00 NNNN00 NNPN00
+                      NPP0P0 PPP0P0 PPN0P0  PPN0P0 NPN0P0 NPP0P0
+                      PNN0N0 PNP0N0 NNP0N0  NNP0N0 NNN0N0 PNN0N0`);
+
+let octahedron = strToTris(`00Nnnn 0N0nnn N00nnn  P00pnn 0N0pnn 00Npnn
+                            N00npn 0P0npn 00Nnpn  00Nppn 0P0ppn P00ppn
+                            00Pnnp 0N0nnp N00nnp  00Ppnp 0N0pnp P00pnp
+                            N00npp 0P0npp 00Pnpp  P00ppp 0P0ppp 00Pppp`);
+
+// DEFINE ALL THE OBJECT SHAPES
+
+let Cube         = { type: 0, mesh: new Float32Array(p_cube) };
+let Cylinder     = { type: 1, mesh: new Float32Array(cylinder(20,  6)) };
+let Disk         = { type: 1, mesh: new Float32Array(disk    (20,  1)) };
+let Dodecahedron = { type: 0, mesh: new Float32Array(p_dodecahedron) };
+let Icosahedron  = { type: 0, mesh: new Float32Array(p_icosahedron) };
+let Octahedron   = { type: 0, mesh: new Float32Array(p_octahedron) };
+let Sphere       = { type: 1, mesh: new Float32Array(sphere  (20, 10)) };
+let Tetrahedron  = { type: 0, mesh: new Float32Array(p_tetrahedron) };
+let Torus        = { type: 1, mesh: new Float32Array(torus   (30, 30)) };
+let Tube         = { type: 1, mesh: new Float32Array(tube    (20,  1)) };
+
+let Hand         = (w, f, l, d, t, h) => {return { type: 0, mesh: new Float32Array(hand(w, f, l, d, t, h))}};
+
+// VERY SIMPLE VERTEX AND FRAGMENT SHADERS
+
+let vertexSize = 6;
+let vertexShader = `
+   attribute vec3 aPos, aNor;
+   uniform mat4 uMatrix, uInvMatrix;
+   varying vec3 vPos, vNor;
+   void main() {
+      vec4 pos = uMatrix * vec4(aPos, 1.0);
+      vec4 nor = vec4(aNor, 0.0) * uInvMatrix;
+      vPos = pos.xyz;
+      vNor = nor.xyz;
+      gl_Position = pos * vec4(1.,1.,-.1,1.);
+   }
+`;
+
+let fragmentShader = `
+   precision mediump float;
+   uniform vec3 uColor;
+   varying vec3 vPos, vNor;
+   void main(void) {
+      float c = .05 + max(0., dot(normalize(vNor), vec3(.57)));
+      gl_FragColor = vec4(sqrt(c * uColor), 1.);
+   }
+`;
+
+// INITIALIZE GL AND GET UNIFORM NAMES
+
+let gl = start_gl(canvas1, vertexSize, vertexShader, fragmentShader);
+
+let uColor     = gl.getUniformLocation(gl.program, "uColor"    );
+let uInvMatrix = gl.getUniformLocation(gl.program, "uInvMatrix");
+let uMatrix    = gl.getUniformLocation(gl.program, "uMatrix"   );
+
+// INSTANTIATE THE MATRIX OBJECT
+
+let M = new Matrix();
+
+// RENDER ONE SHAPE, AND GIVE IT A COLOR
+
+let render = (Shape, color) => {
+   // SET THE VALUES OF VARIOUS UNIFORM VARIABLES
+
+   gl.uniform3fv      (uColor    , color );
+   gl.uniformMatrix4fv(uInvMatrix, false, mInverse(M.get()));
+   gl.uniformMatrix4fv(uMatrix   , false, M.get()          );
+
+   // RENDER THIS OBJECT
+
+   let mesh = Shape.mesh;
+   gl.bufferData(gl.ARRAY_BUFFER, mesh, gl.STATIC_DRAW);
+   gl.drawArrays(Shape.type ? gl.TRIANGLE_STRIP : gl.TRIANGLES, 0, mesh.length / vertexSize);
+}
+
+// Calculate bump function for t in [0, 1]
+let bump = (t) => {
+   t = t - Math.floor(t);
+   t = 2 * t;
+   if (t > 1) { 
+      t = 2 - t;
+   }
+   return -2 * t * t * t + 3 * t * t;
+}
+
+
+
+
+
+
+// THE ANIMATION LOOP
+
+let startTime = Date.now() / 1000;
+function renderFrame() {
+   requestAnimationFrame(renderFrame);
+   let time = Date.now() / 1000 - startTime, m;
+
+   M.identity().perspective(3);
+
+   let r = rude.value * 0.01;
+   let lerp = (v1, v2) => v1 * r + v2 * (1 - r);
+
+   // Hand size parameters
+   let global_scale = 0.2;
+   let hand_w       = 1.0;
+   let hand_f       = 1.5;
+   let hand_l       = 1.4;
+   let hand_d       = 0.38;
+   let hand_t       = 0.4;
+
+   let finger_factor = 0.75; 			// How much of the hand width the fingers take up
+   let finger_w = 0.3;	    			// Thickness of a single finger
+   let finger_l1 = 0.5;                         // 1st joint length
+   let finger_l2 = 0.44;		        // 2nd joint length
+   let finger_l3 = 0.26;                        // 3rd joint length
+   let finger_ratios = [1.0, 1.2, 1.1, 0.86];   // Overall finger lengths, in order
+   let thumb_w  = 0.29;                         // Thumb thickness
+   let thumb_l1  = 0.45;                        // Thumb 1st joint length
+   let thumb_l2  = 0.39;                        // Thub 2nd joint length
+
+   let min_rot = [0.05, 0.05, 0.05, 0.05, 0.05];     // Min rotation values
+   let max_rot = [1.0, 1.2, 1.2, 1.2, 1.2];     // Max rotation values
+
+   let palmColour = [lerp(1, 1), lerp(0, 1), lerp(0, 0)];
+   let f1Colour   = [lerp(1, 1), lerp(0, 1), lerp(0, 0)];
+   let f2Colour   = [lerp(1, 1), lerp(0, 1), lerp(0, 0)];
+   let f3Colour   = [lerp(1, 1), lerp(0, 1), lerp(0, 0)];
+
+   // Render a hand at the current location
+   // dir: determines the hand
+   let hand_puppet = (dir, curl) => {
+     let hand_mesh = [];
+
+     if (dir == 1.0) {
+     	hand_mesh = Hand(hand_w, hand_f, hand_l, hand_d, hand_t, -1);
+     } else {
+     	hand_mesh = Hand(hand_w, hand_f, hand_l, hand_d, hand_t, 1);
+     }
+
+
+     M.save();
+
+     // Hand motion
+     // ROTATE X rotates in the direction of the palm
+     M.save();
+        // Render hand main body 
+        M.scale(global_scale, global_scale, global_scale);
+        render(hand_mesh, palmColour);
+     M.restore();
+      
+     // Render the thumb
+     M.save();
+       M.translate(dir * 0.41 * global_scale, 0.55 * global_scale, -hand_d * global_scale * 0.45);
+       M.rotateZ(-dir * 0.3 * Math.PI + -0.5 + 0.6 * curl[0]);
+       M.rotateY(-dir * 0.13 + -dir * 1.4 * (1 - curl[0]));
+
+       M.rotateX(-0.2);
+       M.rotateX(min_rot[0] + curl[0] * max_rot[0]);
+
+       M.save();
+     	   M.scale(global_scale, global_scale, global_scale);
+           M.translate(0, thumb_l1 / 2, 0);
+     	   M.scale(thumb_w, thumb_l1, thumb_w);
+     	   render(Cube, f2Colour);
+       M.restore();
+        
+
+       M.translate(0, global_scale * thumb_l1, 0);
+       
+       // ROTATE HERE (rotate x)
+       M.rotateX(min_rot[0] + curl[0] * max_rot[0]);
+       M.save();
+     	   M.scale(global_scale, global_scale, global_scale);
+         M.translate(0, thumb_l2 / 2, 0);
+     	   M.scale(thumb_w, thumb_l2, thumb_w);
+     	   render(Cube, f3Colour);
+       M.restore();
+     M.restore()
+
+     // Translate to the pivot location of the pinky finger
+     M.translate(-1 * dir * (hand_w - hand_f) * global_scale, hand_l * global_scale , -hand_d * global_scale * 0.5);
+     M.translate(-1 * dir * hand_f * (1 - finger_factor) * global_scale * 0.5, 0, 0);
+
+     // Front four fingers
+     for (i = 0; i < 4; i++) {
+        M.save();
+        M.translate(-1 * dir * hand_f * finger_factor * (1 / 3) * i * global_scale, 0, 0);
+       
+        // First joint rotation
+       	M.rotateX(min_rot[i + 1] + curl[i + 1] * max_rot[i + 1]);
+
+        // First joint render
+     	  M.save();
+     	    M.scale(global_scale, global_scale, global_scale);
+            M.translate(0, finger_ratios[i] * finger_l1 / 2, 0);
+     	    M.scale(finger_w, finger_ratios[i] * finger_l1, finger_w);
+     	    render(Cube, f1Colour);
+     	  M.restore();
+
+        // Translate to second joint rotation point
+        M.translate(0, global_scale * finger_ratios[i] * finger_l1, 0);
+
+        // ROTATE HERE (rotate x)
+       	M.rotateX(min_rot[i + 1] + curl[i + 1] * max_rot[i + 1]);
+      
+        // Second joint render
+     	  M.save();
+     	    M.scale(global_scale, global_scale, global_scale);
+            M.translate(0, finger_ratios[i] * finger_l2 / 2, 0);
+     	    M.scale(finger_w, finger_ratios[i] * finger_l2, finger_w);
+     	    render(Cube, f2Colour);
+     	  M.restore();
+
+        // Translate to third joint rotation point
+        M.translate(0, global_scale * finger_ratios[i] * finger_l2, 0);
+
+        // ROTATE HERE (rotate x)
+        // Third joint rotation
+       	M.rotateX(min_rot[i + 1] + curl[i + 1] * max_rot[i + 1]);
+        
+        // Third joint render
+     	  M.save();
+     	    M.scale(global_scale, global_scale, global_scale);
+            M.translate(0, finger_ratios[i] * finger_l3 / 2, 0);
+     	    M.scale(finger_w, finger_ratios[i] * finger_l3, finger_w);
+     	    render(Cube, f3Colour);
+     	  M.restore();
+        M.restore();
+     }
+
+
+     M.restore();      
+   }
+
+
+   // Render each hand 
+
+
+   M.save();
+     let dir = 1.0;
+
+
+     // let z = 0.5 + 0.5 * Math.sin(time);
+
+
+     let thumbs_up     = [0, 1, 1, 1, 1];
+     let middle_finger = [1, 1, 0, 1, 1];
+
+     let finger_pos    = [lerp(middle_finger[0], thumbs_up[0]), 
+		          lerp(middle_finger[1], thumbs_up[1]), 
+		          lerp(middle_finger[2], thumbs_up[2]), 
+		          lerp(middle_finger[3], thumbs_up[3]), 
+		          lerp(middle_finger[4], thumbs_up[4])];
+
+     M.translate(lerp(-0.1, -0.3),
+                 lerp(-0.25, 0),
+                 lerp(1.9, 1.0));
+     M.rotateY(lerp(0.2 + Math.PI, - Math.PI - 0.4));
+     M.rotateX(lerp(-0.3, -0.1));
+     M.rotateZ(lerp(0, Math.PI / 2 +0.1));
+
+     hand_puppet(dir, finger_pos);
+
+
+   M.restore();  
+
+}
+requestAnimationFrame(renderFrame);
+
+</script>
+
+
+
