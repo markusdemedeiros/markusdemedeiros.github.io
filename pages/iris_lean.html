@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>What does iris-lean do?</title>
+    <link rel="stylesheet" type="text/css" href="../stylesheet.css">
+  </head>
+
+  <body>
+    <center>
+      <h2>What does iris-lean do?</h2>
+      <aside>Nov 17, 2024</aside>
+    </center>
+
+    <hr>
+    <br>
+
+    <p>The <a
+    href="https://github.com/leanprover-community/iris-lean"><code>iris-lean</code></a>
+    project aims to port Iris into Lean. As it stands now, the project
+    is mainly a formalization of Iris Proof Mode frontend MoSeL.</p>
+    <p>I want to understand concretely what <code>iris-lean</code> has
+    accomplished, in order to judge how it might be used for mechanizing
+    other separation logics in Lean. To do this, I worked my way up the
+    project&#x2019;s import graph, and made an inventory of which kind of
+    theorems are in each file.</p>
+    <p><img src="../img/lean_iris_graph.png"
+    title="Import graph for iris-lean" id="id" class="class"
+    width="700" /> <a
+    href="../pdf/iris_lean_import_graph.pdf">Higher-res version</a></p>
+    <h2 id="notes">Notes</h2>
+    <p>Here are my notes about what each file in the
+    <code>iris-lean</code> repository does.</p>
+    <ul>
+    <li><code>Iris.Std.Classes</code>
+    <ul>
+    <li>Typeclasses for basic properties about binary relations</li>
+    <li>Surely these are in <code>mathlib</code> somewhere</li>
+    <li>Does this relate to generalized rewriting</li>
+    </ul></li>
+    <li><code>Iris.Std.Tactic</code>
+    <ul>
+    <li>Basic helper tactics for manipulating goals</li>
+    <li>Seems generally useful</li>
+    </ul></li>
+    <li><code>Iris.Std.Rewrite</code>
+    <ul>
+    <li>A more general rewriting tactic &#x201C;for preorders with monotone
+    rules on how to destruct operators.&#x201D;</li>
+    <li>Rewrites vary based on how many times they&#x2019;re performed</li>
+    <li>What is monotonicity in this context?</li>
+    <li>What is the differences between rewriting with monotonicity, and
+    fully generalized rewriting?</li>
+    </ul></li>
+    <li><code>Iris.Std.DelabRule</code>
+    <ul>
+    <li>It has one tactic but I&#x2019;m not sure what it does</li>
+    </ul></li>
+    <li><code>Iris.Std.BigOp</code>
+    <ul>
+    <li>&#x201C;Big Operators&#x201D; implemented with a left fold, with &#x201C;unit&#x201D; as
+    base case</li>
+    <li><code>LawfulBigOp f unit eq</code>: <code>f</code> is lawful
+    with respect to an equality relation <code>eq</code></li>
+    <li>Are all Iris BigOps lawful?</li>
+    </ul></li>
+    <li><code>Iris.BI.Notation</code>
+    <ul>
+    <li>Notation for iProps?</li>
+    </ul></li>
+    <li><code>Iris.BI.BIBase</code>
+    <ul>
+    <li>Typeclass: embedding of a separation logic into
+    <code>PROP : Type</code></li>
+    <li>Seems to be a subset of the Iris base logic? Where exactly did
+    this come from?</li>
+    <li>Tons of syntax and macros based on <code>BIBase</code></li>
+    </ul></li>
+    <li><code>Iris.Algebra.OFE</code>
+    <ul>
+    <li>Basic definitions for OFE&#x2019;s, COFE&#x2019;s, discrete COFE</li>
+    <li>No instances</li>
+    </ul></li>
+    <li><code>Iris.BI.BI</code>
+    <ul>
+    <li>Extends both <code>BIBase</code> and <code>COFE</code></li>
+    <li>Proof rules that must hold about the embedding</li>
+    <li>This typeclass could be split up into a Mathlib-like
+    hierarchy</li>
+    <li>Somehow connects back to <code>rw_mono_rule</code>, registers
+    that attribute for <code>bi_sep_mono</code> and
+    <code>persistently_mono</code></li>
+    </ul></li>
+    <li><code>Iris.BI.Classes</code>
+    <ul>
+    <li>Typeclasses for various kinds of iProps (persistent, affine,
+    absorbing, intuitionistic)</li>
+    </ul></li>
+    <li><code>Iris.BI.Extensions</code>
+    <ul>
+    <li>Extension of BI for affine logics</li>
+    <li>Makes me think that BI could be broken up more</li>
+    </ul></li>
+    <li><code>Iris.Std.TC</code>
+    <ul>
+    <li>Typeclass combinators</li>
+    <li>I am astonished that there is any use for this</li>
+    <li><code>class inductive</code>, <code>unif_hint</code>: none of
+    these words are in the bible</li>
+    </ul></li>
+    <li><code>Iris.BI.DerivedLaws</code>
+    <ul>
+    <li>Lemmas that follow from the <code>BI</code> typeclass</li>
+    <li>I see &#x201C;mono&#x201D; lemmas, connected to <code>rw_mono_rule</code>.
+    Does that mean you can rewrite under them?</li>
+    <li><code>LawfulBigOp</code> instance for:
+    <ul>
+    <li><code>and</code> with equality <code>BiEntails</code> and unit
+    <code>True</code></li>
+    <li><code>sep</code> with equality <code>BiEntails</code> and unit
+    <code>emp</code></li>
+    </ul></li>
+    </ul></li>
+    <li><code>Iris.BI.Instances</code>
+    <ul>
+    <li><code>Affine</code>, <code>Absorbing</code>,
+    <code>Intuitionistic</code>, and <code>Persistent</code> instances
+    for <code>BI</code> definitions</li>
+    </ul></li>
+    <li><code>Iris.Std.Expr</code>, <code>Iris.Std.Nat</code>,
+    <code>Iris.Std.Prod</code>, <code>Iris.Std.Expr</code>,
+    <code>Iris.Std.Qq</code>, <code>Iris.Std.Equivalence</code>
+    <ul>
+    <li>Various helper functions, for both programming and
+    metaprogramming</li>
+    </ul></li>
+    <li><code>Iris.Instances.Data.SetNotation</code>
+    <ul>
+    <li>Typeclass for disjointness, and notation
+    <code>(- || -)</code></li>
+    </ul></li>
+    <li><code>Iris.Instances.Data.State</code>
+    <ul>
+    <li><code>State</code> is a function
+    <code>Nat -&gt; StateResult</code>, and <code>StateResult</code> is
+    either &#x201C;unknown&#x201D;, &#x201C;result -&#x201D;, or &#x201C;conflict&#x201D;
+    <ul>
+    <li>I suppose this is their definition of memory for this
+    instance</li>
+    <li>Doesn&#x2019;t the Iris base logic use a CMRA for this?</li>
+    </ul></li>
+    <li>Disjoint states, &#x201C;unknown&#x201D; means outside of a heap fragment</li>
+    <li>Set operations on states</li>
+    </ul></li>
+    <li><code>Iris.Instances.Classical.Instance</code>
+    <ul>
+    <li><code>BI</code> instance (resp. <code>BIBase</code> and discrete
+    <code>COFE</code>) for propositions over <code>State</code>
+    (<code>HeapProp</code>)</li>
+    <li><code>BIBase</code> is just lifting
+    <ul>
+    <li><code>later</code> does no step-indexing</li>
+    <li><code>persistently</code> means the proposition is
+    <code>state</code>-irrelevant</li>
+    </ul></li>
+    </ul></li>
+    <li><code>Iris.Instances.Classical.Notation</code>
+    <ul>
+    <li>&#x201C;points to&#x201D; <code>HeapProp</code></li>
+    </ul></li>
+    </ul>
+    <p>I didn&#x2019;t end up reading anything in <code>ProofMode</code>,
+    because Lean metaprogramming is still magical to me, and I&#x2019;m happy
+    to leave it as &#x201C;that code works&#x201D;. There is a single example in the
+    repository.</p>
+    <h2 id="what-does-iris-lean-do-and-whats-next">What does
+    <code>iris-lean</code> do, and what&#x2019;s next?</h2>
+    <p><code>iris-lean</code> implements a collection of tactics against
+    a particular axiomatization of separation logic.</p>
+    <p>The most glaring deficiency in <code>iris-lean</code> is the fact
+    that it&#x2019;s never actually instantiated. Trying to do this for a
+    simple separation logic (and mechanizing its adequacy theorem) would
+    be an obvious next step. I suspect that in the process of doing
+    this, one would need to break up the <code>BIBase</code> typeclass
+    into smaller components&#x2014;not every logic will have all of the
+    features of Iris. This could possibly be a fragment of one of the
+    early logics presented in <em>Iris from the Ground Up</em>, but I
+    think that might even be a little much at this point.</p>
+    <p>They also have no program logics developed on top of their
+    separation logic. Implementing an analogue of the generic program
+    logic code from Iris would probably require a lot of work. It would
+    be nice if there was generic tactic-writing code for this.</p>
+    <p>The results for <code>OFE</code>s and <code>COFE</code>s could be
+    ported from regular Iris, since those have no dependencies in Iris.
+    I&#x2019;m curious about if any of this work can integrate into
+    Mathlib.</p>
+    <p>The <code>README</code> for <code>iris-lean</code> mentions an
+    issue with generalized rewriting. I don&#x2019;t fully understand how they
+    solve this issue with their <code>rw'</code> tactic in the
+    development. Which features of generalized rewriting does
+    <code>iris-lean</code> need, and what has changed since this project
+    was under development?</p>
+    <h2 id="code">Code</h2>
+    <p>My <a
+    href="https://github.com/markusdemedeiros/iris-lean">fork</a> is
+    updated to Lean <code>4.14.0-rc2</code>. The import graph was
+    generated using <a
+    href="https://reservoir.lean-lang.org/@leanprover-community/importGraph">importGraph</a>.</p>
+
+  </body>
+</html>
