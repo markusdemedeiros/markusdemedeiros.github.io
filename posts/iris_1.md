@@ -117,4 +117,17 @@ There are some items in the context for this construction: including that the fu
 - Monoid homomorphisms are paramaterized by a generic preorder, and must be non-expansive. 
 
 
+### list.v
 
+- OFE over lists: lists are of equal length and n-related pointwise
+  - Any n-relation to `[]` implies the list is `[]`
+  - n-relation distributes through `++`
+- First-order list functions (`head`, `cons`, etc) are nonexpansive
+- Lists of COFE type is a COFE
+  - The limit of lists is the pointwise limit, this is well-defined because all lists in a chain must have the same shape. 
+- Lists of discrete OFE's is discrete
+- n-relations of lists is invariant under permutation
+- Higher-order functions (map, etc) are nonexpansive
+- Map by nonexpansive function is nonexpansive
+- Given an `oFunctor` `F` from `A` to `B`, `map F` is an `oFunctor` from `list A` to `list B`
+  - resp. contractive `oFunctor`.
