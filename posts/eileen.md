@@ -145,7 +145,7 @@ This is far from a complete summary of the Iris development, but I feel that it 
 | `updates.v`             | Axioms+TC for BI with bupd, fupd. Laws, laws involving persistently.            |
 | `ascii.v`               | Notation.                                                                       |
 | `embedding.v`           | Axioms+TC for embedding one ``bi`` in another.                                  |
-| `bi.v`                  | Imports.                                                                        |
+| `bi.v`                  | Exports.                                                                        |
 | `telescopes.v`          |                                                                                 |
 | `monopred.v`            |                                                                                 |
 
@@ -211,15 +211,15 @@ This is far from a complete summary of the Iris development, but I feel that it 
 
 (TODO: Insert dependency graph)
     
-| File           | Description |
-|----------------|-------------|
-| `upred.v`      |             |
-| `bi.v`         |             |
-| `derived.v`    |             |
-| `algebra.v`    |             |
-| `proofmode.v`  |             |
-| `base_logic.v` |             |
-| `bupd_alt.v`   |             |
+| File           | Description                                                                                                    |
+|----------------|----------------------------------------------------------------------------------------------------------------|
+| `upred.v`      | uPred for general UCMRA, COFE + BI defs. Nonexpansive and proof rules. Soundness for later, pure, internal eq. |
+| `bi.v`         | BI TC instances for upred.                                                                                     |
+| `derived.v`    | Derived laws, TC instances for valid. Soundness for bupd, modalities.                                          |
+| `algebra.v`    |                                                                                                                |
+| `proofmode.v`  | Pure and splitting TC instances for uPred.                                                                     |
+| `base_logic.v` | Exports.                                                                                                       |
+| `bupd_alt.v`   |                                                                                                                |
 
 ## ``iris/base_logic/lib/``
 
