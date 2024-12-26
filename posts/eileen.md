@@ -66,65 +66,65 @@ This is far from a complete summary of the Iris development, but I feel that it 
 ### ``iris/prelude/``
     (TODO: Insert dependency graph)
     
-| File        | Description |
-|-------------|-------------|
-| `options.v` |             |
-| `prelude.v` |             |
+| File        | Description                |
+|-------------|----------------------------|
+| `options.v` | Global Rocq configuration. |
+| `prelude.v` | Global coercions.          |
 
 
 ### ``iris/algebra/``
 
 (TODO: Insert dependency graph)
     
-| File                    | Description |
-|-------------------------|-------------|
-| `ofe.v`                 |             |
-| `cofe_solver.v`         |             |
-| `monoid.v`              |             |
-| `cmra.v`                |             |
-| `excl.v`                |             |
-| `big_op.v`              |             |
-| `cmra_big_op.v`         |             |
-| `updates.v`             |             |
-| `local_updates.v`       |             |
-| `gset.v`                |             |
-| `gmultiset.v`           |             |
-| `coPset.v`              |             |
-| `csum.v`                |             |
-| `mra.v`                 |             |
-| `list.v`                |             |
-| `functions.v`           |             |
-| `sts.v`                 |             |
-| `proofmode_classes.v`   |             |
-| `numbers.v`             |             |
-| `frac.v`                |             |
-| `ufrac.v`               |             |
-| `dfrac.v`               |             |
-| `gmap.v`                |             |
-| `vector.v`              |             |
-| `agree.v`               |             |
-| `max_prefix_list.v`     |             |
-| `view.v`                |             |
-| `auth.v`                |             |
-| `reservation_map.v`     |             |
-| `dyn_reservation_map.v` |             |
+| File                    | Description                                                                                                                       |
+|-------------------------|-----------------------------------------------------------------------------------------------------------------------------------|
+| `ofe.v`                 | OFE/COFE structures, nonexpansive/contractive maps, fixpoints, oFunctors, (C)OFE-(iso)morphisms, OFEs based on types/laters.      |
+| `cofe_solver.v`         | COFE fixpoint of oFunctor.                                                                                                        |
+| `monoid.v`              | Semi-bundled nonexpansive monoids, and morphisms. Used for big ops.                                                               |
+| `cmra.v`                | Variants of CMRA structures, properties of CMRA elements, morphisms, COFE to CMRA functors, resource algebra. CMRA constructions. |
+| `excl.v`                | The excl COFE/CMRA.                                                                                                               |
+| `big_op.v`              | Iterated monoid operation over finite structures. Morphisms and laws.                                                             |
+| `cmra_big_op.v`         | Laws for big op with option OFE.                                                                                                  |
+| `updates.v`             | (Nondeterministic) frame-perserving updates. FP updates based on type.                                                            |
+| `local_updates.v`       | Local updates, laws, and constructions.                                                                                           |
+| `gset.v`                | CMRAs of sets of countable type: union and disjoint union.                                                                        |
+| `gmultiset.v`           | CMRA for multisets of countable type.                                                                                             |
+| `coPset.v`              | CMRAs of sets of countable type: union and disjoint union.                                                                        |
+| `csum.v`                | OFE/COFE/CMRA construction: sum with bottom.                                                                                      |
+| `mra.v`                 | Lift preorder to CMRA.                                                                                                            |
+| `list.v`                | (C)OFE of lists. Nonexpansisivity of list functions.                                                                              |
+| `functions.v`           | Laws for discrete function OFE, into UCMRA or OFE.                                                                                |
+| `sts.v`                 | STS RA (historical).                                                                                                              |
+| `proofmode_classes.v`   | Typeclass reflection of monoid op.                                                                                                |
+| `numbers.v`             | RA of number types with arithmetic ops.                                                                                           |
+| `frac.v`                | Leibniz RA of rationals `0 < q <= 1` with add op.                                                                                 |
+| `ufrac.v`               | Leibniz RA of rationals `0 < q` with add op.                                                                                      |
+| `dfrac.v`               | Leibniz RA of discardable fractions.                                                                                              |
+| `gmap.v`                | COFE/CMRA of gmap (lifts value OFE pointwise). Laws for basic gmap operations.                                                    |
+| `vector.v`              | Vector OFEs (same as list).                                                                                                       |
+| `agree.v`               | Agreement OFE: Lists are n-equiv when each element has an n-equiv counterpart.                                                    |
+| `max_prefix_list.v`     | Partial OFE on lists, where `X ⋅ X ++ Y = X ++ Y`.                                                                                |
+| `view.v`                |                                                                                                                                   |
+| `auth.v`                |                                                                                                                                   |
+| `reservation_map.v`     | CMRA for partial functions + permission to add entries.                                                                           |
+| `dyn_reservation_map.v` | CMRA for partial functions + permission to add an unbounded number of fresh entries.                                              |
 
 
 ### ``iris/algebra/lib/``
 
 (TODO: Insert dependency graph)
     
-| File            | Description |
-|-----------------|-------------|
-| `frac_auth.v`   |             |
-| `mono_list.v`   |             |
-| `mono_nat.v`    |             |
-| `mono_Z.v`      |             |
-| `gmap_view.v`   |             |
-| `gset_bij.v`    |             |
-| `ufrac_auth.v`  |             |
-| `excl_auth.v`   |             |
-| `dfrac_agree.v` |             |
+| File            | Description                                                                        |
+|-----------------|------------------------------------------------------------------------------------|
+| `frac_auth.v`   | Auth CMRA, with splittable fractional part rather than auth part.                  |
+| `mono_list.v`   | Auth CMRA over max prefix list CMRA.                                               |
+| `mono_nat.v`    | Auth CMRA over max Nat CMRA.                                                       |
+| `mono_Z.v`      | Auth CMRA over max Z CMRA.                                                         |
+| `gmap_view.v`   | Auth CMRA over map: frags are RW access to single entries, or persistent R access. |
+| `gset_bij.v`    |                                                                                    |
+| `ufrac_auth.v`  |                                                                                    |
+| `excl_auth.v`   |                                                                                    |
+| `dfrac_agree.v` |                                                                                    |
 
 ### ``iris/bi/``
 
