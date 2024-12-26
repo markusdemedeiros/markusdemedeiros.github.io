@@ -145,7 +145,7 @@ This is far from a complete summary of the Iris development, but I feel that it 
 | `updates.v`             | Axioms+TC for BI with bupd, fupd. Laws, laws involving persistently.              |
 | `ascii.v`               | Notation.                                                                         |
 | `embedding.v`           | Axioms+TC for embedding one ``bi`` in another.                                    |
-| `bi.v`                  | Imports.                                                                                  |
+| `bi.v`                  | Imports.                                                                          |
 | `telescopes.v`          |                                                                                   |
 | `monopred.v`            |                                                                                   |
 
