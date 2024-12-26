@@ -52,7 +52,10 @@ This blog post will take the next step: starting the planning phase of this proj
 
 ## An Inventory of Iris
 
-There are ?? files in Iris, organized into ?? modules, and including approximately ?? lines of code. 
+There are 164 files in Iris, organized into 17 modules, and including approximately ?? lines of code. 
+
+(TODO: Link depgraph script)
+(TODO: Mark commit hash)
 
 (TODO: Insert dependency graph)
 
@@ -73,123 +76,419 @@ This is far from a complete summary of the Iris development, but I feel that it 
 
 (TODO: Insert dependency graph)
     
-| File    | Description |
-|---------|-------------|
-| `ofe.v` | |
-| `cofe_solver.v` | |
-| `monoid.v` | |
-| `cmra.v` | |
-| `excl.v` | |
-| `big_op.v` | |
-| `cmra_big_op.v` | |
-| `updates.v` | |
-| `local_updates.v` | |
-| `gset.v` | |
-| `gmultiset.v` | |
-| `coPset.v` | |
-| `csum.v` | |
-| `mra.v` | |
-| `list.v` | |
-| `functions.v` | |
-| `sts.v` | |
-| `proofmode_classes.v` | |
-| `numbers.v` | |
-| `frac.v` | |
-| `ufrac.v` | |
-| `dfrac.v` | |
-| `gmap.v` | |
-| `vector.v` | |
-| `agree.v` | |
-| `max_prefix_list.v` | |
-| `view.v` | |
-| `auth.v` | |
-| `reservation_map.v` | |
-| `dyn_reservation_map.v` | |
+| File                    | Description |
+|-------------------------|-------------|
+| `ofe.v`                 |             |
+| `cofe_solver.v`         |             |
+| `monoid.v`              |             |
+| `cmra.v`                |             |
+| `excl.v`                |             |
+| `big_op.v`              |             |
+| `cmra_big_op.v`         |             |
+| `updates.v`             |             |
+| `local_updates.v`       |             |
+| `gset.v`                |             |
+| `gmultiset.v`           |             |
+| `coPset.v`              |             |
+| `csum.v`                |             |
+| `mra.v`                 |             |
+| `list.v`                |             |
+| `functions.v`           |             |
+| `sts.v`                 |             |
+| `proofmode_classes.v`   |             |
+| `numbers.v`             |             |
+| `frac.v`                |             |
+| `ufrac.v`               |             |
+| `dfrac.v`               |             |
+| `gmap.v`                |             |
+| `vector.v`              |             |
+| `agree.v`               |             |
+| `max_prefix_list.v`     |             |
+| `view.v`                |             |
+| `auth.v`                |             |
+| `reservation_map.v`     |             |
+| `dyn_reservation_map.v` |             |
 
 
 ### ``iris/algebra/lib/``
 
 (TODO: Insert dependency graph)
     
-| File    | Description |
-|---------|-------------|
-| | |
+| File            | Description |
+|-----------------|-------------|
+| `frac_auth.v`   |             |
+| `mono_list.v`   |             |
+| `mono_nat.v`    |             |
+| `mono_Z.v`      |             |
+| `gmap_view.v`   |             |
+| `gset_bij.v`    |             |
+| `ufrac_auth.v`  |             |
+| `excl_auth.v`   |             |
+| `dfrac_agree.v` |             |
 
 ### ``iris/bi/``
 
 (TODO: Insert dependency graph)
     
-| File    | Description |
-|---------|-------------|
-| | |
+| File                    | Description |
+|-------------------------|-------------|
+| `notation.v`            |             |
+| `interface.v`           |             |
+| `derived_connectives.v` |             |
+| `weakestpre.v`          |             |
+| `extensions.v`          |             |
+| `derived_laws.v`        |             |
+| `derived_laws_later.v`  |             |
+| `big_op.v`              |             |
+| `internal_eq.v`         |             |
+| `plainly.v`             |             |
+| `updates.v`             |             |
+| `ascii.v`               |             |
+| `embedding.v`           |             |
+| `bi.v`                  |             |
+| `telescopes.v`          |             |
+| `monopred.v`            |             |
 
 ### ``iris/si_logic/``
 
 (TODO: Insert dependency graph)
     
-| File    | Description |
-|---------|-------------|
-| | |
+| File       | Description |
+|------------|-------------|
+| `siprop.v` |             |
+| `bi.v`     |             |
 
 ### ``iris/proofmode/``
 
 (TODO: Insert dependency graph)
     
-| File    | Description |
-|---------|-------------|
-| | |
+| File                            | Description |
+|---------------------------------|-------------|
+| `base.v`                        |             |
+| `tokens.v`                      |             |
+| `sel_patterns.v`                |             |
+| `spec_patterns.v`               |             |
+| `intro_patterns.v`              |             |
+| `enviornments.v`                |             |
+| `reduction.v`                   |             |
+| `modalities.v`                  |             |
+| `ident_name.v`                  |             |
+| `classes.v`                     |             |
+| `modality_instances.v`          |             |
+| `classes_make.v`                |             |
+| `coq_tactics.v`                 |             |
+| `notation.v`                    |             |
+| `string_ident.v`                |             |
+| `ltac_tactics.v`                |             |
+| `class_instances_internal_eq.v` |             |
+| `class_instances_plainly.v`     |             |
+| `class_instances_embedding.v`   |             |
+| `class_instances_later.v`       |             |
+| `class_instances_frame.v`       |             |
+| `class_instances_make.v`        |             |
+| `class_instances.v`             |             |
+| `class_instances_updates.v`     |             |
+| `proofmode.v`                   |             |
+| `monopred.v`                    |             |
+| `tactics.v`                     |             |
 
 ### ``iris/bi/lib``
 
 (TODO: Insert dependency graph)
     
-| File    | Description |
-|---------|-------------|
-| | |
+| File                | Description |
+|---------------------|-------------|
+| `counterexamples.v` |             |
+| `laterable.v`       |             |
+| `fixpoint.v`        |             |
+| `relations.v`       |             |
+| `atomic.v`          |             |
+| `cmra.v`            |             |
+| `fractional.v`      |             |
+| `core.v`            |             |
 
 ## ``iris/base_logic/``
 
 (TODO: Insert dependency graph)
     
-| File    | Description |
-|---------|-------------|
-| | |
+| File           | Description |
+|----------------|-------------|
+| `upred.v`      |             |
+| `bi.v`         |             |
+| `derived.v`    |             |
+| `algebra.v`    |             |
+| `proofmode.v`  |             |
+| `base_logic.v` |             |
+| `bupd_alt.v`   |             |
 
 ## ``iris/base_logic/lib/``
 
 (TODO: Insert dependency graph)
     
-| File    | Description |
-|---------|-------------|
-| | |
+| File                      | Description |
+|---------------------------|-------------|
+| `fancy_update_from_vs.v`  |             |
+| `iprop.v`                 |             |
+| `own.v`                   |             |
+| `token.v`                 |             |
+| `ghost_map.v`             |             |
+| `ghost_var.v`             |             |
+| `mono_nat.v`              |             |
+| `saved_prop.v`            |             |
+| `proph_map.v`             |             |
+| `gset_bij.v`              |             |
+| `wsat.v`                  |             |
+| `later_credits.v`         |             |
+| `fancy_updates.v`         |             |
+| `invariants.v`            |             |
+| `na_invariants.v`         |             |
+| `cancelable_invariants.v` |             |
+| `boxes.v`                 |             |
+| `gen_heap.v`              |             |
+| `gen_inv_heap.v`          |             |
 
 ## ``iris/program_logic/``
 
 (TODO: Insert dependency graph)
     
-| File    | Description |
-|---------|-------------|
-| | |
+| File                   | Description |
+|------------------------|-------------|
+| `language.v`           |             |
+| `weakestpre.v`         |             |
+| `total_weakestpre.v`   |             |
+| `adequacy.v`           |             |
+| `total_adequacy.v`     |             |
+| `atomic.v`             |             |
+| `lifting.v`            |             |
+| `extx_langauge.v`      |             |
+| `extxi_langauge.v`     |             |
+| `extx_lifting.v`       |             |
+| `ownp.v`               |             |
+| `total_lifting.v`      |             |
+| `total_extx_lifting.v` |             |
 
 ## ``iris/heap_lang/``
 
 (TODO: Insert dependency graph)
     
-| File    | Description |
-|---------|-------------|
-| | |
+| File                | Description |
+|---------------------|-------------|
+| `locations.v`       |             |
+| `lang.v`            |             |
+| `notation.v`        |             |
+| `pretty.v`          |             |
+| `metatheory.v`      |             |
+| `tactics.v`         |             |
+| `class_instances.v` |             |
+| `proph_erasure.v`   |             |
+| `primitive_laws.v`  |             |
+| `derived_laws.v`    |             |
+| `proofmode.v`       |             |
+| `adequacy.v`        |             |
+| `total_adequacy.v`  |             |
 
 ## ``iris/heap_lang/lib``
 
 (TODO: Insert dependency graph)
     
-| File    | Description |
-|---------|-------------|
-| | |
+| File                 | Description |
+|----------------------|-------------|
+| `counter.v`          |             |
+| `spawn.v`            |             |
+| `assert.v`           |             |
+| `array.v`            |             |
+| `arith.v`            |             |
+| `diverge.v`          |             |
+| `rw_lock.v`          |             |
+| `nondet_bool.v`      |             |
+| `par.v`              |             |
+| `atomic_heap.v`      |             |
+| `rw_spin_lock.v`     |             |
+| `lock.v`             |             |
+| `clairvoyant_coin.v` |             |
+| `lazy_coin.v`        |             |
+| `increment.v`        |             |
+| `logatom_lock.v`     |             |
+| `spin_lock.v`        |             |
+| `ticket_lock.v`      |             |
 
 
 
 
+## Statistics
+
+This section gathers some statistics about the individual files, which will help estimate the effort 
+
+
+| Module                 | File                            | Lines | Defs | Theorems |
+|------------------------|---------------------------------|-------|------|----------|
+| `iris/prelude/`        | `options.v`                     |       |      |          |
+| `iris/prelude/`        | `prelude.v`                     |       |      |          |
+| `iris/algebra/`        | `ofe.v`                         |       |      |          |
+| `iris/algebra/`        | `cofe_solver.v`                 |       |      |          |
+| `iris/algebra/`        | `monoid.v`                      |       |      |          |
+| `iris/algebra/`        | `cmra.v`                        |       |      |          |
+| `iris/algebra/`        | `excl.v`                        |       |      |          |
+| `iris/algebra/`        | `big_op.v`                      |       |      |          |
+| `iris/algebra/`        | `cmra_big_op.v`                 |       |      |          |
+| `iris/algebra/`        | `updates.v`                     |       |      |          |
+| `iris/algebra/`        | `local_updates.v`               |       |      |          |
+| `iris/algebra/`        | `gset.v`                        |       |      |          |
+| `iris/algebra/`        | `gmultiset.v`                   |       |      |          |
+| `iris/algebra/`        | `coPset.v`                      |       |      |          |
+| `iris/algebra/`        | `csum.v`                        |       |      |          |
+| `iris/algebra/`        | `mra.v`                         |       |      |          |
+| `iris/algebra/`        | `list.v`                        |       |      |          |
+| `iris/algebra/`        | `functions.v`                   |       |      |          |
+| `iris/algebra/`        | `sts.v`                         |       |      |          |
+| `iris/algebra/`        | `proofmode_classes.v`           |       |      |          |
+| `iris/algebra/`        | `numbers.v`                     |       |      |          |
+| `iris/algebra/`        | `frac.v`                        |       |      |          |
+| `iris/algebra/`        | `ufrac.v`                       |       |      |          |
+| `iris/algebra/`        | `dfrac.v`                       |       |      |          |
+| `iris/algebra/`        | `gmap.v`                        |       |      |          |
+| `iris/algebra/`        | `vector.v`                      |       |      |          |
+| `iris/algebra/`        | `agree.v`                       |       |      |          |
+| `iris/algebra/`        | `max_prefix_list.v`             |       |      |          |
+| `iris/algebra/`        | `view.v`                        |       |      |          |
+| `iris/algebra/`        | `auth.v`                        |       |      |          |
+| `iris/algebra/`        | `reservation_map.v`             |       |      |          |
+| `iris/algebra/`        | `dyn_reservation_map.v`         |       |      |          |
+| `iris/algebra/lib/`    | `frac_auth.v`                   |       |      |          |
+| `iris/algebra/lib/`    | `mono_list.v`                   |       |      |          |
+| `iris/algebra/lib/`    | `mono_nat.v`                    |       |      |          |
+| `iris/algebra/lib/`    | `mono_Z.v`                      |       |      |          |
+| `iris/algebra/lib/`    | `gmap_view.v`                   |       |      |          |
+| `iris/algebra/lib/`    | `gset_bij.v`                    |       |      |          |
+| `iris/algebra/lib/`    | `ufrac_auth.v`                  |       |      |          |
+| `iris/algebra/lib/`    | `excl_auth.v`                   |       |      |          |
+| `iris/algebra/lib/`    | `dfrac_agree.v`                 |       |      |          |
+| `iris/bi/`             | `notation.v`                    |       |      |          |
+| `iris/bi/`             | `interface.v`                   |       |      |          |
+| `iris/bi/`             | `derived_connectives.v`         |       |      |          |
+| `iris/bi/`             | `weakestpre.v`                  |       |      |          |
+| `iris/bi/`             | `extensions.v`                  |       |      |          |
+| `iris/bi/`             | `derived_laws.v`                |       |      |          |
+| `iris/bi/`             | `derived_laws_later.v`          |       |      |          |
+| `iris/bi/`             | `big_op.v`                      |       |      |          |
+| `iris/bi/`             | `internal_eq.v`                 |       |      |          |
+| `iris/bi/`             | `plainly.v`                     |       |      |          |
+| `iris/bi/`             | `updates.v`                     |       |      |          |
+| `iris/bi/`             | `ascii.v`                       |       |      |          |
+| `iris/bi/`             | `embedding.v`                   |       |      |          |
+| `iris/bi/`             | `bi.v`                          |       |      |          |
+| `iris/bi/`             | `telescopes.v`                  |       |      |          |
+| `iris/bi/`             | `monopred.v`                    |       |      |          |
+| `iris/si_logic/`       | `siprop.v`                      |       |      |          |
+| `iris/si_logic/`       | `bi.v`                          |       |      |          |
+| `iris/proofmode/`      | `base.v`                        |       |      |          |
+| `iris/proofmode/`      | `tokens.v`                      |       |      |          |
+| `iris/proofmode/`      | `sel_patterns.v`                |       |      |          |
+| `iris/proofmode/`      | `spec_patterns.v`               |       |      |          |
+| `iris/proofmode/`      | `intro_patterns.v`              |       |      |          |
+| `iris/proofmode/`      | `enviornments.v`                |       |      |          |
+| `iris/proofmode/`      | `reduction.v`                   |       |      |          |
+| `iris/proofmode/`      | `modalities.v`                  |       |      |          |
+| `iris/proofmode/`      | `ident_name.v`                  |       |      |          |
+| `iris/proofmode/`      | `classes.v`                     |       |      |          |
+| `iris/proofmode/`      | `modality_instances.v`          |       |      |          |
+| `iris/proofmode/`      | `classes_make.v`                |       |      |          |
+| `iris/proofmode/`      | `coq_tactics.v`                 |       |      |          |
+| `iris/proofmode/`      | `notation.v`                    |       |      |          |
+| `iris/proofmode/`      | `string_ident.v`                |       |      |          |
+| `iris/proofmode/`      | `ltac_tactics.v`                |       |      |          |
+| `iris/proofmode/`      | `class_instances_internal_eq.v` |       |      |          |
+| `iris/proofmode/`      | `class_instances_plainly.v`     |       |      |          |
+| `iris/proofmode/`      | `class_instances_embedding.v`   |       |      |          |
+| `iris/proofmode/`      | `class_instances_later.v`       |       |      |          |
+| `iris/proofmode/`      | `class_instances_frame.v`       |       |      |          |
+| `iris/proofmode/`      | `class_instances_make.v`        |       |      |          |
+| `iris/proofmode/`      | `class_instances.v`             |       |      |          |
+| `iris/proofmode/`      | `class_instances_updates.v`     |       |      |          |
+| `iris/proofmode/`      | `proofmode.v`                   |       |      |          |
+| `iris/proofmode/`      | `monopred.v`                    |       |      |          |
+| `iris/proofmode/`      | `tactics.v`                     |       |      |          |
+| `iris/bi/lib/`         | `counterexamples.v`             |       |      |          |
+| `iris/bi/lib/`         | `laterable.v`                   |       |      |          |
+| `iris/bi/lib/`         | `fixpoint.v`                    |       |      |          |
+| `iris/bi/lib/`         | `relations.v`                   |       |      |          |
+| `iris/bi/lib/`         | `atomic.v`                      |       |      |          |
+| `iris/bi/lib/`         | `cmra.v`                        |       |      |          |
+| `iris/bi/lib/`         | `fractional.v`                  |       |      |          |
+| `iris/bi/lib/`         | `core.v`                        |       |      |          |
+| `iris/base_logic/`     | `upred.v`                       |       |      |          |
+| `iris/base_logic/`     | `bi.v`                          |       |      |          |
+| `iris/base_logic/`     | `derived.v`                     |       |      |          |
+| `iris/base_logic/`     | `algebra.v`                     |       |      |          |
+| `iris/base_logic/`     | `proofmode.v`                   |       |      |          |
+| `iris/base_logic/`     | `base_logic.v`                  |       |      |          |
+| `iris/base_logic/`     | `bupd_alt.v`                    |       |      |          |
+| `iris/base_logic/lib/` | `fancy_update_from_vs.v`        |       |      |          |
+| `iris/base_logic/lib/` | `iprop.v`                       |       |      |          |
+| `iris/base_logic/lib/` | `own.v`                         |       |      |          |
+| `iris/base_logic/lib/` | `token.v`                       |       |      |          |
+| `iris/base_logic/lib/` | `ghost_map.v`                   |       |      |          |
+| `iris/base_logic/lib/` | `ghost_var.v`                   |       |      |          |
+| `iris/base_logic/lib/` | `mono_nat.v`                    |       |      |          |
+| `iris/base_logic/lib/` | `saved_prop.v`                  |       |      |          |
+| `iris/base_logic/lib/` | `proph_map.v`                   |       |      |          |
+| `iris/base_logic/lib/` | `gset_bij.v`                    |       |      |          |
+| `iris/base_logic/lib/` | `wsat.v`                        |       |      |          |
+| `iris/base_logic/lib/` | `later_credits.v`               |       |      |          |
+| `iris/base_logic/lib/` | `fancy_updates.v`               |       |      |          |
+| `iris/base_logic/lib/` | `invariants.v`                  |       |      |          |
+| `iris/base_logic/lib/` | `na_invariants.v`               |       |      |          |
+| `iris/base_logic/lib/` | `cancelable_invariants.v`       |       |      |          |
+| `iris/base_logic/lib/` | `boxes.v`                       |       |      |          |
+| `iris/base_logic/lib/` | `gen_heap.v`                    |       |      |          |
+| `iris/base_logic/lib/` | `gen_inv_heap.v`                |       |      |          |
+| `iris/program_logic/`  | `language.v`                    |       |      |          |
+| `iris/program_logic/`  | `weakestpre.v`                  |       |      |          |
+| `iris/program_logic/`  | `total_weakestpre.v`            |       |      |          |
+| `iris/program_logic/`  | `adequacy.v`                    |       |      |          |
+| `iris/program_logic/`  | `total_adequacy.v`              |       |      |          |
+| `iris/program_logic/`  | `atomic.v`                      |       |      |          |
+| `iris/program_logic/`  | `lifting.v`                     |       |      |          |
+| `iris/program_logic/`  | `extx_langauge.v`               |       |      |          |
+| `iris/program_logic/`  | `extxi_langauge.v`              |       |      |          |
+| `iris/program_logic/`  | `extx_lifting.v`                |       |      |          |
+| `iris/program_logic/`  | `ownp.v`                        |       |      |          |
+| `iris/program_logic/`  | `total_lifting.v`               |       |      |          |
+| `iris/program_logic/`  | `total_extx_lifting.v`          |       |      |          |
+| `iris/heap_lang/`      | `locations.v`                   |       |      |          |
+| `iris/heap_lang/`      | `lang.v`                        |       |      |          |
+| `iris/heap_lang/`      | `notation.v`                    |       |      |          |
+| `iris/heap_lang/`      | `pretty.v`                      |       |      |          |
+| `iris/heap_lang/`      | `metatheory.v`                  |       |      |          |
+| `iris/heap_lang/`      | `tactics.v`                     |       |      |          |
+| `iris/heap_lang/`      | `class_instances.v`             |       |      |          |
+| `iris/heap_lang/`      | `proph_erasure.v`               |       |      |          |
+| `iris/heap_lang/`      | `primitive_laws.v`              |       |      |          |
+| `iris/heap_lang/`      | `derived_laws.v`                |       |      |          |
+| `iris/heap_lang/`      | `proofmode.v`                   |       |      |          |
+| `iris/heap_lang/`      | `adequacy.v`                    |       |      |          |
+| `iris/heap_lang/`      | `total_adequacy.v`              |       |      |          |
+| `iris/heap_lang/lib/`  | `counter.v`                     |       |      |          |
+| `iris/heap_lang/lib/`  | `spawn.v`                       |       |      |          |
+| `iris/heap_lang/lib/`  | `assert.v`                      |       |      |          |
+| `iris/heap_lang/lib/`  | `array.v`                       |       |      |          |
+| `iris/heap_lang/lib/`  | `arith.v`                       |       |      |          |
+| `iris/heap_lang/lib/`  | `diverge.v`                     |       |      |          |
+| `iris/heap_lang/lib/`  | `rw_lock.v`                     |       |      |          |
+| `iris/heap_lang/lib/`  | `nondet_bool.v`                 |       |      |          |
+| `iris/heap_lang/lib/`  | `par.v`                         |       |      |          |
+| `iris/heap_lang/lib/`  | `atomic_heap.v`                 |       |      |          |
+| `iris/heap_lang/lib/`  | `rw_spin_lock.v`                |       |      |          |
+| `iris/heap_lang/lib/`  | `lock.v`                        |       |      |          |
+| `iris/heap_lang/lib/`  | `clairvoyant_coin.v`            |       |      |          |
+| `iris/heap_lang/lib/`  | `lazy_coin.v`                   |       |      |          |
+| `iris/heap_lang/lib/`  | `increment.v`                   |       |      |          |
+| `iris/heap_lang/lib/`  | `logatom_lock.v`                |       |      |          |
+| `iris/heap_lang/lib/`  | `spin_lock.v`                   |       |      |          |
+| `iris/heap_lang/lib/`  | `ticket_lock.v`                 |       |      |          |
+
+# What's next?
 - Unstable?
-- SI logic is independent, could be good first milestone?
+- SI logic: possible milestone
 - excl: possible milestone
+- weakestpre: possible milestone
