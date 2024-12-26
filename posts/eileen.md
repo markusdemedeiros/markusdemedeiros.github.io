@@ -213,46 +213,6 @@ This is far from a complete summary of the Iris development, but I feel that it 
 | `gen_heap.v`              | GFunctor for physical heap.                                                                                                       |
 | `gen_inv_heap.v`          | GFunctor for heap of invariants (persistent).                                                                                     |
 
-### ``iris/program_logic/``
-
-(TODO: Insert dependency graph)
-    
-| File                   | Description |
-|------------------------|-------------|
-| `language.v`           |             |
-| `weakestpre.v`         |             |
-| `total_weakestpre.v`   |             |
-| `adequacy.v`           |             |
-| `total_adequacy.v`     |             |
-| `atomic.v`             |             |
-| `lifting.v`            |             |
-| `extx_langauge.v`      |             |
-| `extxi_langauge.v`     |             |
-| `extx_lifting.v`       |             |
-| `ownp.v`               |             |
-| `total_lifting.v`      |             |
-| `total_extx_lifting.v` |             |
-
-### ``iris/heap_lang/``
-
-(TODO: Insert dependency graph)
-    
-| File                | Description |
-|---------------------|-------------|
-| `locations.v`       |             |
-| `lang.v`            |             |
-| `notation.v`        |             |
-| `pretty.v`          |             |
-| `metatheory.v`      |             |
-| `tactics.v`         |             |
-| `class_instances.v` |             |
-| `proph_erasure.v`   |             |
-| `primitive_laws.v`  |             |
-| `derived_laws.v`    |             |
-| `proofmode.v`       |             |
-| `adequacy.v`        |             |
-| `total_adequacy.v`  |             |
-
 
 # What's next?
 - Unstable?
