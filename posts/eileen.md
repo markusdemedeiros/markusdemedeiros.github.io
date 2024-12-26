@@ -105,7 +105,7 @@ This is far from a complete summary of the Iris development, but I feel that it 
 | `agree.v`               | Agreement OFE: Lists are n-equiv when each element has an n-equiv counterpart.                                                    |
 | `max_prefix_list.v`     | Partial OFE on lists, where `X ⋅ X ++ Y = X ++ Y`.                                                                                |
 | `view.v`                |                                                                                                                                   |
-| `auth.v`                |                                                                                                                                   |
+| `auth.v`                | Auth CMRA.                                                                                                                        |
 | `reservation_map.v`     | CMRA for partial functions + permission to add entries.                                                                           |
 | `dyn_reservation_map.v` | CMRA for partial functions + permission to add an unbounded number of fresh entries.                                              |
 
@@ -182,36 +182,36 @@ This is far from a complete summary of the Iris development, but I feel that it 
 | `upred.v`      | uPred for general UCMRA, COFE + BI defs. Nonexpansive and proof rules. Soundness for later, pure, internal eq. |
 | `bi.v`         | BI TC instances for upred.                                                                                     |
 | `derived.v`    | Derived laws, TC instances for valid. Soundness for bupd, modalities.                                          |
-| `algebra.v`    |                                                                                                                |
+| `algebra.v`    | *Internalizes properties of CMRA.*                                                                             |
 | `proofmode.v`  | Pure and splitting TC instances for uPred.                                                                     |
 | `base_logic.v` | Exports.                                                                                                       |
-| `bupd_alt.v`   |                                                                                                                |
+| `bupd_alt.v`   | *Alternate bupd definition.*                                                                                   |
 
 ### ``iris/base_logic/lib/``
 
 (TODO: Insert dependency graph)
     
-| File                      | Description                                                                                                     |
-|---------------------------|-----------------------------------------------------------------------------------------------------------------|
-| `fancy_update_from_vs.v`  | Fancy updates as view shift.                                                                                    |
-| `iprop.v`                 | iProp: solution to uPred recurrence. TC for GFunctors: lists of locally contractive rFunctors. iPropO: the OFE. |
-| `own.v`                   |                                                                                                                 |
-| `token.v`                 |                                                                                                                 |
-| `ghost_map.v`             |                                                                                                                 |
-| `ghost_var.v`             |                                                                                                                 |
-| `mono_nat.v`              |                                                                                                                 |
-| `saved_prop.v`            |                                                                                                                 |
-| `proph_map.v`             |                                                                                                                 |
-| `gset_bij.v`              |                                                                                                                 |
-| `wsat.v`                  |                                                                                                                 |
-| `later_credits.v`         |                                                                                                                 |
-| `fancy_updates.v`         |                                                                                                                 |
-| `invariants.v`            |                                                                                                                 |
-| `na_invariants.v`         |                                                                                                                 |
-| `cancelable_invariants.v` |                                                                                                                 |
-| `boxes.v`                 |                                                                                                                 |
-| `gen_heap.v`              |                                                                                                                 |
-| `gen_inv_heap.v`          |                                                                                                                 |
+| File                      | Description                                                                                                                       |
+|---------------------------|-----------------------------------------------------------------------------------------------------------------------------------|
+| `fancy_update_from_vs.v`  | Fancy updates as view shift.                                                                                                      |
+| `iprop.v`                 | iProp: solution to uPred recurrence. TC for GFunctors: lists of locally contractive rFunctors, for the solution. iPropO: the OFE. |
+| `own.v`                   | TC for CMRA being in GFunctors. Definition of ghost ownership. Updates, allocation.                                               |
+| `token.v`                 | GFunctor for unique ownership of symbol.                                                                                          |
+| `ghost_map.v`             | GFunctor for ghost heap.                                                                                                          |
+| `ghost_var.v`             | GFunctor for ghost mutable variable.                                                                                              |
+| `mono_nat.v`              | GFunctor for auth/frag of mono nat/lower bound.                                                                                   |
+| `saved_prop.v`            |                                                                                                                                   |
+| `proph_map.v`             |                                                                                                                                   |
+| `gset_bij.v`              |                                                                                                                                   |
+| `wsat.v`                  | *Related to world satisfaction style modalities.*                                                                                 |
+| `later_credits.v`         | GFunctor for later credits. Later update modality.                                                                                |
+| `fancy_updates.v`         | GFunctor for fupd. Laws & soundness (dependent on later credits). GFunctor for enabling invariants.                               |
+| `invariants.v`            | Internal construction of invariants.                                                                                              |
+| `na_invariants.v`         | GFunctor for non-atomic invariants.                                                                                               |
+| `cancelable_invariants.v` | GFunctor for cancelable invariants.                                                                                               |
+| `boxes.v`                 |                                                                                                                                   |
+| `gen_heap.v`              | GFunctor for physical heap.                                                                                                       |
+| `gen_inv_heap.v`          | GFunctor for heap of invariants (persistent).                                                                                     |
 
 ### ``iris/program_logic/``
 
