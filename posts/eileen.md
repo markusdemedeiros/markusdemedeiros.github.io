@@ -130,33 +130,33 @@ This is far from a complete summary of the Iris development, but I feel that it 
 
 (TODO: Insert dependency graph)
     
-| File                    | Description                                                                       |
-|-------------------------|-----------------------------------------------------------------------------------|
-| `notation.v`            | Reserved notations.                                                               |
-| `interface.v`           | Axioms of BI/+Persistency/+Later. ``bi`` structure bundles syntax + axioms. Laws. |
-| `derived_connectives.v` | Defines affinely, absorbingly, intuitionistically, except 0, timeless, later n.   |
-| `weakestpre.v`          | Class and notations for WP, TWP.                                                  |
-| `extensions.v`          | Axioms+TC for additional rules to ``bi``.                                         |
-| `derived_laws.v`        | Derived ``bi`` laws.                                                              |
-| `derived_laws_later.v`  | Derived ``bi`` laws about step indexing. Löb and variants. Other modal laws.      |
-| `big_op.v`              | Big sep, and, or, over finite types.                                              |
-| `internal_eq.v`         | Axioms+TC for BI with internal equality that respects step indexing.              |
-| `plainly.v`             | Axioms+TC for BI with plainly modality. Laws.                                     |
-| `updates.v`             | Axioms+TC for BI with bupd, fupd. Laws, laws involving persistently.              |
-| `ascii.v`               | Notation.                                                                         |
-| `embedding.v`           | Axioms+TC for embedding one ``bi`` in another.                                    |
-| `bi.v`                  | Imports.                                                                          |
-| `telescopes.v`          |                                                                                   |
-| `monopred.v`            |                                                                                   |
+| File                    | Description                                                                     |
+|-------------------------|---------------------------------------------------------------------------------|
+| `notation.v`            | Reserved notations.                                                             |
+| `interface.v`           | Axioms of BI/+Persistency/+Later. ``bi`` structure bundles syntax + axioms.     |
+| `derived_connectives.v` | Defines affinely, absorbingly, intuitionistically, except 0, timeless, later n. |
+| `weakestpre.v`          | Class and notations for WP, TWP.                                                |
+| `extensions.v`          | Axioms+TC for additional rules to ``bi``.                                       |
+| `derived_laws.v`        | Derived ``bi`` laws.                                                            |
+| `derived_laws_later.v`  | Derived ``bi`` laws about step indexing. Löb and variants. Other modal laws.    |
+| `big_op.v`              | Big sep, and, or, over finite types.                                            |
+| `internal_eq.v`         | Axioms+TC for BI with internal equality that respects step indexing.            |
+| `plainly.v`             | Axioms+TC for BI with plainly modality. Laws.                                   |
+| `updates.v`             | Axioms+TC for BI with bupd, fupd. Laws, laws involving persistently.            |
+| `ascii.v`               | Notation.                                                                       |
+| `embedding.v`           | Axioms+TC for embedding one ``bi`` in another.                                  |
+| `bi.v`                  | Imports.                                                                        |
+| `telescopes.v`          |                                                                                 |
+| `monopred.v`            |                                                                                 |
 
 ### ``iris/si_logic/``
 
 (TODO: Insert dependency graph)
     
-| File       | Description |
-|------------|-------------|
-| `siprop.v` |             |
-| `bi.v`     |             |
+| File       | Description                                                                       |
+|------------|-----------------------------------------------------------------------------------|
+| `siprop.v` | Pure, Nat-indexed Prop, COFE and BI defs. Soundness for pure, internal eq, later. |
+| `bi.v`     | BI TC instances for siProp.                                                       |
 
 ### ``iris/proofmode/``
 
@@ -196,16 +196,16 @@ This is far from a complete summary of the Iris development, but I feel that it 
 
 (TODO: Insert dependency graph)
     
-| File                | Description |
-|---------------------|-------------|
-| `counterexamples.v` |             |
-| `laterable.v`       |             |
-| `fixpoint.v`        |             |
-| `relations.v`       |             |
-| `atomic.v`          |             |
-| `cmra.v`            |             |
-| `fractional.v`      |             |
-| `core.v`            |             |
+| File                | Description                                                       |
+|---------------------|-------------------------------------------------------------------|
+| `counterexamples.v` | Paradoxes.                                                        |
+| `laterable.v`       |                                                                   |
+| `fixpoint.v`        | Derived lfp and gfp of a monotone function, induction principles. |
+| `relations.v`       | Closure, iterate of relations. Internal, with internal eq.        |
+| `atomic.v`          |                                                                   |
+| `cmra.v`            | Internalize included, given internal equality.                    |
+| `fractional.v`      |                                                                   |
+| `core.v`            | TC for core of a prop. Internal.                                  |
 
 ## ``iris/base_logic/``
 
