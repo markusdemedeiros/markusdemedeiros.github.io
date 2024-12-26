@@ -5,36 +5,37 @@ content: 'Lean'
 ...
 
 Iris is a world-class framework for developing verified program logics. 
+It has seen wide adoption in a number of fields and boasts an impressive list of publications. 
 
+Lean is a interactive theorem prover which has seen widespread popularity, primarily amongst mathematicians. 
 
-(TODO: More about Iris)
+Iris is written in Rocq, 
 
-
-(TODO: More about Lean)
-
-
-Why do we want Iris in Lean? 
-
-- **Enhanced metaprogramming**. 
-
-- **Performance**.
+- **Enhanced metaprogramming**. Lean is implemented in Lean itself, and anecdotally, the metaprogramming experience in Lean is far superior to Roqc. Rather than using bespoke langauges such as LTac, a Lean metaprogrammer can use the full extent of the Lean functional programming language to write tactics, commands, 
 
 - **Hindsight**. Iris is the best in its class, but it is also the first in its class. A reimplementation (in any language) gives us the opportunity to re-evaluate the features which are useful from Iris in Lean, and open up areas where we think Iris can grow. 
 
-Why do *I* want to write Iris in Lean?
+While attractive, these advantages have not inspired a sustained attempt to formalize a logic such as Iris in Lean. 
+A reimplementation is a massive undertaking 
+Unfortunately, over the past few months I have come to realize that *I* might be just the right person to convince himself that it's worth it:
 
-- As a Lean user, I want to understand the mechanization techniques that makes large verification projects possible. 
+- As an Iris user, I want to deeply understand the components of Iris (aspirationally) to the degree that I could reimplement them.
 
-- As an Iris user, I want to deeply understand the components of Iris. 
+- As a Lean user, I want to understand the mechanization techniques that makes large, collaborative verification projects feasible and sustainable. 
 
-- As a researcher into probabilistic verification, I want to write program logics that can make use of the extensive probability theory development in Mathlib. 
+- As a researcher into probabilistic verification I want to give myself the right tools for developing program logics based around classical mathematical techniques.
+For example, I want to make use of verified probability theory, which is extensively developed in Mathlib. 
+
 
 This project, dubbed *Eileen* (a ?? of iLean), is my attempt to realize this vision. 
 
 
 ## The Road to Iris in Lean 
 
-Since this project is larger than anything I've tried before, a realistic plan to reimplement Iris in Lean must have off-ramps at several points in the project where failure does not mean I've wasted my time (unlike a rote translation effort, for example).
+Since this project is larger than anything I've tried before, I've decided that a realistic commitment to this project involves coming up with "off ramps" 
+
+
+a realistic plan to reimplement Iris in Lean must have off-ramps at several points in the project where failure does not mean I've wasted my time (unlike a rote translation effort, for example).
 
 ### Preparation
 - Prior Art
