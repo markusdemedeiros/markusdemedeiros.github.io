@@ -191,27 +191,27 @@ This is far from a complete summary of the Iris development, but I feel that it 
 
 (TODO: Insert dependency graph)
     
-| File                      | Description |
-|---------------------------|-------------|
-| `fancy_update_from_vs.v`  |             |
-| `iprop.v`                 |             |
-| `own.v`                   |             |
-| `token.v`                 |             |
-| `ghost_map.v`             |             |
-| `ghost_var.v`             |             |
-| `mono_nat.v`              |             |
-| `saved_prop.v`            |             |
-| `proph_map.v`             |             |
-| `gset_bij.v`              |             |
-| `wsat.v`                  |             |
-| `later_credits.v`         |             |
-| `fancy_updates.v`         |             |
-| `invariants.v`            |             |
-| `na_invariants.v`         |             |
-| `cancelable_invariants.v` |             |
-| `boxes.v`                 |             |
-| `gen_heap.v`              |             |
-| `gen_inv_heap.v`          |             |
+| File                      | Description                                                                                                     |
+|---------------------------|-----------------------------------------------------------------------------------------------------------------|
+| `fancy_update_from_vs.v`  | Fancy updates as view shift.                                                                                    |
+| `iprop.v`                 | iProp: solution to uPred recurrence. TC for GFunctors: lists of locally contractive rFunctors. iPropO: the OFE. |
+| `own.v`                   |                                                                                                                 |
+| `token.v`                 |                                                                                                                 |
+| `ghost_map.v`             |                                                                                                                 |
+| `ghost_var.v`             |                                                                                                                 |
+| `mono_nat.v`              |                                                                                                                 |
+| `saved_prop.v`            |                                                                                                                 |
+| `proph_map.v`             |                                                                                                                 |
+| `gset_bij.v`              |                                                                                                                 |
+| `wsat.v`                  |                                                                                                                 |
+| `later_credits.v`         |                                                                                                                 |
+| `fancy_updates.v`         |                                                                                                                 |
+| `invariants.v`            |                                                                                                                 |
+| `na_invariants.v`         |                                                                                                                 |
+| `cancelable_invariants.v` |                                                                                                                 |
+| `boxes.v`                 |                                                                                                                 |
+| `gen_heap.v`              |                                                                                                                 |
+| `gen_inv_heap.v`          |                                                                                                                 |
 
 ### ``iris/program_logic/``
 
