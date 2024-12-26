@@ -130,24 +130,24 @@ This is far from a complete summary of the Iris development, but I feel that it 
 
 (TODO: Insert dependency graph)
     
-| File                    | Description |
-|-------------------------|-------------|
-| `notation.v`            |             |
-| `interface.v`           |             |
-| `derived_connectives.v` |             |
-| `weakestpre.v`          |             |
-| `extensions.v`          |             |
-| `derived_laws.v`        |             |
-| `derived_laws_later.v`  |             |
-| `big_op.v`              |             |
-| `internal_eq.v`         |             |
-| `plainly.v`             |             |
-| `updates.v`             |             |
-| `ascii.v`               |             |
-| `embedding.v`           |             |
-| `bi.v`                  |             |
-| `telescopes.v`          |             |
-| `monopred.v`            |             |
+| File                    | Description                                                                       |
+|-------------------------|-----------------------------------------------------------------------------------|
+| `notation.v`            | Reserved notations.                                                               |
+| `interface.v`           | Axioms of BI/+Persistency/+Later. ``bi`` structure bundles syntax + axioms. Laws. |
+| `derived_connectives.v` | Defines affinely, absorbingly, intuitionistically, except 0, timeless, later n.   |
+| `weakestpre.v`          | Class and notations for WP, TWP.                                                  |
+| `extensions.v`          | Axioms+TC for additional rules to ``bi``.                                         |
+| `derived_laws.v`        | Derived ``bi`` laws.                                                              |
+| `derived_laws_later.v`  | Derived ``bi`` laws about step indexing. Löb and variants. Other modal laws.      |
+| `big_op.v`              | Big sep, and, or, over finite types.                                              |
+| `internal_eq.v`         | Axioms+TC for BI with internal equality that respects step indexing.              |
+| `plainly.v`             | Axioms+TC for BI with plainly modality. Laws.                                     |
+| `updates.v`             | Axioms+TC for BI with bupd, fupd. Laws, laws involving persistently.              |
+| `ascii.v`               | Notation.                                                                         |
+| `embedding.v`           | Axioms+TC for embedding one ``bi`` in another.                                    |
+| `bi.v`                  | Imports.                                                                                  |
+| `telescopes.v`          |                                                                                   |
+| `monopred.v`            |                                                                                   |
 
 ### ``iris/si_logic/``
 
