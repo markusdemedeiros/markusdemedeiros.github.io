@@ -1,0 +1,184 @@
+<body bgcolor=#808080><font face=courier>
+<center><canvas id=canvas1 width=900 height=700></canvas>
+<script src=lib.js></script>
+<script>
+
+trackMouse(canvas1);
+
+let myCube     = Cube();
+let myCylinder = Cylinder(20);
+let mySphere   = Sphere(20);
+
+// FIXME: make the background black or dark 
+// FIXME: make the bottom black
+addMaterial(0, `color = mix(color, vec3(.5), min(.95,.007 * dot(vTpos, vTpos)));`);
+
+startGL(canvas1);
+
+let origin = [0,0,1];
+let camera = [0,-1,0];
+
+let sc = 0.05;
+
+let creation = Date.now() / 1000;
+let col = [0.95, 0.95, 0.95];
+let tick = 0;
+let next = creation + 1;
+
+// Forward, reverse, left, and right components of motion
+// Since motion will increment non-linearly with time, an object can have 
+// increasing motion in two directions 
+let mot_fwd=0, mot_rev=0, mot_lft=0, mot_rgt=0, mot_rcw=0, mot_rcc=0;
+
+// Here just for testing
+let theta = 0;
+let phi   = 1;
+let psi   = 0;
+
+let keypress = (e) => {
+		 if (e.key == 'w')          { mot_fwd = 1; }
+	else if (e.key == 'a')          { mot_lft = 1; }
+	else if (e.key == 's')          { mot_rev = 1; }
+	else if (e.key == 'd')          { mot_rgt = 1; }
+	else if (e.key == 'e')          { psi += 1; }
+	else if (e.key == 'q')          { psi -= 1; }
+	else if (e.key == 'ArrowRight') { mot_rcw = 1; theta -= Math.PI / 8;}
+	else if (e.key == 'ArrowLeft')  { mot_rcc = 1; theta += Math.PI / 8;  }
+	else if (e.key == 'ArrowDown')  { phi /= 2;  }
+	else if (e.key == 'ArrowUp')  	{ phi *= 2;  }
+}
+
+let keyrelease = (e) => {
+		 if (e.key == 'w')          { mot_fwd = 0; }
+	else if (e.key == 'a')          { mot_lft = 0; }
+	else if (e.key == 's')          { mot_rev = 0; }
+	else if (e.key == 'd')          { mot_rgt = 0; }
+	else if (e.key == 'ArrowRight') { mot_rcw = 0; }
+	else if (e.key == 'ArrowLeft')  { mot_rcc = 0; }
+}
+
+let vel_fwd = 0, vel_rev = 0, vel_lft = 0, vel_rgt = 0;
+
+let MAX_AXIS_VEL = 0.02;
+let ACCELERATION = 0.02;
+
+let vel_x = 0, vel_y = 0;
+
+let update_velocity = () => {
+	vel_fwd = mix(vel_fwd, MAX_AXIS_VEL * mot_fwd, ACCELERATION);
+	vel_rev = mix(vel_rev, MAX_AXIS_VEL * mot_rev, ACCELERATION);
+	vel_lft = mix(vel_lft, MAX_AXIS_VEL * mot_lft, ACCELERATION);
+	vel_rgt = mix(vel_rgt, MAX_AXIS_VEL * mot_rgt, ACCELERATION);
+	vel_x = vel_lft - vel_rgt;
+	vel_y = vel_fwd - vel_rev;
+}
+
+document.body.addEventListener('keydown', keypress); 
+document.body.addEventListener('keyup', keyrelease);
+
+
+// Grid settings
+let G_N = 45;
+let G_L = 10;
+
+
+let TN_seed = mktrignoise(15);
+
+// A function from [-L,L]^2 to R
+// let G_F = (x, y) => -0.8 + 0.1*Math.sin(10*x) + 0.1*(y-G_L)*(y-G_L);
+let G_F = (x, z) => trignoise(x, z, TN_seed);
+// let G_F = (x, z) => 0;
+let G = G_sample(G_N, G_L, G_F);
+let fl = 0;
+
+let GMesh = GSurf(G, G_N, G_L);
+
+
+let renderLimb = (F, s) => {
+   for (let i = 0; i < F.getN(); i++) {
+    M.S().scale(sc).move(F.getPoint(i)).scale(s).draw(mySphere,col,1).R();
+   }
+   for (let i = 0; i < F.getN() - 1; i++) {
+     let L = F.getPoint(i);
+     let R = F.getPoint(i+1);
+    M.S().scale(sc)
+         .move(mix(L, R, .5))
+          .aim(subtract(R, L))
+         .scale(s,s,F.getLength(i)/2.0)
+         .draw(myCylinder,col,1.0).R();
+   }
+   M.S().scale(sc).move(F.getTarget()).scale(1.2).draw(mySphere,[1,0,0], 0.5).R();
+}
+
+let renderSpider = (S) => {
+    let R = S.getR();
+    let r = S.getr();
+    for (let i = 0; i < S.getN(); i++) {
+        M.S().move(S.getFoot(i)).scale(r).draw(mySphere, [1,0,0], 0.5).R();
+        M.S().move(S.getFootTarget(i)).scale(r * 1.25).draw(mySphere, [0,1,0], 0.5).R();
+        M.S().move(add(S.getCOM(), S.getShoulder(i))).scale(r).draw(mySphere, [1,0,0], 1).R();
+    }
+    M.S().move(S.getCOM()).scale(R).draw(mySphere, [0,0,0], 0.25).R();
+}
+
+// Camera settings
+let body_offset = [0, 0.22, 1];
+
+function drawFrame() {
+   requestAnimationFrame(drawFrame);
+   let time = Date.now() / 1000;
+
+   if (time > next) {
+   	 next += 1.5;
+	 tick += 1;
+   }
+
+
+   drawScene(() => {
+      material = 1;
+	  // Get the position to point the camera at
+	  let Px = -camera[0]; // 0.6 * Math.cos(time / 2);;
+	  let Pz = -camera[2]; // 0.6 * Math.cos(time / 2);;
+	  let P  = Gint(G, G_N, G_L, Px, Pz)
+
+	  // Set up the camera 
+	  VM.identity()
+	    .perspective(5)
+		.turnX(Math.PI/8)
+		.scale(phi)
+		.turnY(theta) 
+		.move([-Px,-P[1],-Pz])
+		.move([0, -psi, 0])
+		.scale(1,canvas1.width/canvas1,1);
+
+	  update_velocity();
+	  origin[0] += vel_x * Math.cos(theta) - vel_y * Math.sin(theta);
+	  origin[2] += vel_x * Math.sin(theta) + vel_y * Math.cos(theta);
+	  camera[0] = origin [0];
+	  camera[2] = origin [2];
+
+	  // let cpos  = add(body_offset, [-1 * origin[0], 0 ,-1*origin[2]]);
+
+	  M.S().draw(GMesh,[1,1,1],1.0).R();
+	  for (let i = 0; i <= G_N; i++) {
+	  	for (let j = 0; j <= G_N; j++) {
+	  		M.S().move(G_xyz(G, G_N, G_L, i, j))
+			     .scale(sc).scale(0.2).draw(mySphere, [0,0,0], 0.25).R();
+		}
+	  }
+
+
+	  M.S().move(P).scale(sc).scale(0.5).draw(mySphere, [0,1,0], 10).R();
+
+	  // let cpos1 = Gint(G, G_N, G_L, cpos[0], cpos[2]);
+	  // M.S().move(cpos1).scale(.5).scale(sc).draw(mySphere, [1,0,1], 1.0).R();
+	  M.S().scale(2).scale(sc).draw(mySphere, [1,0,0], 0.25).R();
+
+	  // M.S().move([-0.25,0,0]).scale(2).scale(sc).draw(mySphere, [1,0,0], 0.25).R();
+	  // M.S().move([-1,1,-1]).scale(2).scale(sc).draw(mySphere, [1,0,0], 0.25).R();
+   });
+}
+requestAnimationFrame(drawFrame);
+
+</script>
+

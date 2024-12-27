@@ -1,0 +1,388 @@
+<body bgcolor=#FFFFFF>
+
+<style>
+.column {
+  float: left;
+  width: 35%;
+}
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+html {
+	color: #313131
+}
+
+table td,
+table th {
+  padding-left: 6px;
+  padding-right: 6px;
+  padding-top: 2px;
+  padding-bottom: 2px;
+}
+table {
+  border: 1px solid #0D0D0D;
+}
+
+.blog__posts_table {
+  width: 90%;
+}
+
+tr:nth-of-type(even) {
+  background-color: #f5f5f5;
+}
+
+
+tr:first-child th {
+  border-bottom: 1px solid #0D0D0D;
+  border-left: hidden;
+  padding: 10px;
+}
+
+
+</style>
+<center>
+	<h1> Landscape Demo </h1>
+ 	<p>Current mode: <b id="modedisp" >COMMAND</b>  <button type="button" onmousedown=mode_update()>Change Mode</button></p>
+	<center><canvas id=canvas1 width=900 height=700></canvas>
+	</center>
+</center>
+
+
+<script src=lib.js></script>
+<script>
+
+let Cyl = Cylinder(20);
+let Cub = Cube(20);
+let Sph = Sphere(20);
+
+// FIXME: make the background black or dark 
+// FIXME: make the bottom black
+addMaterial(0, `color = mix(color, vec3(.5), min(.95,.007 * dot(vTpos, vTpos)));`);
+
+startGL(canvas1);
+
+
+let render_scale = 0.05;
+let creation = Date.now() / 1000;
+let tick = 0;
+let next = creation + 1;
+
+const MODE = {
+	COMMAND: 0,
+	CONTROL: 1
+};
+
+let mode = MODE.COMMAND;
+
+
+
+// Motion parameters (abstract)
+const MOT = {
+	FORWARD: 0,
+	REVERSE: 1,
+	LEFT: 2,
+	RIGHT: 3,
+	CLOCKWISE: 4,
+	COUNTERCLOCKWISE: 5,
+}
+
+const CAM = {
+	UP: 0,
+	DOWN: 1,
+	CLOCKWISE: 2,
+	COUNTERCLOCKWISE: 3,
+	ZOOMIN: 4,
+	ZOOMOUT: 5,
+}
+
+
+// Inputs
+let mot  = [0,0,0,0,0,0];
+let cam  = [0,0,0,0,0,0];
+let fire = 0;
+
+let keypress = (e) => {
+		 if (e.key == 'w')          { mot[MOT.FORWARD] 		    = 1; }
+	else if (e.key == 'a')          { mot[MOT.LEFT]    		    = 1; }
+	else if (e.key == 's')          { mot[MOT.REVERSE] 		    = 1; }
+	else if (e.key == 'd')          { mot[MOT.RIGHT]   		    = 1; }
+	else if (e.key == 'e')          { mot[MOT.CLOCKWISE] 		= 1; }
+	else if (e.key == 'q')          { mot[MOT.COUNTERCLOCKWISE] = 1; }
+	else if (e.key == 'ArrowRight') { cam[CAM.CLOCKWISE]        = 1; }
+	else if (e.key == 'ArrowLeft')  { cam[CAM.COUNTERCLOCKWISE] = 1; }
+	else if (e.key == 'ArrowDown')  { cam[CAM.UP]               = 1; }
+	else if (e.key == 'ArrowUp')  	{ cam[CAM.DOWN]			    = 1; }
+	else if (e.key == 'm')          { cam[CAM.ZOOMIN] 		    = 1; }
+	else if (e.key == 'n')  	    { cam[CAM.ZOOMOUT] 		    = 1; }
+	else if (e.key == ' ')  	    { fire 						= 1; }
+}
+
+let keyrelease = (e) => {
+		 if (e.key == 'w')          { mot[MOT.FORWARD] 		    = 0; }
+	else if (e.key == 'a')          { mot[MOT.LEFT]    		    = 0; }
+	else if (e.key == 's')          { mot[MOT.REVERSE] 		    = 0; }
+	else if (e.key == 'd')          { mot[MOT.RIGHT]   		    = 0; }
+	else if (e.key == 'e')          { mot[MOT.CLOCKWISE] 		= 0; }
+	else if (e.key == 'q')          { mot[MOT.COUNTERCLOCKWISE] = 0; }
+	else if (e.key == 'ArrowRight') { cam[CAM.CLOCKWISE]        = 0; }
+	else if (e.key == 'ArrowLeft')  { cam[CAM.COUNTERCLOCKWISE] = 0; }
+	else if (e.key == 'ArrowDown')  { cam[CAM.UP]               = 0; }
+	else if (e.key == 'ArrowUp')  	{ cam[CAM.DOWN]			    = 0; }
+	else if (e.key == 'm')          { cam[CAM.ZOOMIN] 		    = 0; }
+	else if (e.key == 'n')  	    { cam[CAM.ZOOMOUT] 		    = 0; }
+	else if (e.key == ' ')  	    { fire 						= 0; }
+}
+
+// Controls:
+// COMMAND MODE:
+// W			Translate target forwards 			relative to camera
+// A 			Translate target left 				relative to camera
+// S			Translate target backwards 			relative to camera
+// D 			Translate target right 				relative to camera
+// Q 			Rotate target counterclockwise 		relative to self
+// E			Rotate target clockwise 			relative to self
+
+// CONTROL MODE:
+// W			Accelerate target forwards 			relative to spider
+// A 			Accelerate target left 				relative to spider
+// S			Accelerate target backwards 		relative to spider
+// D 			Accelerate target right 			relative to spider
+// Q 			Accelerate target counterclockwise  relative to self
+// E			Accelerate target clockwise 		relative to self
+
+// BOTH MODES:
+// Up			Rotate camera up 					relative to self
+// Down			Rotate camera down 					relative to self
+// Left			Rotate camera clockwise 			relative to self
+// Right        Rotate camera counterclockwise 		relative to self
+// M            Translate camera backwards 			relative to self
+// N            Translate camera forwards 			relative to self
+
+
+// Position and velocity data of target
+let C_DIST  = 0.5;
+let C_PITCH_DEFAULT_CMD = Math.PI/4;
+let C_PITCH_DEFAULT_CTRL= 2 * Math.PI/16;
+let C_PITCH = C_PITCH_DEFAULT_CTRL;
+let C_YAW_PRE = 0;
+let C_YAW   = 0;
+let T_POS   = [0,0,0];
+let T_VEL   = [0,0,0,0,0,0];
+let T_YAW   = 0;
+
+
+let STRIDE_FAC_CMD = 1;
+let STRIDE_FAC_CTRL = 3.0;
+
+let CMD_MAX_AXIS_VEL = 0.04;
+let CMD_MAX_ROT_VEL  = 0.02;
+let CMD_MAX_CAM_ROT_VEL = 0.005;
+let CMD_MAX_CAM_ZOOM_VEL = 0.01;
+
+
+let CTRL_MAX_AXIS_VEL = 0.4;
+let CTRL_MAX_ROT_VEL  = 0.30;
+let CTRL_ACCELERATION = 0.05;
+let CTRL_MAX_CAM_ROT_VEL = 0.005;
+let CTRL_MAX_CAM_ZOOM_VEL = 0.01;
+
+
+let update_positions = () => {
+	if (mode == MODE.COMMAND) {
+		T_POS[0] += CMD_MAX_AXIS_VEL * (mot[MOT.RIGHT] - mot[MOT.LEFT]);
+		T_POS[2] += -1 * CMD_MAX_AXIS_VEL * (mot[MOT.FORWARD] - mot[MOT.REVERSE]);
+		T_YAW    += -1 * CMD_MAX_AXIS_VEL * (mot[MOT.CLOCKWISE] - mot[MOT.COUNTERCLOCKWISE]);
+		C_DIST   += CMD_MAX_CAM_ZOOM_VEL * (cam[CAM.ZOOMIN] - cam[CAM.ZOOMOUT]);
+		C_PITCH  += CMD_MAX_CAM_ROT_VEL * (cam[CAM.UP] - cam[CAM.DOWN]);
+		C_YAW    += CMD_MAX_CAM_ROT_VEL * (cam[CAM.CLOCKWISE] - cam[CAM.COUNTERCLOCKWISE]);
+	} else {
+		T_VEL[0] = mix(T_VEL[0], CTRL_MAX_AXIS_VEL * mot[MOT.FORWARD], CTRL_ACCELERATION);
+		T_VEL[1] = mix(T_VEL[1], CTRL_MAX_AXIS_VEL * mot[MOT.REVERSE], CTRL_ACCELERATION);
+		T_VEL[2] = mix(T_VEL[2], CTRL_MAX_AXIS_VEL * mot[MOT.LEFT], CTRL_ACCELERATION);
+		T_VEL[3] = mix(T_VEL[3], CTRL_MAX_AXIS_VEL * mot[MOT.RIGHT], CTRL_ACCELERATION);
+		T_VEL[4] = mix(T_VEL[4], CTRL_MAX_ROT_VEL * mot[MOT.CLOCKWISE], CTRL_ACCELERATION);
+		T_VEL[5] = mix(T_VEL[5], CTRL_MAX_ROT_VEL * mot[MOT.COUNTERCLOCKWISE], CTRL_ACCELERATION);
+
+		T_YAW     += -1 * CTRL_MAX_ROT_VEL * (T_VEL[4] - T_VEL[5]);
+		let F_FWD = -1 * CTRL_MAX_AXIS_VEL * (T_VEL[0] - T_VEL[1]); 
+		let F_RGT = CTRL_MAX_AXIS_VEL * (T_VEL[3] - T_VEL[2]);
+
+		T_POS[0]  += Math.sin(T_YAW) * F_FWD + Math.cos(T_YAW) * F_RGT; 
+		T_POS[2]  += Math.cos(T_YAW) * F_FWD - Math.sin(T_YAW) * F_RGT;
+		C_DIST    += CTRL_MAX_CAM_ZOOM_VEL * (cam[CAM.ZOOMIN] - cam[CAM.ZOOMOUT]);
+		C_PITCH   += CTRL_MAX_CAM_ROT_VEL * (cam[CAM.UP] - cam[CAM.DOWN]);
+		C_YAW_PRE += CTRL_MAX_CAM_ROT_VEL * (cam[CAM.CLOCKWISE] - cam[CAM.COUNTERCLOCKWISE]);
+		C_YAW 	   =  C_YAW_PRE - T_YAW;
+	}
+	C_DIST = Math.min(Math.max(C_DIST, 0.1), 2);
+}
+
+
+
+
+document.body.addEventListener('keydown', keypress); 
+document.body.addEventListener('keyup', keyrelease);
+
+
+// Grid settings
+let TN_seed = mktrignoise(8);
+let G_N = 45;
+let G_L = 10;
+let G_F = (x, z) => trignoise(x, z, TN_seed);
+let G = G_sample(G_N, G_L, G_F);
+let GMesh = GSurf(G, G_N, G_L);
+let floorAt = (x, z) => Ginterpolate(G, G_N, G_L, x, z);
+
+// Debugging
+let flag = 0;
+let DEBUG_SHOW_RING = false;
+
+
+// Spider
+let Spider = new SPIDER();
+Spider.spawn(8, 1.75, Math.PI/4, 5, 0.75,    // Physical
+			 1.0, 10.0,  					 // Spring
+			 0.125, 2.5, 0.02,				     // Body readius, foot lift, turning rate
+			 0.4, 0.2,					     // Step timing
+			 0, [0,0], 						 // Spawn pos	
+			 floorAt,						
+			 );
+
+// Render limb
+let renderLimb = (F, s) => {
+   let col = [0,0,0];
+   for (let i = 0; i < F.getN(); i++) {
+    M.S().move(F.getPoint(i)).scale(s).draw(Sph,col,1.0).R();
+   }
+   for (let i = 0; i < F.getN() - 1; i++) {
+     let L = F.getPoint(i);
+     let R = F.getPoint(i+1);
+     M.S().move(mix(L, R, .5))
+          .aim(subtract(R, L))
+          .scale(s,s,F.getLength(i)/2.0)
+          .draw(Cyl,col,1.0).R();
+   }
+   // M.S().scale(render_scale).move(F.getTarget()).scale(1.2).draw(Sph,[1,0,0], 0.5).R();
+}
+
+// Rendering spider
+let renderSpider = (S, time) => {
+	for (let i = 0; i < S.getN(); i++) {
+		// M.S().move(S.getFoot(i)).scale(S.getrLr()).draw(Sph, [0,0,S.limbActivity(i)]).R();
+		// M.S().move(S.getFootRealistic(i)).scale(S.getrLr() * 1.25).draw(Sph, [0,1,0], 0.25).R();
+		renderLimb(S.getLimb(i), S.getrLr());
+		// M.S().move(S.getShoulder(i)).scale(render_scale).draw(Sph, [0,0,0]).R();
+		// M.S().move(S.getFootIdeal(i)).scale(S.getrLr() * 1.5).draw(Sph, [1,0,1], 0.2).R();
+	}
+	M.S().move(S.get_com_Real()).scale(S.getrBr()).draw(Sph, [0,0,0], 1.0).R();
+	
+	if (DEBUG_SHOW_RING) {
+	  let test_i = 4;
+      let SP = circle_pattern_gen (0.2, 40, 0);
+      for (let i = 0; i < SP.length; i++) {
+        let col1 = [0,0,0];
+	    let D = Spider.getShoulder(test_i);
+	    let cA = SP[i][0]+D[0];
+	    let cC = SP[i][2]+D[2];
+        let s = Spider.debug_ring_val(test_i, [cA, cC]);
+        if (s == 0) { col1 = [0,1,0]; }
+        if (s == 1) { col1 = [1,0,0]; }
+        if (s == 2) { col1 = [0,0,1]; }
+        if (s == 3) { col1 = [1,0,1]; }
+	    let cB = floorAt(cA, cC);
+	    M.S().move([cA, cB, cC]).scale(0.01).draw(Sph, col1, 1.0).R();
+	  }	
+
+	  let X = S.projectClosest(test_i, xz(T_POS));
+	  let XR = [X[0], floorAt(X[0], X[1]), X[1]];
+	  M.S().move(XR).scale(0.01).draw(Sph, [1,0,0], 0.5).R();
+
+	  let Y = S.findStep(test_i, xz(T_POS));
+	  M.S().move(Y).scale(0.08).draw(Sph, [0,0,1], 0.5).R();
+	}
+
+}
+
+
+let mode_update = () => {
+	if (mode == MODE.CONTROL) {
+		mode = MODE.COMMAND;
+		document.getElementById("modedisp").innerHTML = "COMMAND";
+		C_PITCH = C_PITCH_DEFAULT_CMD ;
+		C_YAW = 0;
+		Spider.setsF(STRIDE_FAC_CMD);
+	} else {
+		C_PITCH = C_PITCH_DEFAULT_CTRL;
+		mode = MODE.CONTROL;
+		document.getElementById("modedisp").innerHTML = "CONTROL";
+		Spider.setsF(STRIDE_FAC_CTRL);
+	}
+}
+
+let R = feet_pattern(1, 20, 0);
+
+function drawFrame() {
+   requestAnimationFrame(drawFrame);
+   let time = Date.now() / 1000;
+
+   // DEBUGGING: Tick and Flag
+   if (time > next) { 
+   		next += 3.0; 
+		tick += 1; 
+	}
+
+   drawScene(() => {
+	  material = 1;
+	  update_positions();
+	  T_POS[1] = floorAt(T_POS[0], T_POS[2]);
+	  let Cursor = Spider.calculate_ideal([T_POS[0], -T_POS[2]], T_YAW); 
+	  if (fire || mode == MODE.CONTROL) {
+	  	fire = 0;
+		for (let i = 0; i < Cursor.length; i++) {
+			Spider.setIdeal(i, Cursor[i]);
+		}
+		Spider.setIdealAngle(T_YAW);
+	  }
+		
+
+	  let CAM_TGT = T_POS;
+	  // if (mode == MODE.CONTROL) {
+	  //   CAM_TGT = Spider.get_com_Real();
+	  // }
+	  VM.identity()
+	    .perspective(5)
+	    .scale(C_DIST)
+	    .turnX(C_PITCH)
+	    .turnY(C_YAW)
+		.move(scale(CAM_TGT, -1))
+	    .scale(1,canvas1.width/canvas1,1);
+
+	
+      // Display center of cursor
+	    M.S()
+	      .move(T_POS)
+	      .turnY(T_YAW)
+	      .scale(render_scale)
+		  .scale(2)
+	      .draw(Cub,[1,0.315,0],1.0).R();
+
+ 	  M.S().draw(GMesh,[1,1,1],1.0).R();
+ 	   for (let i = 0; i <= G_N; i++) {
+	   		for (let j = 0; j <= G_N; j++) {
+ 	   		M.S().move(G_xyz(G, G_N, G_L, i, j))
+ 	     	     .scale(render_scale).scale(0.2).draw(Sph, [0,0,0], 0.25).R();
+ 	     	}
+ 	   }
+   });
+}
+requestAnimationFrame(drawFrame);
+
+
+
+
+</script>
+

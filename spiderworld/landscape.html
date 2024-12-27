@@ -1,0 +1,76 @@
+<body bgcolor=#808080><font face=courier>
+<center><canvas id=canvas1 width=900 height=700></canvas>
+<script src=lib.js></script>
+<script>
+
+trackMouse(canvas1);
+
+let myCube     = Cube();
+let myCylinder = Cylinder(20);
+let mySphere   = Sphere(20);
+
+addMaterial(0, `color = mix(color, vec3(.5), min(.95,.007 * dot(vTpos, vTpos)));`);
+
+// WASD motion following a sphere and the mouse
+// Rocky landscape: uses noise function for height
+// Watery landscape: physics sim for height
+//   Make the ripples attenuate faster than I can walk out and then back into  render distance 
+//   so we can reset everything out of render distance back to default 
+// Noise function to deliniate between the two 
+// Shader to distinguish between them (edges)
+
+
+
+
+startGL(canvas1);
+
+let F = make_FABRIK([12,4,-4], [[0, -10, -4], [0, -7, -4], [0, -4, -4], [0, -1, -4], [0, 2, -4], [0, 5, -4]]);
+
+let origin = [0,-1,-2];
+
+let sc = 0.05;
+
+let creation = Date.now() / 1000;
+let col = [0.95, 0.95, 0.95];
+let tick = 0;
+let next = creation + 1;
+
+function drawFrame() {
+   requestAnimationFrame(drawFrame);
+   let time = Date.now() / 1000;
+
+   if (time > next) {
+   	 next += 1.5;
+	 tick += 1;
+	 // console.log(tick);
+	 // limb_update();
+   }
+
+   VM.identity().perspective(2).move(origin).scale(1,canvas1.width/canvas1.height,1);
+
+   drawScene(() => {
+      material = 1;
+	
+	  F.setTarget([8 * Math.sin(time), 2 + 4 *  Math.sin(time), 8 * Math.cos(time)]);
+	  F.iterate(20);
+
+	  for (let i = 0; i < F.getN(); i++) {
+      	M.S().scale(sc).move(F.getPoint(i)).draw(mySphere,col,1).R();
+	  }
+	  for (let i = 0; i < F.getN() - 1; i++) {
+		let L = F.getPoint(i);
+		let R = F.getPoint(i+1);
+      	M.S().scale(sc)
+	    	 .move(mix(L, R, .5))
+	         .aim(subtract(R, L))
+	    	 .scale(1,1,F.getLength(i)/2.0)
+	    	 .draw(myCylinder,col,1.0).R();
+	  }
+      M.S().scale(sc).move(F.getTarget()).scale(1.2).draw(mySphere,[1,0,0], 0.5).R();
+      // M.S().scale(sc).move(F.getBase()).scale(1.2).draw(mySphere, [1,0,1], 0.5).R();
+   });
+}
+requestAnimationFrame(drawFrame);
+
+</script>
+

@@ -1,0 +1,335 @@
+<body bgcolor=#808080><font face=courier>
+<center><canvas id=canvas1 width=900 height=700></canvas>
+<script src=lib.js></script>
+<script>
+
+trackMouse(canvas1);
+
+let myCube     = Cube();
+let myCylinder = Cylinder(20);
+let mySphere   = Sphere(20);
+
+addMaterial(0, `color = mix(color, vec3(.5), min(.95,.007 * dot(vTpos, vTpos)));`);
+
+startGL(canvas1);
+
+
+let circle_pattern  = (r, N) => {
+	R = [];
+	for (let i = -1; i < N; i++) {
+		R.push([r * Math.sin(i * TAU / N), -1, r * Math.cos(i * TAU / N)]);
+	}
+	return R;
+}
+
+let feet_init = (r, N) => {
+	R = [];
+	for (let i = -1; i < N+2; i++) {
+		if (i != -1 && (i != (N+2) / 2)) {
+			R.push([r * Math.sin(i * TAU / (N+1)), 0, r * Math.cos(i * TAU / (N+2))]);
+		}
+	}
+	return R;
+}
+
+
+// Translation of the code in fragment shader to js 
+let noise3 = (x, y) => {
+	// let r = 0; 
+	// for (let i = 0; i < 16; i++) {
+	// }
+
+    //    float noise(vec3 point) {
+    //			float r = 0.; 
+    //			for (int i=0;i<16;i++) {
+    //      		vec3 D, p = point + mod(vec3(i,i/4,i/8) , vec3(4.0,2.0,2.0)) +
+    //           1.7*sin(vec3(i,5*i,8*i)), C=floor(p), P=p-C-.5, A=abs(P);
+    //      	C += mod(C.x+C.y+C.z,2.) * step(max(A.yzx,A.zxy),A) * sign(P);
+    //      D=34.*sin(987.*float(i)+876.*C+76.*C.yzx+765.*C.zxy);P=p-C-.5;
+    //      r+=sin(6.3*dot(P,fract(D)-.5))*pow(max(0.,1.-2.*dot(P,P)),4.);
+    //    } return .5 * sin(r); }
+
+	return 0; 
+}
+
+
+function SPIDER() {
+	this.spawn = (LimbLen1, Nsegs1, body_height, body_R, feet_dist, feet_n) => {
+		LimbLen = LimbLen1; 		// Limb length
+	    R = body_R;					// Body radius
+		Nsegs = Nsegs1;				// Number of segments
+		height = body_height;		// Body height (ideal)
+		spread = feet_dist;			// Feet spread
+		N = feet_n;					// Number of feet 
+		FOOT_OFF = feet_init(feet_dist, feet_n);	// Set up the initial feet
+		for (let i = 0; i < N; i++) {
+			FOOT_TGT[i] = FOOT_OFF[i];
+			FEET[i] = FOOT_OFF[i];
+		}
+
+	  	let S = Math.sin(TAU/N/2);
+	  	r = R * S / (1 + S);
+		SHOULDER_OFF  = feet_init(R-r, N); // Shoulder offset
+	}
+
+	this.getCOM   = () => {
+		// Ideal body position is the mean of the feet positions + the height 
+		let IDEAL = [0,0,0];
+		for (let j = 0; j < FEET.length; j++) {
+			IDEAL = add(IDEAL, FEET[j]);
+		}
+		IDEAL = add([0, height, 0], scale(IDEAL, 1/N));
+	
+		// Real version is the ideal version, plus the spring offset 
+		let REAL = IDEAL
+		return REAL;
+	};
+
+	this.getN = () => N;
+	this.getr = () => r;
+	this.getR = () => R;
+
+
+	this.getFootOffset = (i) => FOOT_OFF[i];
+
+	this.getFoot = (i) => FEET[i];
+	this.getShoulder = (i) => SHOULDER_OFF[i];
+
+	this.setFootTarget = (i, F) => { FOOT_TGT [i] = F; }
+	this.getFootTarget = (i, F) => FOOT_TGT [i];
+
+	this.update = () => {
+		for (let i = 0; i < N; i++) {
+			let REAL = FEET[i];
+			let IDEAL = FOOT_TGT[i]; // add(FOOT_TGT[i], FOOT_OFF[i]);
+			FEET[i] = mix(REAL, IDEAL, 0.1);
+		}
+
+		// For each leg: construct the plane between the base and the target
+		// up to maximum angular rotation
+		// Track that rotation
+		// Add function to go from limb_coord[i] + angle[i] -> coord
+
+		// Project the effector target onto this plane w/ shoulder @ [0,0]
+		// To a FABRIK update 
+
+	}
+
+	let Llen = 0, Nsegs = 0, height  = 0; 
+	let R = 0;
+	let r = 0;
+	let spread = 0;
+	let N = 0;
+
+	// Real values
+	let LEGS = [];
+	let FEET = [];
+
+	// Target values
+	let FOOT_TGT = [];
+
+	// Offset values
+	let FOOT_OFF = [];
+	let SHOULDER_OFF = [];
+}
+
+
+let MySpider = new SPIDER();
+MySpider.spawn(4, 3, 0.26, 0.1, 0.25, 8);
+
+
+// let legs = [
+// 	make_FABRIK([12,4,-4], [[0, 0, -4], [0, 3, -4], [0, 6, -4], [0, 9, -4]]),
+// 	make_FABRIK([12,4,-4], [[0, 0, -4], [0, 3, -4], [0, 6, -4], [0, 9, -4]]),
+// 	make_FABRIK([12,4,-4], [[0, 0, -4], [0, 3, -4], [0, 6, -4], [0, 9, -4]]),
+// 	make_FABRIK([12,4,-4], [[0, 0, -4], [0, 3, -4], [0, 6, -4], [0, 9, -4]])
+// ];
+// let X = make_FABRIK([12,4], [[0, 0], [0, 3], [0, 6], [0, 9]]);
+
+
+
+let origin = [0,0,1];
+
+let sc = 0.05;
+
+let creation = Date.now() / 1000;
+let col = [0.95, 0.95, 0.95];
+let tick = 0;
+let next = creation + 1;
+
+// Forward, reverse, left, and right components of motion
+// Since motion will increment non-linearly with time, an object can have 
+// increasing motion in two directions 
+let mot_fwd = 0;
+let mot_rev = 0;
+let mot_lft = 0;
+let mot_rgt = 0;
+let mot_rcw = 0;
+let mot_rcc = 0;
+
+let keypress = (e) => {
+	if (e.key == 'w') {
+		mot_fwd = 1;
+	} else if (e.key == 'a') {
+		mot_lft = 1;
+	} else if (e.key == 's') {
+		mot_rev = 1;
+	} else if (e.key == 'd') {
+		mot_rgt = 1;
+	} else if (e.key == 'ArrowRight') {
+		mot_rcw = 1;
+	} else if (e.key == 'ArrowLeft') {
+		mot_rcc = 1;
+	}
+}
+
+let keyrelease = (e) => {
+	if (e.key == 'w') {
+		mot_fwd = 0;
+	} else if (e.key == 'a') {
+		mot_lft = 0;
+	} else if (e.key == 's') {
+		mot_rev = 0;
+	} else if (e.key == 'd') {
+		mot_rgt = 0;
+	} else if (e.key == 'ArrowRight') {
+		mot_rcw = 0;
+	} else if (e.key == 'ArrowLeft') {
+		mot_rcc = 0;
+	}
+}
+
+let vel_fwd = 0;
+let vel_rev = 0;
+let vel_lft = 0;
+let vel_rgt = 0;
+
+let MAX_AXIS_VEL = 0.02;
+let ACCELERATION = 0.02;
+
+let vel_x = 0;
+let vel_y = 0;
+
+let body_offset = [0, 0.22, 1];
+
+let update_velocity = () => {
+	vel_fwd = mix(vel_fwd, MAX_AXIS_VEL * mot_fwd, ACCELERATION);
+	vel_rev = mix(vel_rev, MAX_AXIS_VEL * mot_rev, ACCELERATION);
+	vel_lft = mix(vel_lft, MAX_AXIS_VEL * mot_lft, ACCELERATION);
+	vel_rgt = mix(vel_rgt, MAX_AXIS_VEL * mot_rgt, ACCELERATION);
+	vel_x = vel_lft - vel_rgt;
+	vel_y = vel_fwd - vel_rev;
+}
+
+document.body.addEventListener('keydown', keypress); 
+document.body.addEventListener('keyup', keyrelease);
+
+let renderLimb = (F, s) => {
+   for (let i = 0; i < F.getN(); i++) {
+   	M.S().scale(sc).move(F.getPoint(i)).scale(s).draw(mySphere,col,1).R();
+   }
+   for (let i = 0; i < F.getN() - 1; i++) {
+     let L = F.getPoint(i);
+     let R = F.getPoint(i+1);
+   	M.S().scale(sc)
+     	 .move(mix(L, R, .5))
+          .aim(subtract(R, L))
+     	 .scale(s,s,F.getLength(i)/2.0)
+     	 .draw(myCylinder,col,1.0).R();
+   }
+   M.S().scale(sc).move(F.getTarget()).scale(1.2).draw(mySphere,[1,0,0], 0.5).R();
+}
+
+let renderSpider = (S) => {
+    let R = S.getR();
+	let r = S.getr();
+	for (let i = 0; i < S.getN(); i++) {
+		M.S().move(S.getFoot(i)).scale(r).draw(mySphere, [1,0,0], 0.5).R();
+		M.S().move(S.getFootTarget(i)).scale(r * 1.25).draw(mySphere, [0,1,0], 0.5).R();
+		M.S().move(add(S.getCOM(), S.getShoulder(i))).scale(r).draw(mySphere, [1,0,0], 1).R();
+	}
+	M.S().move(S.getCOM()).scale(R).draw(mySphere, [0,0,0], 0.25).R();
+}
+
+
+
+let NFloor = 15;
+let FloorS = 1.0;
+
+// let Floor = fdata ((x, y) => x*x/sc, NFloor);
+// let Floor = fdata ((x, y) => (4 + 3*Math.sin(100*x + 200* y))/2.0, NFloor);
+let Floor = fdata ((x, y) => 0, NFloor);
+let FloorMesh = PSurf(FloorS, Floor, NFloor);
+let getFloor = (x, y) => (fdata_inv(Floor, NFloor, FloorS, x, y));
+
+// console.log(fdata_inv(Floor, NFloor, FloorS, 4.99, 0.99));
+// fdata_inv(Floor, NFloor, FloorS, -2, 0);
+// fdata_inv(Floor, NFloor, FloorS, 0, 0);
+// fdata_inv(Floor, NFloor, FloorS, 2, 0);
+// fdata_inv(Floor, NFloor, FloorS, 3, 0);
+
+
+
+
+function drawFrame() {
+   requestAnimationFrame(drawFrame);
+   let time = Date.now() / 1000;
+
+   if (time > next) {
+   	 next += 1.5;
+	 tick += 1;
+   }
+
+   VM.identity().perspective(5).turnX(Math.PI/8).move(origin).scale(1,canvas1.width/canvas1.height,1);
+
+   drawScene(() => {
+      material = 1;
+
+	  update_velocity();
+	  origin[0] += vel_x;
+	  origin[2] += vel_y;
+	  let cpos  = add(body_offset, [-1 * origin[0], 0 ,-1*origin[2]]);
+
+
+	  let T = feet_init(0.75, 8);
+	  // for (let i = 0; i < T.length; i++) {
+	    let i = 0;
+	  	let P = T[i];
+		P = [1,0,0];
+	  	// P[1] = getFloor(P[0], P[2]);
+	  	M.S().move(P).scale(sc).draw(mySphere, [1,0,0], 1.0).R();
+		if (tick < 1) {
+			console.log(P);
+			console.log(getFloor(P[0], P[2]));
+		tick += 1;
+		}
+
+	
+
+
+	  for (let i = 0; i < MySpider.getN(); i++) {
+	  	let P = add([-1 * origin[0], 0 ,-1*origin[2]], MySpider.getFootOffset(i));
+		// P[1] = 0.05 * fdata_inv(Floor, NFloor, FloorS, P[0], P[2]);
+	  	MySpider.setFootTarget(i, P);
+	  }
+
+	  // MySpider.update();
+	  // renderSpider(MySpider);
+
+	  // for (let i = 0; i < legs.length; i++) {
+	  // 	legs[i].setBase(scale(sp_pos, 1/sc));
+	  // 	// legs[i].straightenV();
+	  // 	// legs[i].iterate(10);
+	  // 	renderLimb(legs[i], 0.25);
+	  // }
+
+      M.S().turnX(-Math.PI/2).scale(sc).draw(FloorMesh,[1,1,1], 1).R();
+      // M.S().scale(sc).turnX(Math.PI/2).scale(100).draw(Square(),[1,1,1], 1).R();
+	  M.S().move(cpos).scale(2).scale(sc / 4).draw(mySphere, [1,0,1], 1.0).R();
+	  M.S().move(0, 0, 0).move(0,0,0).scale(sc*2).draw(mySphere, [1,0,0], 0.25).R();
+   });
+}
+requestAnimationFrame(drawFrame);
+
+</script>
+
