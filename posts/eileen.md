@@ -7,13 +7,17 @@ content: 'Lean'
 Iris is a world-class framework for developing verified program logics. 
 It has seen wide adoption in a number of fields and boasts an impressive list of publications. 
 
-Lean is a interactive theorem prover which has seen widespread popularity, primarily amongst mathematicians. 
+Lean is a interactive theorem prover which has seen widespread popularity. 
 
-Iris is written in Rocq, 
+Iris is written in Rocq, not Lean. 
+However, I think there's a case to be made that a reimplementation of some of the ideas 
 
 - **Enhanced metaprogramming**. Lean is implemented in Lean itself, and anecdotally, the metaprogramming experience in Lean is far superior to Roqc. Rather than using bespoke langauges such as LTac, a Lean metaprogrammer can use the full extent of the Lean functional programming language to write tactics, commands, 
 
 - **Hindsight**. Iris is the best in its class, but it is also the first in its class. A reimplementation (in any language) gives us the opportunity to re-evaluate the features which are useful from Iris in Lean, and open up areas where we think Iris can grow. 
+
+- **Mathematical Interest**. The categorical theory underlying Iris's model in Rocq may be of independent interest to mathematicians working on Mathlib. 
+Dually, the mathlib contributors may develop
 
 While attractive, these advantages have not inspired a sustained attempt to formalize a logic such as Iris in Lean. 
 A reimplementation is a massive undertaking 
