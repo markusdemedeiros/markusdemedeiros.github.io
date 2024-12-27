@@ -55,28 +55,44 @@ This blog post will take the next step: starting the planning phase of this proj
 
 There are 164 files in Iris, organized into 17 modules, and including approximately ?? lines of code. 
 
+
 (TODO: Link depgraph script)
 (TODO: Mark commit hash)
 
+
 (TODO: Insert dependency graph)
+
+<p align="center">
+![](../img/iris_deps/overview.svg "Dependency graph: Overview"){#id .class width=100%} 
+</p>
 
 To get my bearings in this development, I will go through each file in dependency order, and write a deliberately over-simplified summary of its contents.
 This is far from a complete summary of the Iris development, but I feel that it is a necessary step in developing a realistic plan for the project. 
 
 
-### ``iris/prelude/``
-    (TODO: Insert dependency graph)
-    
+___
+
+## ``iris/prelude/``
+
+<p align="center">
+![](../img/iris_deps/iris_prelude.svg "Dependency graph: prelude"){#id .class width=30%} 
+</p>
+
 | File        | Description                |
 |-------------|----------------------------|
 | `options.v` | Global Rocq configuration. |
 | `prelude.v` | Global coercions.          |
 
+&nbsp;
 
-### ``iris/algebra/``
+--- 
 
-(TODO: Insert dependency graph)
-    
+## ``iris/algebra/``
+
+<p align="center">
+![](../img/iris_deps/iris_algebra.svg "Dependency graph: algebra"){#id .class width=100%} 
+</p>
+
 | File                    | Description                                                                                                                       |
 |-------------------------|-----------------------------------------------------------------------------------------------------------------------------------|
 | `ofe.v`                 | OFE/COFE structures, nonexpansive/contractive maps, fixpoints, oFunctors, (C)OFE-(iso)morphisms, OFEs based on types/laters.      |
@@ -110,11 +126,16 @@ This is far from a complete summary of the Iris development, but I feel that it 
 | `reservation_map.v`     | CMRA for partial functions + permission to add entries.                                                                           |
 | `dyn_reservation_map.v` | CMRA for partial functions + permission to add an unbounded number of fresh entries.                                              |
 
+&nbsp;
 
-### ``iris/algebra/lib/``
+---
 
-(TODO: Insert dependency graph)
-    
+## ``iris/algebra/lib/``
+
+<p align="center">
+![](../img/iris_deps/iris_algebra_lib.svg "Dependency graph: algebra/lib"){#id .class width=100%} 
+</p>
+
 | File            | Description                                                                        |
 |-----------------|------------------------------------------------------------------------------------|
 | `frac_auth.v`   | Auth CMRA, with splittable fractional part rather than auth part.                  |
@@ -127,10 +148,16 @@ This is far from a complete summary of the Iris development, but I feel that it 
 | `excl_auth.v`   |                                                                                    |
 | `dfrac_agree.v` |                                                                                    |
 
-### ``iris/bi/``
+&nbsp;
 
-(TODO: Insert dependency graph)
-    
+---
+
+## ``iris/bi/``
+
+<p align="center">
+![](../img/iris_deps/iris_bi.svg "Dependency graph: bi"){#id .class width=50%} 
+</p>
+
 | File                    | Description                                                                     |
 |-------------------------|---------------------------------------------------------------------------------|
 | `notation.v`            | Reserved notations.                                                             |
@@ -150,18 +177,30 @@ This is far from a complete summary of the Iris development, but I feel that it 
 | `telescopes.v`          |                                                                                 |
 | `monopred.v`            |                                                                                 |
 
-### ``iris/si_logic/``
+&nbsp;
 
-(TODO: Insert dependency graph)
+---
+
+## ``iris/si_logic/``
+
+<p align="center">
+![](../img/iris_deps/iris_si_logic.svg "Dependency graph: si_logic"){#id .class width=30%} 
+</p>
     
 | File       | Description                                                                       |
 |------------|-----------------------------------------------------------------------------------|
 | `siprop.v` | Pure, Nat-indexed Prop, COFE and BI defs. Soundness for pure, internal eq, later. |
 | `bi.v`     | BI TC instances for siProp.                                                       |
 
-### ``iris/bi/lib``
+&nbsp;
 
-(TODO: Insert dependency graph)
+---
+
+## ``iris/bi/lib``
+
+<p align="center">
+![](../img/iris_deps/iris_bi_lib.svg "Dependency graph: bi/lib"){#id .class width=80%} 
+</p>
     
 | File                | Description                                                       |
 |---------------------|-------------------------------------------------------------------|
@@ -174,10 +213,16 @@ This is far from a complete summary of the Iris development, but I feel that it 
 | `fractional.v`      |                                                                   |
 | `core.v`            | TC for core of a prop. Internal.                                  |
 
-### ``iris/base_logic/``
+&nbsp;
 
-(TODO: Insert dependency graph)
-    
+---
+
+## ``iris/base_logic/``
+
+<p align="center">
+![](../img/iris_deps/iris_base_logic.svg "Dependency graph: base_logic"){#id .class width=50%} 
+</p>
+
 | File           | Description                                                                                                    |
 |----------------|----------------------------------------------------------------------------------------------------------------|
 | `upred.v`      | uPred for general UCMRA, COFE + BI defs. Nonexpansive and proof rules. Soundness for later, pure, internal eq. |
@@ -188,10 +233,16 @@ This is far from a complete summary of the Iris development, but I feel that it 
 | `base_logic.v` | Exports.                                                                                                       |
 | `bupd_alt.v`   | *Alternate bupd definition.*                                                                                   |
 
-### ``iris/base_logic/lib/``
+&nbsp;
 
-(TODO: Insert dependency graph)
-    
+---
+
+## ``iris/base_logic/lib/``
+
+<p align="center">
+![](../img/iris_deps/iris_base_logic_lib.svg "Dependency graph: base_logic/lib"){#id .class width=100%} 
+</p>
+
 | File                      | Description                                                                                                                       |
 |---------------------------|-----------------------------------------------------------------------------------------------------------------------------------|
 | `fancy_update_from_vs.v`  | Fancy updates as view shift.                                                                                                      |
