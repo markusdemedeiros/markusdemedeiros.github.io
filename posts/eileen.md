@@ -4,75 +4,93 @@ date: 'Unpublished'
 content: 'Lean'
 ...
 
-Iris is a world-class framework for developing verified program logics. 
-It has seen wide adoption in a number of fields and boasts an impressive list of publications. 
+Iris is a world-class framework for developing mechanized program logics in Rocq. 
+The framework boasts an impressive list of [publications](https://iris-project.org/#publications), with users applying Iris to verification problems at a range of levels of the software stack. 
+The logic of Iris is the synthesis of a [long line](https://en.wikipedia.org/wiki/Interference_freedom#Dependencies_on_interference_freedom)[^2] of work on separation logic design, and the mechanization is a premier example of proof engineering in Rocq. 
 
-Lean is a interactive theorem prover which has seen widespread popularity. 
+Lean is a interactive theorem prover and functional programming langauge.
+Since the release of Lean 4, the language has seen widespread popularity amongst researchers in formal verification and mechanized mathematics. 
+Its popularity is commonly attributed to the quality of life features introduced in Lean 4, its organized system of developer tooling, or its extensive library of formalized mathematics. 
 
-Iris is written in Rocq, not Lean. 
-However, I think there's a case to be made that a reimplementation of some of the ideas 
+Because Iris is not written in Lean, that these two communities bleeding edge mechanization enthusiasts cannot directly share their work. 
+As someone interested in program verification in Lean I think this is a shame, and I think that there is a case to be made for an implementation of an Iris-like program logic in Lean.
 
-- **Enhanced metaprogramming**. Lean is implemented in Lean itself, and anecdotally, the metaprogramming experience in Lean is far superior to Roqc. Rather than using bespoke langauges such as LTac, a Lean metaprogrammer can use the full extent of the Lean functional programming language to write tactics, commands, 
+- **Enhanced (meta)programming**. 
+Lean is implemented in Lean itself, and was designed to serve as a serviceable standalone functional programming langauge. 
+This means that rather than using bespoke metalanguages such as Ltac, a Lean metaprogrammer can use the full extent of the Lean programming environment to implement tactics, commands, and macros specific to their use cases.
 
-- **Hindsight**. Iris is the best in its class, but it is also the first in its class. A reimplementation (in any language) gives us the opportunity to re-evaluate the features which are useful from Iris in Lean, and open up areas where we think Iris can grow. 
+- **Mathematical Interest**. 
+Much of Iris is based around the theory of OFE's, a mathematical structure that could be of interest to the Mathlib community. 
+Conversely, a version of Iris built upon Mathlib-compatible mathematics could open the door to reusing mathematical work as Iris continues to grow. 
 
-- **Mathematical Interest**. The categorical theory underlying Iris's model in Rocq may be of independent interest to mathematicians working on Mathlib. 
-Dually, the mathlib contributors may develop
+- **A Fresh Perspective**. 
+Rocq, Lean, and Iris are projects under active development, with their own pros, cons, and quirks.
+A reimplementation of a substantial project (in any language) gives us the opportunity to contrast them, and generate new ideas for how to improve our tools. 
+The process of reimplementing Iris presents an opportunity to distill the key ideas from its implementation, lowering the bar for new contributors to the project. 
 
-While attractive, these advantages have not inspired a sustained attempt to formalize a logic such as Iris in Lean. 
-A reimplementation is a massive undertaking 
-Unfortunately, over the past few months I have come to realize that *I* might be just the right person to convince himself that it's worth it:
+I've been convinced that *someone* to take on this reimplementation effort for some time,[^1] however, I've recently reflected on some reasons why *I* might be the right person start the push. 
 
-- As an Iris user, I want to deeply understand the components of Iris (aspirationally) to the degree that I could reimplement them.
+- *As an Iris user* I want to deeply understand the components of Iris (aspirationally) to the degree that I could reimplement them.
 
-- As a Lean user, I want to understand the mechanization techniques that makes large, collaborative verification projects feasible and sustainable. 
+- *As a Lean user* I want to understand the mechanization techniques that makes large, collaborative verification projects feasible and sustainable. 
 
-- As a researcher into probabilistic verification I want to give myself the right tools for developing program logics based around classical mathematical techniques.
-For example, I want to make use of verified probability theory, which is extensively developed in Mathlib. 
+- *As a researcher into probabilistic verification* I want to give myself the right tools for developing program logics based around classical mathematical techniques.
+For example, I want to make use of verified probability theory which is already extensively developed in Mathlib. 
 
-
-This project, dubbed *Eileen* (a ?? of iLean), is my attempt to realize this vision. 
-
+In this post, I will elaborate on the planning I've been doing to try and bring the dream of Iris in Lean a little closer to reality. 
+I've dubbed the project **Eileen**, a malapropism of *iLean*, which itself is a portmanteau of *Iris + Lean*.
 
 ## The Road to Iris in Lean 
 
-Since this project is larger than anything I've tried before, I've decided that a realistic commitment to this project involves coming up with "off ramps" 
+I estimate that this project as a reasonable chance of failure: the scope may be too large, it may be too personally challenging, it may even involve features that are not in the roadmap for Lean itself.
+A realistic commitment to implementing Iris in Lean involves hedging against these failures by giving myself milestones that are personally valuable in their own right.
+I have brainstormed a few:
 
+- Learn more about lean:
+  - Learn metaprogramming, and Lean's metaprogramming methodology
+  - Learn about how Mathlib structures its mathematical hierarchies (typeclasses, rather than canonical structures)
+  - Practice using the Lean development environment
+- Lean more about Iris:
+  - What the Iris development actually contains, how different parts of it relate
+  - Which results in Iris are most important
+  - Self-contained reimplementations of Iris components 
+  - Understand the history and theory behind Iris
+- Face and document technical limitations for implementing program logics in lean
 
-a realistic plan to reimplement Iris in Lean must have off-ramps at several points in the project where failure does not mean I've wasted my time (unlike a rote translation effort, for example).
+Building off of these off-ramps, I have put together a short term plan, consisting of action items I've been working on for a little while. 
 
-### Preparation
 - Prior Art
   + Read (and annotate) the main line of Iris papers
   + Learn about metaprogramming in Lean
-  + Learn about how Mathlib organizes large mathematical developments. For example, how they structure their typeclass hierarchies.
-  + Read the existing Lean Iris paper.
+  + Learn about how Mathlib organizes large mathematical developments. For example, how they structure their typeclass hierarchies
+  + Read the existing Lean Iris paper (implementation of MoSeL in Lean)
 - Planning
   + Take inventory of the existing Iris development
   + Plan realistic milestones, including the smallest number of theorems and definitions to implement them (in dependency order)
- 
-Over the last few months, I have focused on the reading the past literature, and improving my skills as a Lean developer. 
 
-This blog post will take the next step: starting the planning phase of this project. 
+My past few months have focused heavily on the reading aspect of this plan, and doing small experiments for (TODO: experiments)
+
+This blog post takes the next step by reading Iris source code, trying to obtain a sequence of milestones, and an implementation roadmap that connects them.
+
 
 ## An Inventory of Iris
 
-There are 164 files in Iris, organized into 17 modules, and including approximately ?? lines of code. 
+There are ?? files in Iris, organized into ?? modules, and including approximately ?? lines of code. 
+
 
 
 (TODO: Link depgraph script)
 (TODO: Mark commit hash)
 
-
-(TODO: Insert dependency graph)
-
 <p align="center">
 ![](../img/iris_deps/overview.svg "Dependency graph: Overview"){#id .class width=100%} 
 </p>
 
-To get my bearings in this development, I will go through each file in dependency order, and write a deliberately over-simplified summary of its contents.
-This is far from a complete summary of the Iris development, but I feel that it is a necessary step in developing a realistic plan for the project. 
+To get my bearings in this development, I went through each file in the Iris repository in dependency order. 
+The tables below are a deliberately over-simplified summary of their contents--not enough to serve as a complete summary of the Iris development, but enough to arrive at a realistic checklist of lemmas going forward.
 
+
+*Lines are left blank or italicized if I am still reading them (help welcome!)*
 
 ___
 
@@ -269,9 +287,31 @@ ___
 | `gen_heap.v`              | GFunctor for physical heap.                                                                                                       |
 | `gen_inv_heap.v`          | GFunctor for heap of invariants (persistent).                                                                                     |
 
+&nbsp;
 
-# What's next?
-- Unstable?
+---
+
+## The rest? 
+
+The remaining modules are
+
+- **HeapLang-related**: these are developed internally to the Iris logic, and I am confident do not need to be a medium-term priority.
+- **Proofmode-related**: The existing Lean-iris project has done extensive work on replicating the proofmode in Lean.
+- **Unstable**: No essential lemmas depend on these.
+- **Tests**: Will change greatly in a reimplementation. 
+
+## What's next?
+
+This list gives us a list of possible milestones.
+
+
+
+
+
+
 - SI logic: possible milestone
 - excl: possible milestone
 - weakestpre: possible milestone
+
+[^1]: Anecdotally, the labmates I've been pestering with the *Why can't we have Iris in Lean* conversation have found it *very* convincing. 
+[^2]: This diagram is not complete. Among other things, its missing the geneology of step-indexed and modal program logics, which Iris is also heavily based upon. 
