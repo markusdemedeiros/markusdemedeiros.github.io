@@ -1,0 +1,897 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Eileen: A plan for Iris in Lean</title>
+    <link rel="stylesheet" type="text/css" href="../stylesheet.css">
+  </head>
+
+  <body>
+    <center>
+      <h2>Eileen: A plan for Iris in Lean</h2>
+      <aside>Dec 28, 2024</aside>
+    </center>
+
+    <hr>
+    <br>
+
+    <p>Iris is a world-class framework for mechanizing program logics in
+    Rocq. The framework boasts an impressive list of <a
+    href="https://iris-project.org/#publications">publications</a>, with
+    users applying Iris to wide range of verification problems across
+    the software stack. The logic of Iris is the synthesis of a <a
+    href="https://en.wikipedia.org/wiki/Interference_freedom#Dependencies_on_interference_freedom">long
+    line</a><a href="#fn1" class="footnote-ref" id="fnref1"
+    role="doc-noteref"><sup>1</sup></a> of work on separation logic
+    design, and the <a href="https://gitlab.mpi-sws.org/iris/iris/">Iris
+    implementation</a> is a premier example of proof engineering in
+    Rocq.</p>
+    <p>Lean is an interactive theorem prover and functional programming
+    langauge. Since the release of Lean 4, the language has seen
+    widespread popularity amongst researchers in formal verification and
+    mechanized mathematics. Its popularity can be attributed to a number
+    of features, including but not limited to its developer tooling,
+    extensive mathematical library, and organized and active
+    communuity.</p>
+    <p>Because Iris is not written in Lean, these two groups of
+    mechanization experts cannot directly build off of each other&#x2019;s
+    work. As someone interested in program verification and Lean I think
+    this is a shame, and I think that there is a case to be made that
+    both projects would benefit from an implementation of an Iris-like
+    program logic in Lean:</p>
+    <ul>
+    <li><p><strong>Mathematical Interest</strong>. Much of Iris is based
+    around the theory of OFE&#x2019;s, a mathematical structure that could be
+    of interest to the Mathlib community. Conversely, a version of Iris
+    built using Mathlib-compatible data structures could open the door
+    to exploring variants of Iris as it continues to grow.</p></li>
+    <li><p><strong>Enhanced (meta)programming</strong>. Lean is
+    implemented in Lean itself, and was designed to serve as a
+    standalone functional programming language. This means that rather
+    than using bespoke metalanguages such as Ltac, a Lean metaprogrammer
+    can use the full extent of the Lean programming environment to
+    implement tactics, commands, and macros specific to their
+    needs.</p></li>
+    <li><p><strong>A Fresh Perspective</strong>. Rocq, Lean, and Iris
+    are projects under active development, with their own pros, cons,
+    and quirks. A second implementation of a substantial project (in any
+    language) gives us the opportunity to contrast them, and generate
+    new ideas for how to improve our tools. The process of
+    reimplementing Iris presents an opportunity to distill key ideas
+    from its implementation, which can lower the bar for new
+    contributors to the project.</p></li>
+    </ul>
+    <p>While I&#x2019;ve been convinced that <em>someone</em> should take on
+    this reimplementation effort for some time,<a href="#fn2"
+    class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a>
+    I&#x2019;ve recently reflected on some reasons why <em>I</em> might want to
+    invest my time into the effort.</p>
+    <ul>
+    <li><p><em>As an Iris user</em> I want to understand the components
+    of Iris (aspirationally) to the degree that I could reimplement
+    them.</p></li>
+    <li><p><em>As a Lean user</em> I want to understand the
+    mechanization techniques that make large, collaborative verification
+    projects feasible and sustainable.</p></li>
+    <li><p><em>As a probabilistic verification researcher</em> I want to
+    give myself the right tools for developing program logics based
+    around classical mathematical techniques. For example, I want to
+    make use of verified probability theory which is already extensively
+    developed in Mathlib.</p></li>
+    </ul>
+    <p>In this post, I will elaborate on the planning I&#x2019;ve been doing to
+    try and bring the dream of Iris in Lean a little closer to reality.
+    I&#x2019;ve dubbed the project <strong>Eileen</strong>, a malapropism of
+    <em>iLean</em>, which itself is a portmanteau of <em>Iris +
+    Lean</em>.</p>
+    <h2 id="concepts-of-a-plan">Concepts of a Plan</h2>
+    <p>I estimate that this project has a reasonable chance of failure:
+    The scope may be too large, it may be too personally challenging, it
+    may even involve features that are not in the roadmap for Lean
+    itself. A realistic commitment to implementing Iris in Lean involves
+    hedging against these failures by giving myself milestones that are
+    personally valuable in their own right. I have brainstormed a
+    few:</p>
+    <ul>
+    <li>Learn more about lean:
+    <ul>
+    <li>Learn metaprogramming, and Lean&#x2019;s metaprogramming
+    methodology</li>
+    <li>Learn about how Mathlib structures its mathematical hierarchies
+    (typeclasses, rather than canonical structures)</li>
+    <li>Practice using the Lean development environment</li>
+    </ul></li>
+    <li>Lean more about Iris:
+    <ul>
+    <li>Contents and dependencies of the Iris development</li>
+    <li>The core results of the Iris development</li>
+    <li>Self-contained reimplementations of independent Iris
+    components</li>
+    <li>Understand the history and theory behind Iris</li>
+    </ul></li>
+    <li>Face and document technical limitations for implementing program
+    logics in lean</li>
+    <li>Project organization</li>
+    </ul>
+    <p>Oriented around these goals, I came up with some short term tasks
+    to help me assess and plan the project.</p>
+    <ul>
+    <li>Prior Art
+    <ul>
+    <li>Read (and annotate) the main line of Iris papers</li>
+    <li>Learn about metaprogramming in Lean</li>
+    <li>Read the Mathlib papers</li>
+    <li>Read the details about typeclass inference and structure
+    extension</li>
+    <li>Read the existing Lean Iris paper (implementation of MoSeL in
+    Lean)</li>
+    </ul></li>
+    <li>Planning
+    <ul>
+    <li>Take inventory of the existing Iris development</li>
+    <li>Find realistic implementation milestones</li>
+    </ul></li>
+    </ul>
+    <p>My past few months have focused on the reading aspect of this
+    plan, alongside some preliminary mechanization experiments. This
+    blog post takes the next step.</p>
+    <h2 id="an-inventory-of-iris">An Inventory of Iris</h2>
+    <p>There are approximately 200 files in Iris, containing 50,000
+    lines of Rocq code. Not all of these files are relevant to Eileen.
+    Some of them are library code that can be worked on after the fact,
+    and the proofmode portion of it of it has already <a
+    href="https://github.com/leanprover-community/iris-lean">been
+    implemented</a>. To develop project milestones, the first thing I
+    need to do read enough the Iris source code to determine which parts
+    are which.</p>
+    <p>This is a high-level dependency graph of Iris,<a href="#fn3"
+    class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a>
+    generated by my <a
+    href="https://github.com/markusdemedeiros/coqdep/tree/main">Rocq
+    dependency graph script</a> (implemented in Lean, of course!)</p>
+    <p align="center">
+    <img src="../img/iris_deps/overview.svg"
+    title="Dependency graph: Overview" id="id" class="class"
+    style="width:100.0%" />
+    </p>
+    <p>I went through each file in the Iris repository in dependency
+    order. The tables below are a deliberately over-simplified summary
+    of their contents&#x2013;not enough to paint a complete picture of the Iris
+    development, but enough to chart a reasonable course to step through
+    more carefully.</p>
+    <p><em>Lines are left blank or italicized if I am still trying to
+    understand them.</em></p>
+    <hr />
+    <h2 id="irisprelude"><code>iris/prelude/</code></h2>
+    <p align="center">
+    <img src="../img/iris_deps/iris_prelude.svg"
+    title="Dependency graph: prelude" id="id" class="class"
+    style="width:30.0%" />
+    </p>
+    <table>
+    <thead>
+    <tr>
+    <th>File</th>
+    <th>Description</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+    <td><code>options.v</code></td>
+    <td>Global Rocq configuration.</td>
+    </tr>
+    <tr>
+    <td><code>prelude.v</code></td>
+    <td>Global coercions.</td>
+    </tr>
+    </tbody>
+    </table>
+    <p>&#xA0;</p>
+    <hr />
+    <h2 id="irisalgebra"><code>iris/algebra/</code></h2>
+    <p align="center">
+    <img src="../img/iris_deps/iris_algebra.svg"
+    title="Dependency graph: algebra" id="id" class="class"
+    style="width:100.0%" />
+    </p>
+    <table>
+    <colgroup>
+    <col style="width: 16%" />
+    <col style="width: 83%" />
+    </colgroup>
+    <thead>
+    <tr>
+    <th>File</th>
+    <th>Description</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+    <td><code>ofe.v</code></td>
+    <td>OFE/COFE structures, nonexpansive/contractive maps, fixpoints,
+    oFunctors, (C)OFE-(iso)morphisms, OFEs based on types/laters.</td>
+    </tr>
+    <tr>
+    <td><code>cofe_solver.v</code></td>
+    <td>COFE fixpoint of oFunctor.</td>
+    </tr>
+    <tr>
+    <td><code>monoid.v</code></td>
+    <td>Semi-bundled nonexpansive monoids, and morphisms. Used for big
+    ops.</td>
+    </tr>
+    <tr>
+    <td><code>cmra.v</code></td>
+    <td>Variants of CMRA structures, properties of CMRA elements,
+    morphisms, COFE to CMRA functors, resource algebra. CMRA
+    constructions.</td>
+    </tr>
+    <tr>
+    <td><code>excl.v</code></td>
+    <td>The excl COFE/CMRA.</td>
+    </tr>
+    <tr>
+    <td><code>big_op.v</code></td>
+    <td>Iterated monoid operation over finite structures. Morphisms and
+    laws.</td>
+    </tr>
+    <tr>
+    <td><code>cmra_big_op.v</code></td>
+    <td>Laws for big op with option OFE.</td>
+    </tr>
+    <tr>
+    <td><code>updates.v</code></td>
+    <td>(Nondeterministic) frame-perserving updates. FP updates based on
+    type.</td>
+    </tr>
+    <tr>
+    <td><code>local_updates.v</code></td>
+    <td>Local updates, laws, and constructions.</td>
+    </tr>
+    <tr>
+    <td><code>gset.v</code></td>
+    <td>CMRAs of sets of countable type: union and disjoint union.</td>
+    </tr>
+    <tr>
+    <td><code>gmultiset.v</code></td>
+    <td>CMRA for multisets of countable type.</td>
+    </tr>
+    <tr>
+    <td><code>coPset.v</code></td>
+    <td>CMRAs of sets of countable type: union and disjoint union.</td>
+    </tr>
+    <tr>
+    <td><code>csum.v</code></td>
+    <td>OFE/COFE/CMRA construction: sum with bottom.</td>
+    </tr>
+    <tr>
+    <td><code>mra.v</code></td>
+    <td>Lift preorder to CMRA.</td>
+    </tr>
+    <tr>
+    <td><code>list.v</code></td>
+    <td>(C)OFE of lists. Nonexpansisivity of list functions.</td>
+    </tr>
+    <tr>
+    <td><code>functions.v</code></td>
+    <td>Laws for discrete function OFE, into UCMRA or OFE.</td>
+    </tr>
+    <tr>
+    <td><code>sts.v</code></td>
+    <td>STS RA (historical).</td>
+    </tr>
+    <tr>
+    <td><code>proofmode_classes.v</code></td>
+    <td>Typeclass reflection of monoid op.</td>
+    </tr>
+    <tr>
+    <td><code>numbers.v</code></td>
+    <td>RA of number types with arithmetic ops.</td>
+    </tr>
+    <tr>
+    <td><code>frac.v</code></td>
+    <td>Leibniz RA of rationals <code>0 &lt; q &lt;= 1</code> with add
+    op.</td>
+    </tr>
+    <tr>
+    <td><code>ufrac.v</code></td>
+    <td>Leibniz RA of rationals <code>0 &lt; q</code> with add op.</td>
+    </tr>
+    <tr>
+    <td><code>dfrac.v</code></td>
+    <td>Leibniz RA of discardable fractions.</td>
+    </tr>
+    <tr>
+    <td><code>gmap.v</code></td>
+    <td>COFE/CMRA of gmap (lifts value OFE pointwise). Laws for basic
+    gmap operations.</td>
+    </tr>
+    <tr>
+    <td><code>vector.v</code></td>
+    <td>Vector OFEs (same as list).</td>
+    </tr>
+    <tr>
+    <td><code>agree.v</code></td>
+    <td>Agreement OFE: Lists are n-equiv when each element has an
+    n-equiv counterpart.</td>
+    </tr>
+    <tr>
+    <td><code>max_prefix_list.v</code></td>
+    <td>Partial OFE on lists, where
+    <code>X &#x22C5; X ++ Y = X ++ Y</code>.</td>
+    </tr>
+    <tr>
+    <td><code>view.v</code></td>
+    <td></td>
+    </tr>
+    <tr>
+    <td><code>auth.v</code></td>
+    <td>Auth CMRA.</td>
+    </tr>
+    <tr>
+    <td><code>reservation_map.v</code></td>
+    <td>CMRA for partial functions + permission to add entries.</td>
+    </tr>
+    <tr>
+    <td><code>dyn_reservation_map.v</code></td>
+    <td>CMRA for partial functions + permission to add an unbounded
+    number of fresh entries.</td>
+    </tr>
+    </tbody>
+    </table>
+    <p>&#xA0;</p>
+    <hr />
+    <h2 id="irisalgebralib"><code>iris/algebra/lib/</code></h2>
+    <p align="center">
+    <img src="../img/iris_deps/iris_algebra_lib.svg"
+    title="Dependency graph: algebra/lib" id="id" class="class"
+    style="width:100.0%" />
+    </p>
+    <table>
+    <colgroup>
+    <col style="width: 16%" />
+    <col style="width: 83%" />
+    </colgroup>
+    <thead>
+    <tr>
+    <th>File</th>
+    <th>Description</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+    <td><code>frac_auth.v</code></td>
+    <td>Auth CMRA, with splittable fractional part rather than auth
+    part.</td>
+    </tr>
+    <tr>
+    <td><code>mono_list.v</code></td>
+    <td>Auth CMRA over max prefix list CMRA.</td>
+    </tr>
+    <tr>
+    <td><code>mono_nat.v</code></td>
+    <td>Auth CMRA over max Nat CMRA.</td>
+    </tr>
+    <tr>
+    <td><code>mono_Z.v</code></td>
+    <td>Auth CMRA over max Z CMRA.</td>
+    </tr>
+    <tr>
+    <td><code>gmap_view.v</code></td>
+    <td>Auth CMRA over map: frags are RW access to single entries, or
+    persistent R access.</td>
+    </tr>
+    <tr>
+    <td><code>gset_bij.v</code></td>
+    <td></td>
+    </tr>
+    <tr>
+    <td><code>ufrac_auth.v</code></td>
+    <td></td>
+    </tr>
+    <tr>
+    <td><code>excl_auth.v</code></td>
+    <td></td>
+    </tr>
+    <tr>
+    <td><code>dfrac_agree.v</code></td>
+    <td></td>
+    </tr>
+    </tbody>
+    </table>
+    <p>&#xA0;</p>
+    <hr />
+    <h2 id="irisbi"><code>iris/bi/</code></h2>
+    <p align="center">
+    <img src="../img/iris_deps/iris_bi.svg" title="Dependency graph: bi"
+    id="id" class="class" style="width:50.0%" />
+    </p>
+    <table>
+    <colgroup>
+    <col style="width: 23%" />
+    <col style="width: 76%" />
+    </colgroup>
+    <thead>
+    <tr>
+    <th>File</th>
+    <th>Description</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+    <td><code>notation.v</code></td>
+    <td>Reserved notations.</td>
+    </tr>
+    <tr>
+    <td><code>interface.v</code></td>
+    <td>Axioms of BI/+Persistency/+Later. <code>bi</code> structure
+    bundles syntax + axioms.</td>
+    </tr>
+    <tr>
+    <td><code>derived_connectives.v</code></td>
+    <td>Defines affinely, absorbingly, intuitionistically, except 0,
+    timeless, later n.</td>
+    </tr>
+    <tr>
+    <td><code>weakestpre.v</code></td>
+    <td>Class and notations for WP, TWP.</td>
+    </tr>
+    <tr>
+    <td><code>extensions.v</code></td>
+    <td>Axioms+TC for additional rules to <code>bi</code>.</td>
+    </tr>
+    <tr>
+    <td><code>derived_laws.v</code></td>
+    <td>Derived <code>bi</code> laws.</td>
+    </tr>
+    <tr>
+    <td><code>derived_laws_later.v</code></td>
+    <td>Derived <code>bi</code> laws about step indexing. L&#xF6;b and
+    variants. Other modal laws.</td>
+    </tr>
+    <tr>
+    <td><code>big_op.v</code></td>
+    <td>Big sep, and, or, over finite types.</td>
+    </tr>
+    <tr>
+    <td><code>internal_eq.v</code></td>
+    <td>Axioms+TC for BI with internal equality that respects step
+    indexing.</td>
+    </tr>
+    <tr>
+    <td><code>plainly.v</code></td>
+    <td>Axioms+TC for BI with plainly modality. Laws.</td>
+    </tr>
+    <tr>
+    <td><code>updates.v</code></td>
+    <td>Axioms+TC for BI with bupd, fupd. Laws, laws involving
+    persistently.</td>
+    </tr>
+    <tr>
+    <td><code>ascii.v</code></td>
+    <td>Notation.</td>
+    </tr>
+    <tr>
+    <td><code>embedding.v</code></td>
+    <td>Axioms+TC for embedding one <code>bi</code> in another.</td>
+    </tr>
+    <tr>
+    <td><code>bi.v</code></td>
+    <td>Exports.</td>
+    </tr>
+    <tr>
+    <td><code>telescopes.v</code></td>
+    <td></td>
+    </tr>
+    <tr>
+    <td><code>monopred.v</code></td>
+    <td></td>
+    </tr>
+    </tbody>
+    </table>
+    <p>&#xA0;</p>
+    <hr />
+    <h2 id="irissi_logic"><code>iris/si_logic/</code></h2>
+    <p align="center">
+    <img src="../img/iris_deps/iris_si_logic.svg"
+    title="Dependency graph: si_logic" id="id" class="class"
+    style="width:30.0%" />
+    </p>
+    <table>
+    <colgroup>
+    <col style="width: 12%" />
+    <col style="width: 87%" />
+    </colgroup>
+    <thead>
+    <tr>
+    <th>File</th>
+    <th>Description</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+    <td><code>siprop.v</code></td>
+    <td>Pure, Nat-indexed Prop, COFE and BI defs. Soundness for pure,
+    internal eq, later.</td>
+    </tr>
+    <tr>
+    <td><code>bi.v</code></td>
+    <td>BI TC instances for siProp.</td>
+    </tr>
+    </tbody>
+    </table>
+    <p>&#xA0;</p>
+    <hr />
+    <h2 id="irisbilib"><code>iris/bi/lib</code></h2>
+    <p align="center">
+    <img src="../img/iris_deps/iris_bi_lib.svg"
+    title="Dependency graph: bi/lib" id="id" class="class"
+    style="width:80.0%" />
+    </p>
+    <table>
+    <colgroup>
+    <col style="width: 23%" />
+    <col style="width: 76%" />
+    </colgroup>
+    <thead>
+    <tr>
+    <th>File</th>
+    <th>Description</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+    <td><code>counterexamples.v</code></td>
+    <td>Paradoxes.</td>
+    </tr>
+    <tr>
+    <td><code>laterable.v</code></td>
+    <td></td>
+    </tr>
+    <tr>
+    <td><code>fixpoint.v</code></td>
+    <td>Derived lfp and gfp of a monotone function, induction
+    principles.</td>
+    </tr>
+    <tr>
+    <td><code>relations.v</code></td>
+    <td>Closure, iterate of relations. Internal, with internal eq.</td>
+    </tr>
+    <tr>
+    <td><code>atomic.v</code></td>
+    <td></td>
+    </tr>
+    <tr>
+    <td><code>cmra.v</code></td>
+    <td>Internalize included, given internal equality.</td>
+    </tr>
+    <tr>
+    <td><code>fractional.v</code></td>
+    <td></td>
+    </tr>
+    <tr>
+    <td><code>core.v</code></td>
+    <td>TC for core of a prop. Internal.</td>
+    </tr>
+    </tbody>
+    </table>
+    <p>&#xA0;</p>
+    <hr />
+    <h2 id="irisbase_logic"><code>iris/base_logic/</code></h2>
+    <p align="center">
+    <img src="../img/iris_deps/iris_base_logic.svg"
+    title="Dependency graph: base_logic" id="id" class="class"
+    style="width:50.0%" />
+    </p>
+    <table>
+    <colgroup>
+    <col style="width: 12%" />
+    <col style="width: 87%" />
+    </colgroup>
+    <thead>
+    <tr>
+    <th>File</th>
+    <th>Description</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+    <td><code>upred.v</code></td>
+    <td>uPred for general UCMRA, COFE + BI defs. Nonexpansive and proof
+    rules. Soundness for later, pure, internal eq.</td>
+    </tr>
+    <tr>
+    <td><code>bi.v</code></td>
+    <td>BI TC instances for upred.</td>
+    </tr>
+    <tr>
+    <td><code>derived.v</code></td>
+    <td>Derived laws, TC instances for valid. Soundness for bupd,
+    modalities.</td>
+    </tr>
+    <tr>
+    <td><code>algebra.v</code></td>
+    <td><em>Internalizes properties of CMRA.</em></td>
+    </tr>
+    <tr>
+    <td><code>proofmode.v</code></td>
+    <td>Pure and splitting TC instances for uPred.</td>
+    </tr>
+    <tr>
+    <td><code>base_logic.v</code></td>
+    <td>Exports.</td>
+    </tr>
+    <tr>
+    <td><code>bupd_alt.v</code></td>
+    <td><em>Alternate bupd definition.</em></td>
+    </tr>
+    </tbody>
+    </table>
+    <p>&#xA0;</p>
+    <hr />
+    <h2 id="irisbase_logiclib"><code>iris/base_logic/lib/</code></h2>
+    <p align="center">
+    <img src="../img/iris_deps/iris_base_logic_lib.svg"
+    title="Dependency graph: base_logic/lib" id="id" class="class"
+    style="width:100.0%" />
+    </p>
+    <table>
+    <colgroup>
+    <col style="width: 17%" />
+    <col style="width: 82%" />
+    </colgroup>
+    <thead>
+    <tr>
+    <th>File</th>
+    <th>Description</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+    <td><code>fancy_update_from_vs.v</code></td>
+    <td>Fancy updates as view shift.</td>
+    </tr>
+    <tr>
+    <td><code>iprop.v</code></td>
+    <td>iProp: solution to uPred recurrence. TC for GFunctors: lists of
+    locally contractive rFunctors, for the solution. iPropO: the
+    OFE.</td>
+    </tr>
+    <tr>
+    <td><code>own.v</code></td>
+    <td>TC for CMRA being in GFunctors. Definition of ghost ownership.
+    Updates, allocation.</td>
+    </tr>
+    <tr>
+    <td><code>token.v</code></td>
+    <td>GFunctor for unique ownership of symbol.</td>
+    </tr>
+    <tr>
+    <td><code>ghost_map.v</code></td>
+    <td>GFunctor for ghost heap.</td>
+    </tr>
+    <tr>
+    <td><code>ghost_var.v</code></td>
+    <td>GFunctor for ghost mutable variable.</td>
+    </tr>
+    <tr>
+    <td><code>mono_nat.v</code></td>
+    <td>GFunctor for auth/frag of mono nat/lower bound.</td>
+    </tr>
+    <tr>
+    <td><code>saved_prop.v</code></td>
+    <td></td>
+    </tr>
+    <tr>
+    <td><code>proph_map.v</code></td>
+    <td></td>
+    </tr>
+    <tr>
+    <td><code>gset_bij.v</code></td>
+    <td></td>
+    </tr>
+    <tr>
+    <td><code>wsat.v</code></td>
+    <td><em>Related to world satisfaction style modalities.</em></td>
+    </tr>
+    <tr>
+    <td><code>later_credits.v</code></td>
+    <td>GFunctor for later credits. Later update modality.</td>
+    </tr>
+    <tr>
+    <td><code>fancy_updates.v</code></td>
+    <td>GFunctor for fupd. Laws &amp; soundness (dependent on later
+    credits). GFunctor for enabling invariants.</td>
+    </tr>
+    <tr>
+    <td><code>invariants.v</code></td>
+    <td>Internal construction of invariants.</td>
+    </tr>
+    <tr>
+    <td><code>na_invariants.v</code></td>
+    <td>GFunctor for non-atomic invariants.</td>
+    </tr>
+    <tr>
+    <td><code>cancelable_invariants.v</code></td>
+    <td>GFunctor for cancelable invariants.</td>
+    </tr>
+    <tr>
+    <td><code>boxes.v</code></td>
+    <td></td>
+    </tr>
+    <tr>
+    <td><code>gen_heap.v</code></td>
+    <td>GFunctor for physical heap.</td>
+    </tr>
+    <tr>
+    <td><code>gen_inv_heap.v</code></td>
+    <td>GFunctor for heap of invariants (persistent).</td>
+    </tr>
+    </tbody>
+    </table>
+    <p>&#xA0;</p>
+    <hr />
+    <h2 id="what-else">What else?</h2>
+    <p>The remaining modules are</p>
+    <ul>
+    <li><strong>HeapLang-related</strong>: these are developed
+    internally to the Iris logic, and I am confident do not need to be a
+    medium-term priority.</li>
+    <li><strong>Proofmode-related</strong>: The existing Lean-iris
+    project has done extensive work on replicating the proofmode in
+    Lean.</li>
+    <li><strong>Unstable</strong>: No essential lemmas depend on
+    these.</li>
+    <li><strong>Tests</strong>: Will change greatly in a
+    reimplementation.</li>
+    </ul>
+    <h2 id="a-plan-for-iris-in-lean">A Plan for Iris in Lean</h2>
+    <p>Building off of this inventory, here are some things I think I
+    can concretely start working on. I&#x2019;ve tried to keep the list of
+    goals minimal, because I expect it to grow.</p>
+    <ul>
+    <li>Fundamental structures
+    <ul>
+    <li>Files for a focused reading and documentation:
+    <ul>
+    <li><code>algebra/ofe.v</code></li>
+    <li><code>algebra/cofe_solver.v</code></li>
+    <li><code>algebra/cmra.v</code></li>
+    <li><code>algebra/updates.v</code>,
+    <code>algebra/local_updates.v</code></li>
+    <li><code>algebra/excl.v</code></li>
+    <li><code>algebra/frac.v</code></li>
+    <li><code>algebra/view.v</code>
+    <ul>
+    <li>How does this differ from Auth?</li>
+    </ul></li>
+    <li><code>algebra/auth.v</code></li>
+    </ul></li>
+    <li>OFE/CMRA/RA hierarchy definition
+    <ul>
+    <li>Define OFE/COFE, bundled (category) and semi-bundled
+    (typeclasses)</li>
+    <li>Hierarchy of nonexpansive functions, using mathlib-style
+    morphism typeclasses</li>
+    <li>Feedback from the Lean Zulip
+    <ul>
+    <li>Possible Goal: Mathlib PR</li>
+    </ul></li>
+    </ul></li>
+    <li>Goal: the proofs of the fixpoint constructions</li>
+    <li>Goal: the proofs for the oFunctor fixpoint</li>
+    <li><strong>Milestone</strong>: implement Excl
+    <ul>
+    <li>Getting the hierarchy definition into a place where I can state
+    excl, even if the constructions aren&#x2019;t done.</li>
+    </ul></li>
+    <li>Goal: implement Frac</li>
+    <li>Goal: define local updates
+    <ul>
+    <li>How bundled are similar definitions in mathlib?</li>
+    </ul></li>
+    <li>Goal: implement View</li>
+    <li><strong>Milestone</strong>: Auth</li>
+    </ul></li>
+    <li>Generalized Rewriting
+    <ul>
+    <li>Mark the places where I am doing manual rewriting work in
+    <code>ofe.lean</code></li>
+    <li>Follow the development of generalized rewriting</li>
+    <li>Understand the monotone rewriting tactics in
+    <code>iris-lean</code>.</li>
+    <li>Try to implement a search metaprogram for our use case in the
+    meantime</li>
+    </ul></li>
+    <li>Separation Logic
+    <ul>
+    <li>Files for a focused reading and documentation:
+    <ul>
+    <li>I will need to read everything on the main depdndency graph
+    closely before I can confidently implement it.
+    <ul>
+    <li><code>bi/interface.v</code></li>
+    <li><code>bi/derived_connectives.v</code></li>
+    <li><code>bi/extensions.v</code></li>
+    <li><code>bi/derived_laws.v</code></li>
+    <li><code>bi/derived_laws_later.v</code></li>
+    <li><code>bi/internal_eq.v</code></li>
+    <li><code>bi/plainly.v</code></li>
+    <li><code>bi/updates.v</code></li>
+    </ul></li>
+    <li>The BI definition and extensions in <code>iris-lean</code>
+    <ul>
+    <li>The right BI definition for tactics might not be the same as the
+    right BI definition for math.</li>
+    </ul></li>
+    </ul></li>
+    <li>Hierarchy of BI logics
+    <ul>
+    <li>Definitions for properties of elements in BI logics</li>
+    </ul></li>
+    </ul></li>
+    <li>Instance of <code>iris-lean</code> for a simple separation logic
+    <ul>
+    <li>Formalize &#x201C;Bringing Order to the Separation Logic Jungle&#x201D;, try
+    instantiating it</li>
+    </ul></li>
+    <li><strong>Milestone:</strong> Instance of <code>iris-lean</code>
+    for <code>si_logic</code>
+    <ul>
+    <li>This might already be developed (they have a similar-looking
+    logic). In this case, I need to understand it.</li>
+    </ul></li>
+    <li>Base logic
+    <ul>
+    <li>Files for a focused reading and documentation:
+    <ul>
+    <li><code>base_logic/upred.v</code></li>
+    <li><code>base_logic/bi.v</code></li>
+    <li><code>base_logic/derived.v</code></li>
+    </ul></li>
+    <li>Goal: Understand and state <code>upred</code></li>
+    </ul></li>
+    <li><strong>Main Milestone</strong>: Instance of
+    <code>iris-lean</code> for base logic
+    <ul>
+    <li>The soundness theorems from <code>base_logic/derived.v</code>
+    and <code>base_logic/bi.v</code></li>
+    </ul></li>
+    </ul>
+    <p>The short term involves plenty of reading and documentation. Any
+    progress I make will continue to be posted on my website.</p>
+    <h2 id="the-future">The Future</h2>
+    <p>I think that an ergonomic definition of the structures leading up
+    to <code>uPred</code> are the bare minimum for an implementation of
+    Iris in Lean. It&#x2019;s hard to plan further, but a development that gets
+    that far can be confident enough in the definitions so that the
+    other files low in the dependency order will be amenable to a
+    distributed effort. Of course there is still a lot of work between
+    that point and a usable logic&#x2013;but much of that work is internal to
+    the Iris logic, which is less likely to fail outright.</p>
+    <p>While the list of tasks will surely grow, the amount of work I
+    <em>don&#x2019;t</em> have to do gives me confidence that this is a
+    realistic plan. Along the way I plan to document as much of my
+    process as possible, so in the event of my failure somebody else can
+    pick up the torch. If anyone would like to get in contact about this
+    effort, the main page of my website has my contact information.</p>
+    <section id="footnotes" class="footnotes footnotes-end-of-document"
+    role="doc-endnotes">
+    <hr />
+    <ol>
+    <li id="fn1"><p>This diagram is not complete. Among other things,
+    its missing the geneology of step-indexed and modal program logics,
+    which Iris is also heavily based upon.<a href="#fnref1"
+    class="footnote-back" role="doc-backlink">&#x21A9;&#xFE0E;</a></p></li>
+    <li id="fn2"><p>Anecdotally, the labmates I&#x2019;ve been pestering with
+    the <em>Why can&#x2019;t we have Iris in Lean</em> conversation have found
+    it <em>very</em> convincing.<a href="#fnref2" class="footnote-back"
+    role="doc-backlink">&#x21A9;&#xFE0E;</a></p></li>
+    <li id="fn3"><p>Iris commit hash
+    <code>657b34ad877f1ba22414e0e85ad2a49e56a188e0</code><a
+    href="#fnref3" class="footnote-back"
+    role="doc-backlink">&#x21A9;&#xFE0E;</a></p></li>
+    </ol>
+    </section>
+
+  </body>
+</html>
