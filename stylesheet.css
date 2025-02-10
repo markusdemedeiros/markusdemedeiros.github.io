@@ -178,3 +178,14 @@ sup {
   color: #FF6600;
   text-decoration: none;
 }
+
+.papers__main {
+  margin: 10pt;
+  padding: 0;
+}
+
+.paper_item {
+  margin: 10pt 0;
+  padding: 0;
+  list-style-type: none;
+}
