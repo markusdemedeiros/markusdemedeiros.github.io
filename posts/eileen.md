@@ -1,7 +1,7 @@
 ---
 title:  'Eileen: A plan for Iris in Lean'
 date: 'Dec 28, 2024'
-content: 'Eileen'
+content: 'Iris-Lean'
 ...
 
 Iris is a world-class framework for mechanizing program logics in Rocq. 
