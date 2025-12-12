@@ -10,8 +10,9 @@ The talk is about Eris, for which we have recently put out a [preprint](https://
 My slides are available in [pdf](../pdf/Eris_Presentation_nonanimated.pdf), or [keynote](../pdf/Eris_Presentation.key) (fancy animations!)
 
 
+<p align="center">
 ![](../img/Eris_talk.jpg "Me at a podium, with Eris slides projected in the background. Photo credit Simon Oddershede Gregersen"){#id .class width=500} 
-
+</p>
 
 
 
