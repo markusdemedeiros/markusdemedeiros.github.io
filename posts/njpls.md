@@ -4,7 +4,7 @@ date: 'Dec 5, 2024'
 content: 'academics, iris-lean'
 ...
 
-On December 5 I got the change to talk about Iris-Lean at the [New Jersey Programming Langauges and Systems Seminar](https://njpls.org/dec2025.html). 
+On December 5 I got the change to talk about Iris-Lean at the [New Jersey Programming Languages and Systems Seminar](https://njpls.org/dec2025.html). 
 My slides are available in [pdf](../pdf/IrisLean.pdf).
 
 <p align="center">
