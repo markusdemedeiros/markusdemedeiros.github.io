@@ -1,6 +1,6 @@
 ---
 title:  'NJPLS Talk: Iris-Lean'
-date: 'Dec 5, 2024'
+date: 'Dec 5, 2025'
 content: 'academics, iris-lean'
 ...
 
