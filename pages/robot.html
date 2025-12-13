@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>My Conversation with the Bot</title>
+    <link rel="stylesheet" type="text/css" href="../stylesheet.css">
+  </head>
+
+  <body>
+    <center>
+      <h2>My Conversation with the Bot</h2>
+      <aside>Dec 12, 2025</aside>
+    </center>
+
+    <hr>
+    <br>
+
+    <p><em>My Dinner With Andr&#xE9;</em> is a 1981 comedy film centering
+    around a schizophrenic conversation between a cynical, overworked,
+    broke playwright (Wally Shawn) and his long-winded,
+    pseudo-spiritual, presumably delusional friend Andr&#xE9;.</p>
+    <p>In other news, I&#x2019;ve been chatting with Claude code while I
+    work.</p>
+    <p align="center">
+    <img src="../img/andre.jpeg" title="The titular Andr&#xE9;" id="id"
+    class="class" width="400" />
+    </p>
+    <h4 id="ai-gross.">AI? Gross.</h4>
+    <p>If you&#x2019;re waiting to tell me that AI is probably bad for the
+    environment, or our brains, or our economy&#x2026; save it. I already agree
+    with you. The MIT technology review has a <a
+    href="https://www.technologyreview.com/supertopic/ai-energy-package/">great
+    running story</a> on the energy cost of AI, which I don&#x2019;t have the
+    qualifications to summarize, but look. It&#x2019;s bad.</p>
+    <p>On top of that, I just don&#x2019;t like, <em>like</em> AI. AI writing
+    is really disgusting to me, and I agree with <a
+    href="https://distantprovince.by/posts/its-rude-to-show-ai-output-to-people/">Alex
+    Martsinovich&#x2019;s opinion</a> that giving somebody AI generated text is
+    &#x201C;rude&#x201D;. I don&#x2019;t have a need for AI image generation, if I wanted to
+    fill my presentations with flat design corpo-sludge I&#x2019;d gladly just
+    pay a human $1 to do it. It also astounds me that people actually
+    use those AI summaries. At this point I&#x2019;m sure you&#x2019;ve also had your
+    fill of <a
+    href="https://www.forbes.com/sites/jackkelly/2024/05/31/google-ai-glue-to-pizza-viral-blunders/">glue
+    pizza</a> moments, but I&#x2019;ll share my own. One time I was at a poker
+    game with a more AI-friendly PhD student who asked ChatGPT about the
+    all-in splitting rules; the AI got it wrong (lol), and for some
+    reason the PhD student still came to its defense. It was genuinely
+    pretty hard to take him seriously after that performance.</p>
+    <p>Honestly, I don&#x2019;t even really enjoy the process of using AI. The
+    AI chatbots are flaky, inconsistent, and don&#x2019;t guarantee good
+    results. You know this. They don&#x2019;t guarantee anything! I recall
+    having a genuine moment of doubt before putting my credit card
+    information into the Anthropic website&#x2026; after all, the payment
+    portal was probably written by Claude coders (derogatory),
+    right?</p>
+    <p>Lastly, I&#x2019;m a student. My job is to learn, and when I see the way
+    that some people use AI I get the same radioactive, slimy feeling as
+    looking for answers in the back of the book. Would using AI stunt my
+    growth as a researcher? Where&#x2019;s the line between routine chores and
+    practice?</p>
+    <h4 id="but">But?</h4>
+    <p>I&#x2019;m also, at least aspirationally, a scientist, and I think it&#x2019;s
+    important to keep an open mind. I don&#x2019;t think it&#x2019;s fair to say that
+    there is <em>no</em> possible future where AI stops being such a
+    nightmare. Maybe there&#x2019;s a world where businesspeople remember that
+    money has value and they stop donating it to the construction of
+    redundant datacenters. Or maybe demand, or the bubble, or
+    regulation, or whatever, will shrink the industry to the point where
+    spinning up new (<a
+    href="https://www.politico.com/news/2025/11/27/ai-gives-coal-plants-a-lifeline-as-trump-makes-them-dirtier-00661839">also
+    known as &#x201C;worse&#x201D;</a>) coal burning power plants is not actually
+    worth $&#x221E; per quarter when <a
+    href="https://www.wheresyoured.at/costs/#anthropic-is-in-real-troubleand-the-current-cost-of-doing-business-is-unsustainable-meaning-prices-must-increase">more
+    inference does not mean more profit</a>.</p>
+    <p>Maybe, in that world, and in some cases, AI could be useful.</p>
+    <p>I don&#x2019;t think it&#x2019;s my job to make that world possible, or even to
+    determine if we&#x2019;re there yet. But since I&#x2019;ve had a coherent opinion
+    on the topic, I&#x2019;ve decided that I would wait for any benefits of AI
+    to show themselves before really trying to figure them out for
+    myself. And for the past two years I&#x2019;ve seen a lot of speculation,
+    toy benchmarks, and rhetoric, but nothing compelling enough to be
+    worth my soul.</p>
+    <h4 id="so-what-changed-then">So what changed, then?</h4>
+    <p>AI presented me a solution to a problem. I had been working on
+    Iris-Lean, trying to wrangle some horrible type transports I had
+    never done before. Zongyuan Liu, a PhD student at Aarhus, tried
+    asking Claude and amazingly the machine spat out a solution! It
+    really was &#x201C;A Solution&#x201D; in the same way that I&#x2019;d submit &#x201C;A Solution&#x201D;
+    to my differential equations homework at 11:59:59. The code was
+    extremely repetitive and did not make use of good abstractions. Many
+    of the proofs were unmaintainable trash that would need to be
+    completely rewritten, not even worth refactoring.</p>
+    <p>But, much like the differential equations assignments I made my
+    TA&#x2019;s suffer through, there were a few good nuggets amidst the muck.
+    The code made use of some lemmas from the Lean core libraries that I
+    didn&#x2019;t know about, and presented a refactoring that caused some of
+    the dependent type errors I was running into to disappear. Once this
+    pattern was uncovered, I was able to make progress on the actual
+    proofs.</p>
+    <p>Claude <em>did not</em> produce a good solution, it produced a
+    statistically unsurprising one that I didn&#x2019;t have the data to
+    see.</p>
+    <p>This brings us back to Andr&#xE9;.</p>
+    <blockquote>
+    <p>The worst thing of all was that I&#x2019;d been trapped by an odd series
+    of circumstances into agreeing to have dinner with a man I&#x2019;d been
+    avoiding literally for years. His name was Andr&#xE9; Gregory.</p>
+    </blockquote>
+    <p>My main research project these days involves formalizing a bunch
+    of math in Coquelicot, one of several Rocq libraries for real
+    analysis. At this stage of the project, my time is dominated by
+    repetitive, low-level analysis results which are very well-studied,
+    and for which the Coquelicot developers have already laid the
+    foundations to formalize.</p>
+    <p>My experience with Iris-Lean led me to try out AI for these
+    tasks, and I&#x2019;ve been doing so for a few weeks now. This morning, I
+    had a good and relatively typical experience with the AI, so I
+    decided now would be a good time to record my experiences with the
+    tool so far.</p>
+    <h2 id="prelude">Prelude</h2>
+    <p>I use the $20 per month Claude Pro plan with Claude Code. I
+    actually use two of them; over the last few weeks I&#x2019;ve found myself
+    hitting the recently-implemented bandwidth caps almost every
+    session, despite making a concerted effort to be efficient with my
+    usage. For one example, on each query I individually decide whether
+    or not to use the &#x201C;thinking&#x201D; feature. Aside from efficiency I&#x2019;ve
+    found that this often improves performance, because Claude&#x2013;</p>
+    <p>Actually wait a second. Can I just pause to mention how much I
+    hate the anthropomorphization of these robots? I think it&#x2019;s kind of
+    funny to refer to Claude as Andr&#xE9; Gregory but phrases like
+    &#x201C;thinking&#x201D; or &#x201C;hallucination&#x201D; leaves a terrible taste in my mouth.
+    Calling it <em>the bot</em> feels much better.</p>
+    <p>Anyways, the bot can&#x2019;t <em>really</em> think, and I&#x2019;ve found that
+    when I know a solution exists and should be simple to find I
+    actually want it to &#x201C;think&#x201D; less.</p>
+    <p>The bot is basically unusable for my purposes without Rocq-MCP:
+    this is an extension to Claude Code which allows the bot to create
+    and manipulate Rocq proof goals. It doesn&#x2019;t edit Rocq files
+    directly, it&#x2019;ll use Rocq-MCP come up with a complete (checked) proof
+    and then offer to insert the text into my file. For some ridiculous
+    reason the process of translating a complete Rocq-MCP proof to my
+    proof script is lossy. I suspect that the bot is just looking over
+    its chat history to reconstruct a proof script out of the tactics it
+    executed, so sometimes it will create a correct proof and then the
+    script it gives you back fails to typecheck. I&#x2019;ve found that asking
+    it to fix these type errors can lead to loops where it just
+    iteratively guesses and makes the solution worse, so I typically
+    just fix its proofs myself. Not a big deal for me, because I&#x2019;m
+    running this thing in a highly supervised environment, but clearly
+    it&#x2019;s not smart enough to be left to its own devices.</p>
+    <p>The bot actually prefers to not use Rocq-MCP and guess wildly at
+    possible solutions instead. To rectify this, I added a section to my
+    <code>CLAUDE.md</code>:</p>
+    <pre><code>## General Theorem Proving Guidelines (IMPORTANT!)
+
+- When writing proofs in Coq/Rocq I am REQUIRED to check all proofs using Rocq-MCP, and I 
+  should never try to guess a complete proof script. 
+- I am supposed to write in the Coquelicot style, sticking mainly to lemmas and results from 
+  Coquelicot where possible.
+- I am encouraged to search the Coquelicot source code for similar proofs that I can mimic.
+- I may be allowed to add hypotheses to the lemmas I am proving. If I want to do this, I am 
+  supposed to pause and ask the user for permission.
+- If I am stuck, the user prefers that I pause and ask them for guidance. 
+- Generally speaking, be concise.
+- DO NOT USE BULLETS in Rocq-MCP. Bullets are known to be buggy. Focus goals using curly 
+  brackets instead.</code></pre>
+    <p>Despite being labeled as <code>IMPORTANT!</code>, the bot
+    typically forgets all about my rules. At the beginning of a proof
+    session, or when I see that it&#x2019;s forgotten about them, I typically
+    ask if it &#x201C;remembers&#x201D; my proof guidelines. It then apologizes and
+    spits them back to me verbatim, and for a while, the train will be
+    back on the tracks.</p>
+    <p>I&#x2019;ve found that this strategy of asking rhetorical questions,
+    like asking for a summary of the theorems I know I want it to use,
+    works pretty well. It&#x2019;s the same technique I used when TA&#x2019;ing
+    undergrads, funny enough. Today it also told me, and I&#x2019;m not
+    kidding,</p>
+    <pre><code>You&#39;re right, I apologize! Let me actually prove the goals.</code></pre>
+    <p>Which I also have heard from undergrads as well.</p>
+    <h2 id="act-1">Act 1</h2>
+    <p>The theorem I used it to prove today is sometimes colloquially
+    known as a <em>periodisation lemma</em>. In this case, I want to
+    show that the improper integral of a function from zero to infinity
+    can be split up by the decimal parts of the real number.</p>
+    <p>To start, I stated the theorem in a Rocq file that had access to
+    all of my lemmas, and then asked it to explain to me why the theorem
+    is true (N.B. <code>RInt_gen</code> is a Coquelicot improper
+    integral, <code>SeriesC</code> is a sum, and <code>RInt</code> is
+    the regular Riemann integral):</p>
+    <pre class="coq"><code>Lemma RInt_sep (F : R &#x2192; R) (UB : nat &#x2192; R) :
+      RInt_gen F (at_point 0) (Rbar_locally Rbar.p_infty) 
+    = RInt (fun x =&gt; SeriesC (fun (k : nat) =&gt; F (x + k))) 0 1
+Proof. Admitted.</code></pre>
+    <p>Of course, this theorem isn&#x2019;t true. There are a number of
+    convergence properties you need to assume about <code>F</code> for
+    this to be provable (in this setting, I don&#x2019;t care about the most
+    general theorem, just about proving this theorem with the lemmas
+    available to me, and leaving assumptions that will be provable for
+    the single <code>F</code> I care to instantiate it with). Off the
+    top of my head I couldn&#x2019;t remember what they were, so I told the bot
+    that if it wanted additional hypotheses, it could ask me for
+    them.</p>
+    <p>The bot produced a convincing-looking breakdown of the proof into
+    three steps.</p>
+    <pre><code>  Goal: Prove that &#x222B;[0,&#x221E;) F = &#x222B;[0,1] &#x3A3;_{k=0}^&#x221E; F(x+k) dx
+
+  Step 1: Express improper integral as series of proper integrals
+
+  - Transform: &#x222B;[0,&#x221E;) F = &#x3A3;_{k=0}^&#x221E; &#x222B;[k,k+1] F
+  - This decomposes the infinite interval into a sum of unit intervals
+
+  Step 2: Change of variables in each integral
+
+  - Prove: &#x222B;[k,k+1] F(t) dt = &#x222B;[0,1] F(x+k) dx for each k
+  - This is a translation/substitution lemma shifting each interval to [0,1]
+
+  Step 3: Apply Fubini to exchange series and integral
+
+  - Swap the order: &#x3A3;_{k=0}^&#x221E; &#x222B;[0,1] F(x+k) dx = &#x222B;[0,1] &#x3A3;_{k=0}^&#x221E; F(x+k) dx
+
+  Combining all steps:
+
+  &#x222B;[0,&#x221E;) F = &#x3A3;_k &#x222B;[k,k+1] F
+          = &#x3A3;_k &#x222B;[0,1] F(x+k) dx
+          = &#x222B;[0,1] &#x3A3;_k F(x+k) dx</code></pre>
+    <p>Of course, I already knew that the proof would look something
+    like this. Maybe I would have done the steps in a different order or
+    something, but generally speaking when the bot comes up with a
+    plausible plan I follow its lead or it might get confused by my
+    micromanagement. Letting it follow its nose and then modifying a
+    complete (or incomplete) proof script after the fact is generally
+    easier.</p>
+    <p>I also knew that step 3 was proven and used many times in this
+    repository, and there were a couple bot-generated examples of steps
+    similar to step 1 as well. I asked it to get started on the first
+    goal, and it generated the following helper lemma, which relates an
+    integral from 0 to <code>N</code> with a partial sum of integrals
+    over unit intervals.</p>
+    <pre class="coq"><code>Lemma RInt_decompose_nat (F : R &#x2192; R) (N : nat) :
+  (&#x2200; k : nat, (k &lt; N)%nat &#x2192; ex_RInt F (INR k) (INR k + 1)) &#x2192;
+  ex_RInt F 0 (INR N) &#x2192;
+  RInt F 0 (INR N) = sum_n (fun k =&gt; RInt F (INR k) (INR k + 1)) (N - 1).</code></pre>
+    <p>I say <em>something like</em> because partway through this
+    conversation it needed to compact, and the original statement was
+    lost to time. The bot does an okay job summarizing the conversation
+    before the compaction, but it&#x2019;s not perfect. Compaction is super
+    annoying.</p>
+    <p>Anyways, the version it came up with was not provable: it has an
+    off-by-one error. The bot got stuck proving the base case and asked
+    me for help due to my instructions. I suggested that we just try to
+    prove the actual theorem, and come back to this statement if we
+    needed it. We did, and eventually we would converge on a version
+    that was both correct and provable:</p>
+    <pre class="coq"><code>Lemma RInt_decompose_nat (F : R &#x2192; R) (N : nat) :
+  (&#x2200; k : nat, (k &lt;= N)%nat &#x2192; ex_RInt F (INR k) (INR k + 1)) &#x2192;
+  ex_RInt F 0 (INR (S N)) &#x2192;
+  RInt F 0 (INR (S N)) = sum_n (fun k =&gt; RInt F (INR k) (INR k + 1)) N.</code></pre>
+    <p>This is the same proof technique I use when I don&#x2019;t know how to
+    best state a theorem, I like how some of these high-level strategies
+    can be adapted for bot-maintainence.</p>
+    <p>In the process of proving the correct version of this theorem the
+    bot did make a couple transcription errors, but I fixed them and
+    moved on.</p>
+    <h2 id="act-2">Act 2</h2>
+    <p>The <code>RInt_decompose_nat</code> lemma was used to prove the
+    following helper lemma, which the bot both stated and proved:</p>
+    <pre class="coq"><code>Lemma RInt_gen_as_series (F : R &#x2192; R) :
+  ex_RInt_gen F (at_point 0) (Rbar_locally Rbar.p_infty) &#x2192;
+  (&#x2200; b : R, ex_RInt F 0 b) &#x2192;
+  (&#x2200; k : nat, ex_RInt F (INR k) (INR k + 1)) &#x2192;
+  RInt_gen F (at_point 0) (Rbar_locally Rbar.p_infty) =
+  SeriesC (fun k =&gt; RInt F (INR k) (INR k + 1)).</code></pre>
+    <p>This lemma makes up &#x201C;Step 1&#x201D; of the bot&#x2019;s plan: turning an
+    improper integral into the sum of unit integrals. It generated a
+    plausible proof of this fact, leaving three admits. One was trivial,
+    I tried to tell the bot to do it before realizing it was much faster
+    to do it myself. The second and third admits were more involved,
+    pertaining first to the convergence of the sequence of partial sums
+    of unit integrals:</p>
+    <pre class="coq"><code>Lim_seq.ex_lim_seq (sum_n (&#x3BB; k : nat, RInt F k (k + 1)))</code></pre>
+    <p>and second to the fact that this sequence converges to the
+    improper integral itself:</p>
+    <pre class="coq"><code>filterlim (&#x3BB; M : nat, sum_n (&#x3BB; n : nat, RInt F n (n + 1)) M) eventually
+  (locally 
+    (iota 
+      (&#x3BB; IF : R, filterlim (&#x3BB; b : R, RInt F 0 b) (Rbar_locally Rbar.p_infty) (locally IF))))</code></pre>
+    <p>Interestingly, the bot picked out that the difficulty in both
+    cases had to do with the relationship between continuous and
+    discrete limits: if <code>f : R -&gt; R</code> converges to
+    <code>L</code> as a function, then <code>f : N -&gt; R</code>
+    converges to <code>L</code> as a sequence. The bot stated and proved
+    this fact:</p>
+    <pre class="coq"><code>Lemma continuous_to_discrete_limit {f : R &#x2192; R} {L : R} :
+  filterlim f (Rbar_locally Rbar.p_infty) (locally L) &#x2192;
+  filterlim (&#x3BB; n : nat, f (INR (S n))) eventually (locally L).</code></pre>
+    <p>The proof is relatively basic, and if you told me it was hidden
+    away in Coquelicot somewhere I would not be surprised. I suppose now
+    is a good time to mention: the code is not great, but for my
+    purposes it doesn&#x2019;t have to be. This code will likely live and die
+    in one branch of our project used once, and if we decide to reuse it
+    I&#x2019;ll have to look through it by hand anyways.</p>
+    <p>I make a point out of not subjecting human reviewers to slop
+    code.</p>
+    <p>Somewhere around here I hit my first context limit. A GitHub user
+    named Ming made a <a
+    href="https://github.com/ming86/cc-account-switcher/blob/main/ccswitch.sh">script</a>
+    to switch between multiple Anthropic accounts and it works pretty
+    well. Use it at your own risk. Switching accounts messes up my
+    Rocq-MCP states (you need to quit and reopen Claude code) so it&#x2019;s
+    important to be careful about when it happens.</p>
+    <p>One other note: observant readers will have spotted that the
+    convergence conditions on <code>RInt_gen_as_series</code> are in
+    fact redundant. The first condition requires that the integral exist
+    on every interval <code>[0, b]</code>, and the second that it exist
+    on every unit interval <code>[K, K+1]</code>. These two statements
+    are mathematically, and provably, equivalent. This lemma was only
+    used in one other place right now, so I left it.</p>
+    <h2 id="act-3">Act 3</h2>
+    <p>Now, the hardest part of the proof was done. I asked it to put
+    the remaining pieces together and implement its plan (steps two and
+    three were to apply a change of variables and Fubini&#x2019;s theorem). It
+    got a little stuck on one silly goal in the change of variables</p>
+    <pre class="coq"><code>have Hsimp : (&#x3BB; x : R, F (x + k)) = &#x3BB; y : R, scal 1 (F (1 * y + k))</code></pre>
+    <p>I have no idea why it got so confused by this, but it was easy
+    enough for me to do myself so I didn&#x2019;t stick around to find out.</p>
+    <p>After some prodding, I got it to put the entire proof plan
+    together, and push all the hypotheses up to the theorem
+    statement:</p>
+    <pre><code>1. ex_RInt_gen F (at_point 0) (Rbar_locally Rbar.p_infty) - improper integral exists
+2. (&#x2200; b : R, ex_RInt F 0 b) - all proper integrals from 0 exist
+3. (&#x2200; k : nat, ex_RInt F (INR k) (INR k + 1)) - integrals over unit intervals exist
+4. (&#x2200; k : nat, ex_RInt (fun x =&gt; F (x + INR k)) 0 1) - shifted integrals exist
+5. ex_seriesC UB - uniform bound series converges
+6. (&#x2200; x n, 0 &lt; x &lt; 1 &#x2192; 0 &lt;= F (x + INR n)) - non-negativity for Fubini
+7. (&#x2200; x n, 0 &lt; x &lt; 1 &#x2192; Rabs (F (x + INR n)) &lt;= UB n) - uniform bound for Fubini</code></pre>
+    <p>These hypotheses are&#x2026; interesting. And by interesting I mean
+    redundant. I believe that telling the bot that it could assume
+    convergence conditions meant that it made no absolutely attempt to
+    minimize the number of these assumptions.</p>
+    <p>I got it to derive hypotheses 3 and 4 in terms of the other ones,
+    but it missed the fact that #2 is a consequence of #1. When asked
+    further it seemed to start cooking up a plan, but I don&#x2019;t really
+    care for my application anyways, so I&#x2019;ll leave it.</p>
+    <p>The bot, of course, got struck by some terrible unification error
+    caused (I think) by an error when translating its Rocq-MCP proof.
+    Fortunately I am an expert in terrible unification errors, so I just
+    solved it for the bot instead of wasting any more time.</p>
+    <h2 id="finale">Finale</h2>
+    <p><a
+    href="https://github.com/logsem/clutch/blob/523c667b6328f6fd0d749d61b89e60c976815483/theories/eris/examples/math.v#L14">The
+    final code</a></p>
+    <p>Overall, I would say the bot helped me here. Remembering all the
+    theorems to use, and brute-forcing parts myself, would have taken a
+    lot longer. I normally work concurrently on other parts of the
+    development while the bot is going&#x2013;this time I was reading a paper
+    and planning one of our next examples that depended on this
+    theorem.</p>
+    <p>My experience with this example is fairly representative of the
+    cases where I&#x2019;ve given the bot a theorem I knew how to prove with
+    tools I knew it already had access to (for example, the Fubini
+    exchange it used in Step 3, which we derived a while ago). Even for
+    some really twisted theorems, like quadruple-nested limit exchanges
+    that I only vaguely think are true but would be uncomplicated to
+    prove if so, it can do pretty good as long as it doesn&#x2019;t need to be
+    clever.</p>
+    <p>Clever theorems are different, for those I run it in the hope
+    that the impending car crash will teach me something about
+    automotive safety. I got it to help me prove the Weierstrass M-Test:
+    the result that a series of nonnegative functions converges
+    uniformly when the functions have uniform upper bounds which also
+    converge. My first few attempts at getting the bot to prove this
+    were a complete loss, even when the bot was pointed to a complete
+    (correct) mathematical proof. For reasons I could not discern, a
+    later attempt managed to fail into a state which admitted only some
+    facts about the tail bounds on the respective series, which I was
+    able to prove myself. Sometimes, even when the bot gets stuck, its
+    attempts can show me the way through the tricky manipulations that I
+    get stuck on myself.</p>
+    <p>Will I keep using the bot? Probably. I&#x2019;m still not happy with not
+    knowing how bad this is for the environment, but in all honesty I
+    think the jury is still out on individual usage. I have literally
+    not once wanted to use this for anything outside of technical work
+    and I don&#x2019;t expect that to change, I&#x2019;ve also played around with
+    their &#x201C;Opus&#x201D; model but it really doesn&#x2019;t fit a niche in my work like
+    this basic model does so I can&#x2019;t really see myself upgrading either.
+    I&#x2019;ll definitely downgrade to one plan though, lol.</p>
+    <p>Every now and then I pick up some new Coquelicot idioms from
+    Andr&#xE9;, I mean the bot, I mean Sylvie Boldo and Catherine Lelay and
+    Assia Mahboubi and Micaela Mayero and Guillaume Melquiond, the
+    authors of Coquelicot. The bot doesn&#x2019;t do anything new (it has
+    repeatedly shown itself to be too stupid do so when asked), but it
+    is very good at repackaging the hard-wrought insights of real
+    scientists. And that&#x2019;s great. Forget all the &#x201C;AGI&#x201D; noise: the
+    quicker you can walk the well-trodden path, the more energy you will
+    have when you hit the frontier.</p>
+    <p>Like <em>My Dinner with Andr&#xE9;</em>, there&#x2019;s no grand conclusion
+    to this story. Like I said, that&#x2019;s not my job, and now it is time
+    for you to leave. Dinner is over and I&#x2019;ve got more stuff to get
+    to.</p>
+    <blockquote>
+    <p>I treated myself to a taxi, I rode home through the city streets.
+    [&#x2026;] When I finally came in, Debby was home from work, and I told her
+    everything about my dinner with Andr&#xE9;.</p>
+    </blockquote>
+
+  </body>
+</html>
