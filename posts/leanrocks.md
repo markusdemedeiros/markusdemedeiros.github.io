@@ -5,7 +5,7 @@ content: ''
 ...
 
 Someone, I don't know who, once said that Lean is the Python of theorem provers. 
-I'm can't be sure if they meant it derisively, but I've certainly heard this comparison made derisively since. 
+I can't be sure if they meant it derisively, but I've certainly heard this comparison made derisively since. 
 
 The thing is... they're right. 
 Lean 4 is the Python of theorem provers. 
