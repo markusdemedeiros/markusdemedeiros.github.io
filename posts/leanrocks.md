@@ -24,26 +24,26 @@ You, the garbler,[^1] start off with a logical circuit known to both parties:
 ![](../img/FullAdder.svg "A full adder circuit, credit WikiMedia"){#id .class width=60%} 
 </p>
 
-Then, for each wire `W`, you generate two encryption keys: a key to represent that <span style="color:#FF6600">[🔑 W is False]</span>, and another for when <span style="color:#0099FF">[🔑 W is True]</span>.
+Then, for each wire `W`, you generate two encryption keys: a key to represent that <span style="color:#FF4F00">[🔑 W is False]</span>, and another for when <span style="color:#0099FF">[🔑 W is True]</span>.
 Using these keys you can generate truth tables for each gate in the circuit, for example that of an `AND` gate:
 
 <center>
 | Input A | Input B | Output C |
 | ------- | ------- | -------- |
-| <span style="color:#FF6600">[🔑 A is False]</span> | <span style="color:#FF6600">[🔑 B is False]</span> | <span style="color:#FF6600">[🔑 C is False]</span> |
-| <span style="color:#FF6600">[🔑 A is False]</span> | <span style="color:#0099FF">[🔑 B is True]</span>  | <span style="color:#FF6600">[🔑 C is False]</span> |
-| <span style="color:#0099FF">[🔑 A is True]</span>  | <span style="color:#FF6600">[🔑 B is False]</span> | <span style="color:#FF6600">[🔑 C is False]</span> |
+| <span style="color:#FF4F00">[🔑 A is False]</span> | <span style="color:#FF4F00">[🔑 B is False]</span> | <span style="color:#FF4F00">[🔑 C is False]</span> |
+| <span style="color:#FF4F00">[🔑 A is False]</span> | <span style="color:#0099FF">[🔑 B is True]</span>  | <span style="color:#FF4F00">[🔑 C is False]</span> |
+| <span style="color:#0099FF">[🔑 A is True]</span>  | <span style="color:#FF4F00">[🔑 B is False]</span> | <span style="color:#FF4F00">[🔑 C is False]</span> |
 | <span style="color:#0099FF">[🔑 A is True]</span>  | <span style="color:#0099FF">[🔑 B is True]</span>  | <span style="color:#0099FF">[🔑 C is True]</span> |
 </center>
 
 The (and I am so sorry for what I am about to write) _key_ step is to take this truth table and turn it into a table of four encrypted values, where you use the input keys to encrypt the output.
-For example, to read off the third row in the truth table for this `AND` gate, I need to use a <span style="color:#0099FF">[🔑 A is True]</span> key and a <span style="color:#FF6600">[🔑 B is False]</span> key, in order to unlock the <span style="color:#FF6600">[🔑 C is False]</span> key it contains.
+For example, to read off the third row in the truth table for this `AND` gate, I need to use a <span style="color:#0099FF">[🔑 A is True]</span> key and a <span style="color:#FF4F00">[🔑 B is False]</span> key, in order to unlock the <span style="color:#FF4F00">[🔑 C is False]</span> key it contains.
 <center>
 | Garbled Gate |
 | ------------ |
-| <span style="color:#FF6600">[🔒 A is False]</span> <span style="color:#FF6600">[🔒 B is False]</span> <span style="color:#FF6600">[🔑 C is False]</span> |
-| <span style="color:#FF6600">[🔒 A is False]</span> <span style="color:#0099FF">[🔒 B is True]</span> <span style="color:#FF6600">[🔑 C is False]</span> |
-| <span style="color:#0099FF">[🔒 A is True]</span> <span style="color:#FF6600">[🔒 B is False]</span> <span style="color:#FF6600">[🔑 C is False]</span> |
+| <span style="color:#FF4F00">[🔒 A is False]</span> <span style="color:#FF4F00">[🔒 B is False]</span> <span style="color:#FF4F00">[🔑 C is False]</span> |
+| <span style="color:#FF4F00">[🔒 A is False]</span> <span style="color:#0099FF">[🔒 B is True]</span> <span style="color:#FF4F00">[🔑 C is False]</span> |
+| <span style="color:#0099FF">[🔒 A is True]</span> <span style="color:#FF4F00">[🔒 B is False]</span> <span style="color:#FF4F00">[🔑 C is False]</span> |
 | <span style="color:#0099FF">[🔒 A is True]</span> <span style="color:#0099FF">[🔒 B is True]</span> <span style="color:#0099FF">[🔑 C is True]</span> |
 </center>
 
@@ -69,7 +69,7 @@ Perfect for passive-aggressives everywhere!
 
 ## Where's the but?
 
-If we give the table above, and he unlocks the third entry, he learns for sure that A is True, B is False, and that they key he found is the key representing <span style="color:#FF6600">[🔑 C is False]</span>.
+If we give the table above, and he unlocks the third entry, he learns for sure that A is True, B is False, and that they key he found is the key representing <span style="color:#FF4F00">[🔑 C is False]</span>.
 This is because a table is _ordered_: the index of an unlocked entry leaks what that entry means.
 It is important for circuit garbling algorithms to randomly permute the table entries before publishing them: the order doesn't matter to a truthful Bob, and an index into a permuted table tells you nothing about its input. 
 
@@ -330,7 +330,7 @@ The key understanding came from this paper,[^2] where the author notes that
 
 where `p(vi, i)` is the value `vi` `XOR`'d with a random bit `ri` generated beforehand. 
 
-<center><b>⚠️⚠️  <span style="color:#FF6600">THIS IS NOT THE DECLARATIVE WAY TO DESCRIBE THIS ALGORITHM!</span> ⚠️⚠️</b></center>
+<center><b>⚠️⚠️  <span style="color:#FF4F00">THIS IS NOT THE DECLARATIVE WAY TO DESCRIBE THIS ALGORITHM!</span> ⚠️⚠️</b></center>
 
 Sorry. 
 This is not the declarative way to describe this algorithm. 

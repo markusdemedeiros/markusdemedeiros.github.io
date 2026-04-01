@@ -37,7 +37,7 @@
     style="width:60.0%" />
     </p>
     <p>Then, for each wire <code>W</code>, you generate two encryption
-    keys: a key to represent that <span style="color:#FF6600">[&#x1F511; W is
+    keys: a key to represent that <span style="color:#FF4F00">[&#x1F511; W is
     False]</span>, and another for when <span style="color:#0099FF">[&#x1F511;
     W is True]</span>. Using these keys you can generate truth tables
     for each gate in the circuit, for example that of an
@@ -58,19 +58,19 @@
     </thead>
     <tbody>
     <tr>
-    <td><span style="color:#FF6600">[&#x1F511; A is False]</span></td>
-    <td><span style="color:#FF6600">[&#x1F511; B is False]</span></td>
-    <td><span style="color:#FF6600">[&#x1F511; C is False]</span></td>
+    <td><span style="color:#FF4F00">[&#x1F511; A is False]</span></td>
+    <td><span style="color:#FF4F00">[&#x1F511; B is False]</span></td>
+    <td><span style="color:#FF4F00">[&#x1F511; C is False]</span></td>
     </tr>
     <tr>
-    <td><span style="color:#FF6600">[&#x1F511; A is False]</span></td>
+    <td><span style="color:#FF4F00">[&#x1F511; A is False]</span></td>
     <td><span style="color:#0099FF">[&#x1F511; B is True]</span></td>
-    <td><span style="color:#FF6600">[&#x1F511; C is False]</span></td>
+    <td><span style="color:#FF4F00">[&#x1F511; C is False]</span></td>
     </tr>
     <tr>
     <td><span style="color:#0099FF">[&#x1F511; A is True]</span></td>
-    <td><span style="color:#FF6600">[&#x1F511; B is False]</span></td>
-    <td><span style="color:#FF6600">[&#x1F511; C is False]</span></td>
+    <td><span style="color:#FF4F00">[&#x1F511; B is False]</span></td>
+    <td><span style="color:#FF4F00">[&#x1F511; C is False]</span></td>
     </tr>
     <tr>
     <td><span style="color:#0099FF">[&#x1F511; A is True]</span></td>
@@ -86,8 +86,8 @@
     output. For example, to read off the third row in the truth table
     for this <code>AND</code> gate, I need to use a <span
     style="color:#0099FF">[&#x1F511; A is True]</span> key and a <span
-    style="color:#FF6600">[&#x1F511; B is False]</span> key, in order to unlock
-    the <span style="color:#FF6600">[&#x1F511; C is False]</span> key it
+    style="color:#FF4F00">[&#x1F511; B is False]</span> key, in order to unlock
+    the <span style="color:#FF4F00">[&#x1F511; C is False]</span> key it
     contains.
     <center>
     <table>
@@ -101,19 +101,19 @@
     </thead>
     <tbody>
     <tr>
-    <td><span style="color:#FF6600">[&#x1F512; A is False]</span> <span
-    style="color:#FF6600">[&#x1F512; B is False]</span> <span
-    style="color:#FF6600">[&#x1F511; C is False]</span></td>
+    <td><span style="color:#FF4F00">[&#x1F512; A is False]</span> <span
+    style="color:#FF4F00">[&#x1F512; B is False]</span> <span
+    style="color:#FF4F00">[&#x1F511; C is False]</span></td>
     </tr>
     <tr>
-    <td><span style="color:#FF6600">[&#x1F512; A is False]</span> <span
+    <td><span style="color:#FF4F00">[&#x1F512; A is False]</span> <span
     style="color:#0099FF">[&#x1F512; B is True]</span> <span
-    style="color:#FF6600">[&#x1F511; C is False]</span></td>
+    style="color:#FF4F00">[&#x1F511; C is False]</span></td>
     </tr>
     <tr>
     <td><span style="color:#0099FF">[&#x1F512; A is True]</span> <span
-    style="color:#FF6600">[&#x1F512; B is False]</span> <span
-    style="color:#FF6600">[&#x1F511; C is False]</span></td>
+    style="color:#FF4F00">[&#x1F512; B is False]</span> <span
+    style="color:#FF4F00">[&#x1F511; C is False]</span></td>
     </tr>
     <tr>
     <td><span style="color:#0099FF">[&#x1F512; A is True]</span> <span
@@ -170,7 +170,7 @@
     <h2 id="wheres-the-but">Where&#x2019;s the but?</h2>
     <p>If we give the table above, and he unlocks the third entry, he
     learns for sure that A is True, B is False, and that they key he
-    found is the key representing <span style="color:#FF6600">[&#x1F511; C is
+    found is the key representing <span style="color:#FF4F00">[&#x1F511; C is
     False]</span>. This is because a table is <em>ordered</em>: the
     index of an unlocked entry leaks what that entry means. It is
     important for circuit garbling algorithms to randomly permute the
@@ -458,7 +458,7 @@ def decryptTableEntry (k1 k2 : Key) (cipher1 : ByteArray) : WireState :=
     <code>XOR</code>&#x2019;d with a random bit <code>ri</code> generated
     beforehand.</p>
     <center>
-    <b>&#x26A0;&#xFE0F;&#x26A0;&#xFE0F; <span style="color:#FF6600">THIS IS NOT THE DECLARATIVE WAY
+    <b>&#x26A0;&#xFE0F;&#x26A0;&#xFE0F; <span style="color:#FF4F00">THIS IS NOT THE DECLARATIVE WAY
     TO DESCRIBE THIS ALGORITHM!</span> &#x26A0;&#xFE0F;&#x26A0;&#xFE0F;</b>
     </center>
     <p>Sorry. This is not the declarative way to describe this
