@@ -1,0 +1,77 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" version="1.1" width="1920" height="1080" viewBox="0 0 1920 1080">
+<defs>
+<clipPath id="clip_1">
+<path transform="matrix(1,0,0,-1,0,1080)" d="M0 0H1920V1080H0Z"/>
+</clipPath>
+<clipPath id="clip_2">
+<path transform="matrix(1,0,0,-1,0,1080)" d="M187.841 99.45825H534.201V184.53821H187.841Z"/>
+</clipPath>
+<clipPath id="clip_3">
+<path transform="matrix(1,0,0,-1,0,1080)" d="M951.327 98.67004H1732.4231V185.27808H951.327Z"/>
+</clipPath>
+<clipPath id="clip_4">
+<path transform="matrix(1,0,0,-1,0,1080)" d="M187.841 24.40338H801.657V109.483348H187.841Z"/>
+</clipPath>
+<clipPath id="clip_5">
+<path transform="matrix(1,0,0,-1,0,1080)" d="M945.077 23.61517H1510.797V110.223209H945.077Z"/>
+</clipPath>
+<clipPath id="clip_6">
+<path transform="matrix(1,0,0,-1,0,1080)" d="M0 0H1920V1080H0Z"/>
+</clipPath>
+<clipPath id="clip_7">
+<path transform="matrix(1,0,0,-1,0,1080)" d="M401.8029 719.519H1518.1819V845H401.8029Z"/>
+</clipPath>
+<clipPath id="clip_8">
+<path transform="matrix(1,0,0,-1,0,1080)" d="M0 0H1920V1080H0Z"/>
+</clipPath>
+</defs>
+<g clip-path="url(#clip_1)">
+<path transform="matrix(1,0,0,-1,0,1080)" d="M0 1080H1920V0H0Z" fill="#ffffff"/>
+<text xml:space="preserve" transform="matrix(1 0 -0 1 1845.176 1048.878)" font-size="42" font-family="AAAAAC+HelveticaNeue"><tspan y="0" x="0">3</tspan></text>
+</g>
+<g clip-path="url(#clip_2)">
+<text xml:space="preserve" transform="matrix(1 0 -0 1 201.881 954.9339)" font-size="48" font-family="AAAAAE+HelveticaNeue-Italic" font-style="italic"><tspan y="0" x="0 31.104 46.224004 72 97.776 108.432 131.52 142.17601 169.72801">Precision</tspan></text>
+<text xml:space="preserve" transform="matrix(1 0 -0 1 201.881 954.9339)" font-size="48" font-family="AAAAAE+HelveticaNeue-Italic" font-style="italic"><tspan y="0" x="196.416"> </tspan></text>
+<text xml:space="preserve" transform="matrix(1 0 -0 1 201.881 954.9339)" font-size="48" font-family="AAAAAE+HelveticaNeue-Italic" font-style="italic"><tspan y="0" x="209.76 220.416 246.192 271.104 294.19203">leaks</tspan></text>
+</g>
+<g clip-path="url(#clip_3)">
+<text xml:space="preserve" transform="matrix(1 0 -0 1 965.631 955.2178)" font-size="48" font-family="AAAAAC+HelveticaNeue"><tspan y="0" x="0 41.808004 52.464006 67.58401 95.13601 121.82401 149.376 173.376 186.72 199.15201 225.84001 252.52802 279.216 305.904 318.336 331.68 345.024 368.15998 394.84797 435.79197 462.47999 473.136 488.25599 501.59999 528.28799 554.06399 582.52798 606.52798 619.87197">Mironov (2012), Tumult Labs (</tspan></text>
+<text xml:space="preserve" transform="matrix(1 0 -0 1 965.631 955.2178)" font-size="48" font-family="AAAAAB+HelveticaNeue-Bold" font-weight="bold"><tspan y="0" x="632.304 658.992 685.68 712.368">2021</tspan></text>
+<text xml:space="preserve" transform="matrix(1 0 -0 1 965.631 955.2178)" font-size="48" font-family="AAAAAC+HelveticaNeue"><tspan y="0" x="739.056">)</tspan></text>
+</g>
+<g clip-path="url(#clip_4)">
+<text xml:space="preserve" transform="matrix(1 0 -0 1 201.881 1029.9888)" font-size="48" font-family="AAAAAE+HelveticaNeue-Italic" font-style="italic"><tspan y="0" x="0 31.104 56.88 83.56801 106.656009 117.312007 132.432 143.08802 166.17601 176.83202 191.95201">Sensitivity</tspan></text>
+<text xml:space="preserve" transform="matrix(1 0 -0 1 201.881 1029.9888)" font-size="48" font-family="AAAAAE+HelveticaNeue-Italic" font-style="italic"><tspan y="0" x="215.04"> </tspan></text>
+<text xml:space="preserve" transform="matrix(1 0 -0 1 201.881 1029.9888)" font-size="48" font-family="AAAAAE+HelveticaNeue-Italic" font-style="italic"><tspan y="0" x="228.384 254.16 270.144 285.264 312.816 328.80003">errors</tspan></text>
+<text xml:space="preserve" transform="matrix(1 0 -0 1 201.881 1029.9888)" font-size="48" font-family="AAAAAE+HelveticaNeue-Italic" font-style="italic"><tspan y="0" x="351.888"> </tspan></text>
+<text xml:space="preserve" transform="matrix(1 0 -0 1 201.881 1029.9888)" font-size="48" font-family="AAAAAE+HelveticaNeue-Italic" font-style="italic"><tspan y="0" x="365.232 377.664 405.216 428.30403 454.08003">(over</tspan></text>
+<text xml:space="preserve" transform="matrix(1 0 -0 1 201.881 1029.9888)" font-size="48" font-family="AAAAAE+HelveticaNeue-Italic" font-style="italic"><tspan y="0" x="470.064">&#xfb02;</tspan></text>
+<text xml:space="preserve" transform="matrix(1 0 -0 1 201.881 1029.9888)" font-size="48" font-family="AAAAAE+HelveticaNeue-Italic" font-style="italic"><tspan y="0" x="494.976 522.528 558.96">ow)</tspan></text>
+<text xml:space="preserve" transform="matrix(1 0 -0 1 201.881 1029.9888)" font-size="48" font-family="AAAAAE+HelveticaNeue-Italic" font-style="italic"><tspan y="0" x="571.392"> </tspan></text>
+</g>
+<g clip-path="url(#clip_5)">
+<text xml:space="preserve" transform="matrix(1 0 -0 1 959.381 1030.2727)" font-size="48" font-family="AAAAAC+HelveticaNeue"><tspan y="0" x="0 34.656003 60.432004 84.43201 110.20801 135.98401 162.67201 191.13602 216.91202 232.89601 248.016 273.792 287.136 312.912 328.03199 341.37599 367.15199 377.80799 391.15199 404.49598">Casacuberta et al. (</tspan></text>
+<text xml:space="preserve" transform="matrix(1 0 -0 1 959.381 1030.2727)" font-size="48" font-family="AAAAAB+HelveticaNeue-Bold" font-weight="bold"><tspan y="0" x="416.928 443.61604 470.30403 496.992">2022</tspan></text>
+<text xml:space="preserve" transform="matrix(1 0 -0 1 959.381 1030.2727)" font-size="48" font-family="AAAAAC+HelveticaNeue"><tspan y="0" x="523.68">)</tspan></text>
+</g>
+<g clip-path="url(#clip_6)">
+<path transform="matrix(1,0,0,-1,0,1080)" d="M477.7602 845H1442.24C1461.854 845 1473.623 845 1481.469 841.8296 1493.006 837.6304 1502.094 828.5421 1506.294 817.0049 1509.191 810.4664 1509.464 797.271 1509.464 782.2595 1509.464 767.2481 1509.191 754.0527 1506.294 747.5141 1502.094 735.977 1493.006 726.8887 1481.469 722.6895 1473.623 719.519 1461.854 719.519 1442.24 719.519H477.7602C458.1456 719.519 446.3768 719.519 438.531 722.6895 426.9938 726.8887 417.9055 735.977 413.7063 747.5141 410.809 754.0527 410.5359 767.2481 410.5359 782.2595 410.5359 797.271 410.809 810.4664 413.7063 817.0049 417.9055 828.5421 426.9938 837.6304 438.531 841.8296 446.3768 845 458.1456 845 477.7602 845ZM477.7602 845"/>
+</g>
+<g clip-path="url(#clip_7)">
+<text fill="#ffffff" xml:space="preserve" transform="matrix(1 0 -0 1 600.4176 315.6999)" font-size="50" font-family="AAAAAB+HelveticaNeue-Bold" font-weight="bold"><tspan y="0" x="0 38.9 64.9 93.600009 113.05 139.90001 152.8 198.1 228.65001 241.55">Oversimpli</tspan></text>
+<text fill="#ffffff" xml:space="preserve" transform="matrix(1 0 -0 1 600.4176 315.6999)" font-size="50" font-family="AAAAAB+HelveticaNeue-Bold" font-weight="bold"><tspan y="0" x="254.45">&#xfb01;</tspan></text>
+<text fill="#ffffff" xml:space="preserve" transform="matrix(1 0 -0 1 600.4176 315.6999)" font-size="50" font-family="AAAAAB+HelveticaNeue-Bold" font-weight="bold"><tspan y="0" x="285 313.7">ed</tspan></text>
+<text fill="#ffffff" xml:space="preserve" transform="matrix(1 0 -0 1 600.4176 315.6999)" font-size="50" font-family="AAAAAB+HelveticaNeue-Bold" font-weight="bold"><tspan y="0" x="344.25"> </tspan></text>
+<text fill="#ffffff" xml:space="preserve" transform="matrix(1 0 -0 1 600.4176 315.6999)" font-size="50" font-family="AAAAAB+HelveticaNeue-Bold" font-weight="bold"><tspan y="0" x="358.15 388.69999 408.15 421.05 447.05 475.75 504.45">privacy</tspan></text>
+<text fill="#ffffff" xml:space="preserve" transform="matrix(1 0 -0 1 600.4176 315.6999)" font-size="50" font-family="AAAAAB+HelveticaNeue-Bold" font-weight="bold"><tspan y="0" x="530.4"> </tspan></text>
+<text fill="#ffffff" xml:space="preserve" transform="matrix(1 0 -0 1 600.4176 315.6999)" font-size="50" font-family="AAAAAB+HelveticaNeue-Bold" font-weight="bold"><tspan y="0" x="544.3 589.6 620.14999 650.69998 679.39999 692.3">models</tspan></text>
+</g>
+<g clip-path="url(#clip_8)">
+<text xml:space="preserve" transform="matrix(1 0 -0 1 99 171.08979)" font-size="85" font-family="AAAAAB+HelveticaNeue-Bold" font-weight="bold"><tspan y="0" x="0 54.995008 86.36001 106.59001 149.09001 196.18001 243.27">Privacy</tspan></text>
+<text xml:space="preserve" transform="matrix(1 0 -0 1 99 171.08979)" font-size="85" font-family="AAAAAB+HelveticaNeue-Bold" font-weight="bold"><tspan y="0" x="285.685"> </tspan></text>
+<text xml:space="preserve" transform="matrix(1 0 -0 1 99 171.08979)" font-size="85" font-family="AAAAAB+HelveticaNeue-Bold" font-weight="bold"><tspan y="0" x="307.615 327.845">is</tspan></text>
+<text xml:space="preserve" transform="matrix(1 0 -0 1 99 171.08979)" font-size="85" font-family="AAAAAB+HelveticaNeue-Bold" font-weight="bold"><tspan y="0" x="371.79"> </tspan></text>
+<text xml:space="preserve" transform="matrix(1 0 -0 1 99 171.08979)" font-size="85" font-family="AAAAAB+HelveticaNeue-Bold" font-weight="bold"><tspan y="0" x="393.72 421.94 453.305 473.535 520.625 567.715">tricky</tspan></text>
+<path transform="matrix(1,0,0,-1,0,1080)" d="M485.9994 824.8889C485.6517 824.8889 485.3734 824.6106 485.3734 824.2629V742.2561C485.3734 741.9085 485.6517 741.6301 485.9994 741.6302H549.0334C549.381 741.6302 549.6593 741.9085 549.6593 742.2561V802.1676C549.6616 802.2896 549.5583 802.3906 549.4363 802.3906H527.8014C527.4537 802.3906 527.1754 802.6689 527.1754 803.0165V824.6658C527.1754 824.7901 527.0744 824.8889 526.9524 824.8889H485.9994ZM530.075 824.5579C529.997 824.5257 529.9311 824.4494 529.9311 824.3492V805.7794C529.9311 805.4317 530.2165 805.1534 530.5642 805.1534H549.1197C549.32 805.1534 549.4184 805.3943 549.278 805.5347L530.3196 824.5075C530.2494 824.5778 530.1529 824.5901 530.075 824.5579ZM504.9506 795.2893C505.0101 795.2893 505.0712 795.2634 505.1161 795.2173L517.4336 782.8854C517.4797 782.8393 517.553 782.8393 517.5991 782.8854L529.9095 795.2173C530.0016 795.3094 530.1483 795.3094 530.2404 795.2173L535.0538 790.404C535.1459 790.3119 535.1459 790.17 535.0538 790.0802L522.7434 777.7483C522.6974 777.7022 522.6974 777.6265 522.7434 777.5828L535.0538 765.2652C535.1459 765.1731 535.1459 765.024 535.0538 764.9343L530.2404 760.1209C530.1483 760.0288 530.0016 760.0288 529.9095 760.1209L517.5991 772.4385C517.5531 772.4845 517.4797 772.4845 517.4336 772.4385L505.1161 760.1209C505.024 760.0288 504.8749 760.0288 504.7851 760.1209L499.9717 764.9343C499.8796 765.0264 499.8796 765.1754 499.9717 765.2652L512.2893 777.5828C512.3354 777.6288 512.3353 777.7022 512.2893 777.7483L499.9717 790.0802C499.8796 790.1723 499.8796 790.3142 499.9717 790.404L504.7851 795.2173C504.8311 795.2634 504.891 795.2893 504.9506 795.2893ZM504.9506 795.2893" fill="#ffffff"/>
+</g>
+</svg>

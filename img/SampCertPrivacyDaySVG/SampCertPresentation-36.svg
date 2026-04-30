@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" version="1.1" width="1920" height="1080" viewBox="0 0 1920 1080">
+<defs>
+<clipPath id="clip_1">
+<path transform="matrix(1,0,0,-1,0,1080)" d="M0 0H1920V1080H0Z"/>
+</clipPath>
+<clipPath id="clip_2">
+<path transform="matrix(1,0,0,-1,0,1080)" d="M1142.111 172.4489 1483.399 255.9528 1501.204 183.1794 1159.916 99.6755Z"/>
+</clipPath>
+<clipPath id="clip_3">
+<path transform="matrix(1,0,0,-1,0,1080)" d="M0 0H1920V1080H0Z"/>
+</clipPath>
+<clipPath id="clip_4">
+<path transform="matrix(1,0,0,-1,0,1080)" d="M0 0H1920V1080H0Z"/>
+</clipPath>
+</defs>
+<g clip-path="url(#clip_1)">
+<path transform="matrix(1,0,0,-1,0,1080)" d="M0 1080H1920V0H0Z" fill="#ffffff"/>
+<text xml:space="preserve" transform="matrix(1 0 -0 1 422.26 251.76819)" font-size="230" font-family="AAAAAB+HelveticaNeue-Bold" font-weight="bold"><tspan y="0" x="0 144.67002 272.09004 475.87007 611.80007 777.63009">SampCe</tspan></text>
+<text xml:space="preserve" transform="matrix(1 0 -0 1 422.26 251.76819)" font-size="230" font-family="AAAAAB+HelveticaNeue-Bold" font-weight="bold"><tspan y="0" x="905.05 994.52">rt</tspan></text>
+<text xml:space="preserve" transform="matrix(1 0 -0 1 1833.268 1046.9761)" font-size="40" font-family="AAAAAC+HelveticaNeue"><tspan y="0" x="0 22.240002">36</tspan></text>
+<text xml:space="preserve" transform="matrix(1 0 -0 1 498.964 355.74629)" font-size="48" font-family="AAAAAC+HelveticaNeue"><tspan y="0" x="0 27.552 55.104 81.79201 108.48001 136.94402 162.72002 177.84001 188.49602 216.04802 242.73603 266.73603 280.08003 294.28804 321.84004 337.82405 351.16804 377.85603 403.63203 419.61604">Foundations for Veri</tspan></text>
+<text xml:space="preserve" transform="matrix(1 0 -0 1 498.964 355.74629)" font-size="48" font-family="AAAAAC+HelveticaNeue"><tspan y="0" x="430.272">&#xfb01;</tspan></text>
+<text xml:space="preserve" transform="matrix(1 0 -0 1 498.964 355.74629)" font-size="48" font-family="AAAAAC+HelveticaNeue"><tspan y="0" x="455.136 480.912 509.37599 522.72 556.51199">ed Di</tspan></text>
+<text xml:space="preserve" transform="matrix(1 0 -0 1 498.964 355.74629)" font-size="48" font-family="AAAAAD+HelveticaNeue"><tspan y="0" x="567.168">&#xfb00;</tspan></text>
+<text xml:space="preserve" transform="matrix(1 0 -0 1 498.964 355.74629)" font-size="48" font-family="AAAAAC+HelveticaNeue"><tspan y="0" x="594.864 620.64 635.76 661.536 688.224 703.344 714 739.776 750.432 763.776 794.88 810.864 821.52 845.52 871.296 897.072">erential Privacy</tspan></text>
+<path transform="matrix(1,0,0,1,386.0241,276.9737)" stroke-width="6" stroke-linecap="butt" stroke-miterlimit="4" stroke-linejoin="miter" fill="none" stroke="#000000" d="M0 0H1147.952"/>
+<text xml:space="preserve" transform="matrix(1 0 -0 1 659.5 813.88076)" font-size="40" font-family="AAAAAP+Iosevka"><tspan y="0" x="0 20 40 60 80 100 120 140 160 180 200 220 240 260 280 300 320 340 360 380 400 420 440 460 480 500 520 540 560 580">github.com/leanprover/SampCert</tspan></text>
+<path transform="matrix(1,0,0,-1,0,1080)" d="M1149.804 174.3312 1475.706 254.0705 1493.451 181.545 1167.549 101.8057ZM1149.804 174.3312"/>
+</g>
+<g clip-path="url(#clip_2)">
+<g clip-path="url(#clip_3)">
+<text fill="#ffffff" xml:space="preserve" transform="matrix(.9713479 -.2376622 .2376622 .9713479 1190.41 950.4615)" font-size="40" font-family="AAAAAF+HelveticaNeue-Medium"><tspan y="0" x="0 26.680003 54.840005 63.000009 83.76001 94.88001 131.92002 154.16002 163.80002 186.04003 209.76003 244.56003 266.80003">PR&#x2019;s Welcome!</tspan></text>
+</g>
+</g>
+<g clip-path="url(#clip_4)">
+<path transform="matrix(1,0,0,-1,0,1080)" d="M609.2123 520.8624H1381.617V472.8624H609.2123Z" fill="#ffffff"/>
+<path transform="matrix(1,0,0,-1,0,1080)" d="M884.5541 472.8624H1100.218V424.8624H884.5541Z" fill="#ffffff"/>
+<text xml:space="preserve" transform="matrix(1 0 -0 1 609.2123 597.93838)" font-size="40" font-family="AAAAAZ+Helvetica"><tspan y="0" x="0 24.492003 46.74 60.06">Veri</tspan></text>
+<text xml:space="preserve" transform="matrix(1 0 -0 1 609.2123 597.93838)" font-size="40" font-family="AAAAAZ+Helvetica"><tspan y="0" x="68.94531">&#xfb01;</tspan></text>
+<text xml:space="preserve" transform="matrix(1 0 -0 1 609.2123 597.93838)" font-size="40" font-family="AAAAAZ+Helvetica"><tspan y="0" x="88.94531 111.19332 133.44132 144.55332 168.98532 191.23332 213.48133 235.72933 257.97734 280.2253 291.3373 300.2253 322.4733 344.72129 364.72129 375.83329 386.94529 409.19328 422.51329 433.62528 462.51329 471.40129 481.81327 492.92527 515.1733 528.4933 550.7413 572.98928 584.10128 592.98928 615.23727 624.12527 635.23727 661.91726 675.23727 684.12527 704.12527 726.3732 746.3732 766.3732">ed Foundations for Differential Privacy </tspan></text>
+<text xml:space="preserve" transform="matrix(1 0 -0 1 609.2123 597.93838)" font-size="40" font-family="AAAABA+Helvetica"><tspan y="0" x="777.4852">&#x2028;</tspan></text>
+<text xml:space="preserve" transform="matrix(1 0 -0 1 884.5541 645.93838)" font-size="40" font-family="AAAAAZ+Helvetica"><tspan y="0" x="0 13.32 40 62.248 91.13601 102.24801 113.36001 135.608 157.856 180.104 202.352">(PLDI 2025)</tspan></text>
+<text xml:space="preserve" transform="matrix(1 0 -0 1 521.7925 748.95657)" font-size="50" font-family="AAAAAB+HelveticaNeue-Bold" font-weight="bold"><tspan y="0" x="0 36.100004 64.8 95.350009">Repo</tspan></text>
+<text xml:space="preserve" transform="matrix(1 0 -0 1 521.7925 533.8133)" font-size="50" font-family="AAAAAB+HelveticaNeue-Bold" font-weight="bold"><tspan y="0" x="0 33.350004 62.050004 92.600009 121.3">Paper</tspan></text>
+</g>
+</svg>

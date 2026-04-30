@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" version="1.1" width="1920" height="1080" viewBox="0 0 1920 1080">
+<defs>
+<clipPath id="clip_1">
+<path transform="matrix(1,0,0,-1,0,1080)" d="M0 0H1920V1080H0Z"/>
+</clipPath>
+</defs>
+<g clip-path="url(#clip_1)">
+<path transform="matrix(1,0,0,-1,0,1080)" d="M0 1080H1920V0H0Z" fill="#ffffff"/>
+<text xml:space="preserve" transform="matrix(1 0 -0 1 1845.176 1048.878)" font-size="42" font-family="AAAAAC+HelveticaNeue"><tspan y="0" x="0">2</tspan></text>
+<text xml:space="preserve" transform="matrix(1 0 -0 1 99 171.08979)" font-size="85" font-family="AAAAAB+HelveticaNeue-Bold" font-weight="bold"><tspan y="0" x="0 54.995008 86.36001 106.59001 149.09001 196.18001 243.27">Privacy</tspan></text>
+<text xml:space="preserve" transform="matrix(1 0 -0 1 99 171.08979)" font-size="85" font-family="AAAAAB+HelveticaNeue-Bold" font-weight="bold"><tspan y="0" x="285.685"> </tspan></text>
+<text xml:space="preserve" transform="matrix(1 0 -0 1 99 171.08979)" font-size="85" font-family="AAAAAB+HelveticaNeue-Bold" font-weight="bold"><tspan y="0" x="307.615 327.845">is</tspan></text>
+<text xml:space="preserve" transform="matrix(1 0 -0 1 99 171.08979)" font-size="85" font-family="AAAAAB+HelveticaNeue-Bold" font-weight="bold"><tspan y="0" x="371.79"> </tspan></text>
+<text xml:space="preserve" transform="matrix(1 0 -0 1 99 171.08979)" font-size="85" font-family="AAAAAB+HelveticaNeue-Bold" font-weight="bold"><tspan y="0" x="393.72 421.94 453.305 473.535 520.625 567.715">tricky</tspan></text>
+</g>
+</svg>
