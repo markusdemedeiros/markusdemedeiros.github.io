@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>An Anecdote Against Slop Artifacts</title>
+    <link rel="stylesheet" type="text/css" href="../stylesheet.css">
+  </head>
+
+  <body>
+    <center>
+      <h2>An Anecdote Against Slop Artifacts</h2>
+      <aside>Aug 14, 2026</aside>
+    </center>
+
+    <hr>
+    <br>
+
+    <p>This is a cautionary tale.</p>
+    <h2 id="act-i">Act I</h2>
+    <p>My latest paper &#x201C;Verifying Exact Samplers for Continuous
+    Distributions with a Discrete Program Logic&#x201D; involved quite a lot of
+    proof work. In that paper we showed how you can use program logic
+    techniques to prove stuff about a particular implementation of real
+    numbers (lazy bitstreams), and we formally verified it using the
+    Iris framework in Rocq.</p>
+    <p>The core &#x201C;program logic&#x201D; nugget at the heart of this paper is
+    really simple and elegant; of course, this is because Joe went &#x201C;wolf
+    mode&#x201D; and cooked this part of the project over a single weekend. My
+    main contribution to the paper was exploring how far this trick
+    could get us, in the end scaling all the way up to verified
+    implementations of cool and counterintuitive sampling
+    algorithms.</p>
+    <p>In particular, I spent a couple months hacking on this idea, and
+    in the process, went completely insane. Through tears I verified the
+    existence of, and absolute convergence of, and commutation of, ten
+    thousand different Riemann integrals in Rocq, working around the
+    scant and inconsistent support for this in our analysis libraries. I
+    was not a heavy user of AI at the time&#x2013;this mental torture was
+    sourced organically. As an effect, I forgot the feeling of joy, but
+    I knew pretty much every line of this repository inside and out.</p>
+    <h2 id="act-ii">Act II</h2>
+    <p>Because of our weird representation of real numbers, our
+    <em>adequacy theorem</em> (the main metatheorem relevant for
+    correctness of program logics) had to be stated in a somewhat
+    nonstandard way. The statement is more or less as follows:</p>
+    <blockquote>
+    <p>Theorem <strong>Adequacy</strong>.</p>
+    <ul>
+    <li>Let <code>e</code> be a program, and <code>mu</code> be a proper
+    distribution over R.</li>
+    <li>Let <code>P/2^Q</code> be any dyadic rational number.</li>
+    <li>Suppose you prove <code>HasDistribution(e, mu)</code> (the main
+    &#x201C;judgment&#x201D; of our logic).</li>
+    <li>Suppose that <code>IsLessThanDyadic(e, P/2^Q)</code> terminates
+    with probability 1.</li>
+    </ul>
+    <p>Then, the probability that
+    <code>IsLessThanDyadic(e, P/2^Q)</code> returns <code>true</code> is
+    equal to <code>mu(P/2^Q)</code></p>
+    </blockquote>
+    <p>All of the weirdness has to do with
+    <code>IsLessThanDyadic</code>, a necessary layer for simulating real
+    numbers in a language that doesn&#x2019;t have them. The program
+    <code>IsLessThanDyadic</code> works by iteratively comparing
+    approximations of the real number returned by <code>e</code> against
+    approximations of <code>P/2^Q</code>. For example, if
+    <code>P/2^Q</code> is the dyadic binary number
+    <code>b0.110111...</code>, the program will iteratively try to
+    compare increasingly finer approximations of <code>e</code> against
+    it, until the first comparison that decides which side that
+    <code>e</code> lands on:</p>
+    <ul>
+    <li><code>b0.0 &lt; e &lt; b0.1</code>?</li>
+    <li><code>b0.10 &lt; e &lt; b0.11</code>?</li>
+    <li><code>b0.110 &lt; e &lt; b0.111</code>?</li>
+    <li><code>b0.1100 &lt; e &lt; b0.1101</code>?</li>
+    <li>and on and on</li>
+    </ul>
+    <p>Of course, when <code>e</code> is randomly sampled from a
+    sufficiently nice probability distribution like the Gaussian, the
+    chances that exactly equals <code>P/2^Q</code> is zero, so a simple
+    inductive argument justifies that the obvious implementation of
+    <code>IsLessThanDyadic</code> really will terminate with probability
+    1 as required. And it&#x2019;s easy to justify to yourself (and inside our
+    logic) that this process will output <code>true</code> if
+    <code>e &lt; P/2^Q</code> and <code>false</code> if if
+    <code>P/2^Q &lt; e</code>. By appealing to some elementary measure
+    theory, the fact that we know
+    <code>IsLessThanDyadic(e, P/2^Q)</code> for every dyadic number
+    <code>P/2^Q</code> is enough to characterize the cumulative density
+    function of <code>e</code> over the entire real line, and so the
+    proofs we carry out inside our logic are the real stuff.</p>
+    <p>Our final artifact includes random sampling algorithms for the
+    real-valued, honest-to-god Gaussian and Laplace distributions, and a
+    library of verified arithmetic complete <em>enough</em> to fill an
+    unverified hole in prior work. At the time we submitted I was super
+    proud of this, especially given how much work I&#x2019;d put in to making
+    every little detail of the math work out just right.</p>
+    <p>The reviewers agreed it was cool, and it was accepted. Yay!</p>
+    <h2 id="act-iii">Act III</h2>
+    <p>While our adequacy theorem is nice, that fourth bullet point is
+    sort of weird, and we highlighted in our paper that a separate tool
+    such as Total Eris would have no issue demonstrating that
+    <code>IsLessThanDyadic(e, P/2^Q)</code> terminates with probability
+    1 in Rocq. Come rebuttal time we decided to actually sit down and do
+    it, at least for the uniform sampler over <code>[0,1]</code>. So
+    there I was, sitting in a hotel room in Providence, hacking away on
+    a Total Eris proof when I realized</p>
+    <h2 id="act-fuckfuckfuckfuckfuckfu">Act FUckfuckfuckfuckfuckfu</h2>
+    <p>Our implementation of <code>IsLessThanDyadic</code> was NOT
+    comparing increasingly more precise approximations of
+    <code>P/2^Q</code>. Due to a sign error in our code, it was checking
+    the outcome of <code>e</code> against increasingly <em>coarser</em>
+    approximations of our dyadic:</p>
+    <ul>
+    <li><code>0 &lt; e &lt; 1</code></li>
+    <li><code>0 &lt; e &lt; 2</code></li>
+    <li><code>0 &lt; e &lt; 4</code></li>
+    <li><code>0 &lt; e &lt; 8</code></li>
+    <li>And on and on forever, haha, uh oh, I&#x2019;m in danger</li>
+    </ul>
+    <p>So, worse than being unprovable, the program actually did
+    <em>not</em> terminate!</p>
+    <p>Why did the proof checker still accept this? Well, Eris is a
+    <em>partial correctness logic</em>, so it trivially accepts anything
+    about nonterminating programs (indeed, partial correctness is
+    necessary for the logic&#x2019;s main trick to work). Loeb induction, the
+    principle we use to verify properties about
+    <code>IsLessThanDyadic</code> in Iris, simply assumes that your
+    program is in a terminating trace, causing the termination
+    assumption we handwaved away to bubble all the way up to the
+    adequacy theorem. When you&#x2019;re in the muck of a Loeb induction proof,
+    a correct proof and a proof that is vacuous due to nontermination
+    look just about the same.</p>
+    <p>The only (minor) difference is that, if your proof is vacuous due
+    to nontermination, you can prove <em>anything</em> about it using
+    Loeb induction, but it will <em>not be possible</em> to close off
+    that final termination hypothesis in your adequacy theorem. This is
+    exactly the situation I was in, that horrible night in
+    Providence.</p>
+    <p>The paper could simply not be published in this state, and I was
+    mentally preparing myself to retract our submission.</p>
+    <h2 id="act-v">Act V</h2>
+    <p>I freaked out for a little bit, but then I stopped freaking out,
+    and corrected the sign error. The proofs still worked and I was able
+    to finish the Total Eris proof, closing the last hypothesis.</p>
+    <h2 id="act-what-the-hell">Act&#x2026; what the hell?</h2>
+    <p>I thought the same thing.</p>
+    <p>While the proof I&#x2019;d written was vacuous, I&#x2019;d actually still
+    written a <em>correct</em> proof, just in an vacuous context. With
+    the sign errors corrected, nothing changed about my partial
+    correctness arguments, but my termination statement changed from
+    being false to being true (generally speaking this a good change to
+    make).</p>
+    <p>The reason this went thought alright was becase I did not
+    &#x201C;adversarially exploit&#x201D; the Loeb induction hypothesis. The final
+    proof still went through by Loeb induction, and the thing is, I
+    still have parts of my proof that genuinely rely on the fact that we
+    can avoid traces that don&#x2019;t terminate! What is an exploit versus a
+    correct proof can be hard to determine, and it&#x2019;s important for proof
+    engineering that you know the difference.</p>
+    <p>This mistake was not a big deal but it very well could have been.
+    I spent months mentally torturing myself with the details of these
+    arguments, and as a consequence I understood them completely, and
+    knew that even if not correct, they were fixable. So that&#x2019;s exactly
+    what I did.</p>
+    <p>A couple hours later, we submitted the rebuttal confidently
+    asserting that yes, we also verified the obvious hypothesis
+    too.<br />
+    Close one, cowboy.</p>
+    <h2 id="conclusion">Conclusion</h2>
+    <p>This is a cautionary tale. Now that AI is readily available, and
+    generally pretty good, some people believe that you can simply slop
+    out a proof and submit it for the extra badges on your cover page.
+    I&#x2019;m not sure I would have noticed an AI that decided to avail itself
+    of my nonterminating program. I&#x2019;m quite sure I wouldn&#x2019;t have been
+    able to fix it so quickly&#x2013;the time alone to regenerate a correct
+    version from scratch might have even been too long.</p>
+    <p>You have to be careful with these things. Formal methods is still
+    hard, and you need an expert to interpret the results. And when your
+    slopped out artifact doesn&#x2019;t exactly match the text of your paper,
+    I&#x2019;ve got to say, the once-bitten part of me just doesn&#x2019;t buy it.</p>
+
+  </body>
+</html>
