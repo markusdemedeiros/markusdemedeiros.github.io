@@ -30,17 +30,18 @@
     implementations of cool and counterintuitive sampling
     algorithms.</p>
     <p>In particular, I spent a couple months hacking on this idea, and
-    in the process, went completely insane. Through tears I verified the
-    existence of, and absolute convergence of, and commutation of, ten
-    thousand different Riemann integrals in Rocq, working around the
-    scant and inconsistent support for this in our analysis libraries. I
-    was not a heavy user of AI at the time&#x2013;this mental torture was
-    sourced organically. As an effect, I forgot the feeling of joy, but
-    I knew pretty much every line of this repository inside and out.</p>
+    of course, going completely insane in the process. Through tears I
+    verified the existence of, and absolute convergence of, and
+    commutation of, ten thousand different Riemann integrals in Rocq,
+    working around the scant and inconsistent support for them in our
+    analysis libraries. I was not a heavy user of AI at the time&#x2013;this
+    mental torture was sourced organically. As an effect (aside from
+    forgetting the feeling of joy) but I knew pretty much every line of
+    this repository inside and out.</p>
     <h2 id="act-ii">Act II</h2>
-    <p>Because of our weird representation of real numbers, our
-    <em>adequacy theorem</em> (the main metatheorem relevant for
-    correctness of program logics) had to be stated in a somewhat
+    <p>Because of our weird representation of real numbers our
+    <em>adequacy theorem</em>, the main metatheorem relevant for
+    correctness of program logics, had to be stated in a somewhat
     nonstandard way. The statement is more or less as follows:</p>
     <blockquote>
     <p>Theorem <strong>Adequacy</strong>.</p>
@@ -55,7 +56,7 @@
     </ul>
     <p>Then, the probability that
     <code>IsLessThanDyadic(e, P/2^Q)</code> returns <code>true</code> is
-    equal to <code>mu(P/2^Q)</code></p>
+    equal to <code>cfd(mu)(P/2^Q)</code></p>
     </blockquote>
     <p>All of the weirdness has to do with
     <code>IsLessThanDyadic</code>, a necessary layer for simulating real
@@ -64,9 +65,9 @@
     approximations of the real number returned by <code>e</code> against
     approximations of <code>P/2^Q</code>. For example, if
     <code>P/2^Q</code> is the dyadic binary number
-    <code>b0.110111...</code>, the program will iteratively try to
-    compare increasingly finer approximations of <code>e</code> against
-    it, until the first comparison that decides which side that
+    <code>b0.110111...</code>, the program will iteratively compare
+    increasingly finer approximations of <code>e</code> against it,
+    until the first comparison that decides which side that
     <code>e</code> lands on:</p>
     <ul>
     <li><code>b0.0 &lt; e &lt; b0.1</code>?</li>
@@ -77,12 +78,12 @@
     </ul>
     <p>Of course, when <code>e</code> is randomly sampled from a
     sufficiently nice probability distribution like the Gaussian, the
-    chances that exactly equals <code>P/2^Q</code> is zero, so a simple
-    inductive argument justifies that the obvious implementation of
-    <code>IsLessThanDyadic</code> really will terminate with probability
-    1 as required. And it&#x2019;s easy to justify to yourself (and inside our
-    logic) that this process will output <code>true</code> if
-    <code>e &lt; P/2^Q</code> and <code>false</code> if if
+    chance that it exactly equals <code>P/2^Q</code> is zero, so a
+    simple inductive argument justifies that the obvious implementation
+    of <code>IsLessThanDyadic</code> really will terminate with
+    probability 1 as required. And it&#x2019;s easy to justify to yourself (and
+    inside our logic) that this process will output <code>true</code> if
+    <code>e &lt; P/2^Q</code> and <code>false</code> if
     <code>P/2^Q &lt; e</code>. By appealing to some elementary measure
     theory, the fact that we know
     <code>IsLessThanDyadic(e, P/2^Q)</code> for every dyadic number
@@ -93,8 +94,8 @@
     real-valued, honest-to-god Gaussian and Laplace distributions, and a
     library of verified arithmetic complete <em>enough</em> to fill an
     unverified hole in prior work. At the time we submitted I was super
-    proud of this, especially given how much work I&#x2019;d put in to making
-    every little detail of the math work out just right.</p>
+    proud of this result, especially given how much work I&#x2019;d put in to
+    making every little detail of the math come together.</p>
     <p>The reviewers agreed it was cool, and it was accepted. Yay!</p>
     <h2 id="act-iii">Act III</h2>
     <p>While our adequacy theorem is nice, that fourth bullet point is
@@ -112,14 +113,14 @@
     the outcome of <code>e</code> against increasingly <em>coarser</em>
     approximations of our dyadic:</p>
     <ul>
-    <li><code>0 &lt; e &lt; 1</code></li>
-    <li><code>0 &lt; e &lt; 2</code></li>
-    <li><code>0 &lt; e &lt; 4</code></li>
-    <li><code>0 &lt; e &lt; 8</code></li>
+    <li><code>0 &lt; e &lt; 1</code>?</li>
+    <li><code>0 &lt; e &lt; 2</code>?</li>
+    <li><code>0 &lt; e &lt; 4</code>?</li>
+    <li><code>0 &lt; e &lt; 8</code>?</li>
     <li>And on and on forever, haha, uh oh, I&#x2019;m in danger</li>
     </ul>
-    <p>So, worse than being unprovable, the program actually did
-    <em>not</em> terminate!</p>
+    <p>Worse than just being unprovable, the program actually just plain
+    did <em>not</em> terminate!</p>
     <p>Why did the proof checker still accept this? Well, Eris is a
     <em>partial correctness logic</em>, so it trivially accepts anything
     about nonterminating programs (indeed, partial correctness is
@@ -127,54 +128,54 @@
     principle we use to verify properties about
     <code>IsLessThanDyadic</code> in Iris, simply assumes that your
     program is in a terminating trace, causing the termination
-    assumption we handwaved away to bubble all the way up to the
-    adequacy theorem. When you&#x2019;re in the muck of a Loeb induction proof,
-    a correct proof and a proof that is vacuous due to nontermination
-    look just about the same.</p>
-    <p>The only (minor) difference is that, if your proof is vacuous due
-    to nontermination, you can prove <em>anything</em> about it using
-    Loeb induction, but it will <em>not be possible</em> to close off
-    that final termination hypothesis in your adequacy theorem. This is
-    exactly the situation I was in, that horrible night in
+    assumption to bubble all the way up to the adequacy theorem&#x2013;the
+    point where we waved it away. When you&#x2019;re in the muck of a Loeb
+    induction proof, a correct proof and a proof that is vacuous due to
+    nontermination look just about the same.</p>
+    <p>You can prove <em>anything</em> about nonterminating programs
+    using Loeb induction, but it will <em>not be possible</em> to close
+    off that final termination hypothesis in your adequacy theorem. This
+    is exactly the situation I was in, that horrible night in
     Providence.</p>
     <p>The paper could simply not be published in this state, and I was
     mentally preparing myself to retract our submission.</p>
     <h2 id="act-v">Act V</h2>
-    <p>I freaked out for a little bit, but then I stopped freaking out,
-    and corrected the sign error. The proofs still worked and I was able
-    to finish the Total Eris proof, closing the last hypothesis.</p>
+    <p>I freaked out for a little bit, but then I stopped freaking out
+    and corrected the sign error, and surprisingly the adequacy theorem
+    still compiled. Then I was able to sit back down finish the Total
+    Eris proof, closing the last hypothesis.</p>
     <h2 id="act-what-the-hell">Act&#x2026; what the hell?</h2>
     <p>I thought the same thing.</p>
     <p>While the proof I&#x2019;d written was vacuous, I&#x2019;d actually still
-    written a <em>correct</em> proof, just in an vacuous context. With
-    the sign errors corrected, nothing changed about my partial
-    correctness arguments, but my termination statement changed from
-    being false to being true (generally speaking this a good change to
-    make).</p>
-    <p>The reason this went thought alright was becase I did not
-    &#x201C;adversarially exploit&#x201D; the Loeb induction hypothesis. The final
-    proof still went through by Loeb induction, and the thing is, I
-    still have parts of my proof that genuinely rely on the fact that we
-    can avoid traces that don&#x2019;t terminate! What is an exploit versus a
-    correct proof can be hard to determine, and it&#x2019;s important for proof
-    engineering that you know the difference.</p>
-    <p>This mistake was not a big deal but it very well could have been.
-    I spent months mentally torturing myself with the details of these
-    arguments, and as a consequence I understood them completely, and
+    written a <em>correct</em> proof, just in a vacuous context. With
+    the sign errors corrected, nothing needed to be modified about my
+    partial correctness arguments, but my termination statement switched
+    from being false to being true (a good change to make, generally
+    speaking).</p>
+    <p>The main reason this did not become a tragedy was because I did
+    not &#x201C;adversarially exploit&#x201D; the Loeb induction hypothesis. In fact,
+    the final proof still went through by Loeb induction, and parts of
+    it genuinely rely on the fact that we can avoid traces that don&#x2019;t
+    terminate (such as the zero probability case that <code>e</code>
+    samples any dyadic rational number <code>P/2^Q</code> exactly).</p>
+    <p>It can be hard to decide what is an exploit versus a correct
+    proof, but it&#x2019;s important for proof engineering that you know the
+    difference. This mistake was not a big deal but it very easily could
+    have been. The months I spent mentally torturing myself with the
+    details of these arguments meant I understood them completely, and I
     knew that even if not correct, they were fixable. So that&#x2019;s exactly
     what I did.</p>
     <p>A couple hours later, we submitted the rebuttal confidently
-    asserting that yes, we also verified the obvious hypothesis
-    too.<br />
-    Close one, cowboy.</p>
+    asserting that yes, we also verified the obvious hypothesis too.</p>
+    <p>Close one, cowboy.</p>
     <h2 id="conclusion">Conclusion</h2>
     <p>This is a cautionary tale. Now that AI is readily available, and
     generally pretty good, some people believe that you can simply slop
     out a proof and submit it for the extra badges on your cover page.
     I&#x2019;m not sure I would have noticed an AI that decided to avail itself
-    of my nonterminating program. I&#x2019;m quite sure I wouldn&#x2019;t have been
+    of my nonterminating program. I&#x2019;m quite sure I would not have been
     able to fix it so quickly&#x2013;the time alone to regenerate a correct
-    version from scratch might have even been too long.</p>
+    version from scratch would probably have even been too long.</p>
     <p>You have to be careful with these things. Formal methods is still
     hard, and you need an expert to interpret the results. And when your
     slopped out artifact doesn&#x2019;t exactly match the text of your paper,
