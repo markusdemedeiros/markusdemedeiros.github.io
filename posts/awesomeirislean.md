@@ -6,6 +6,8 @@ content: 'Iris'
 
 This page will be periodically updated with the awesome people I know to be using Iris-Lean. 
 
+At least, the ones who aren't in stealth 😉
+
 ## Academia
 - [\[ CTE \]](https://github.com/markusdemedeiros/Metrology/tree/main/Metrology/TotalEris) A continuous probabilistic program logic
     - As described in the Iris-Lean paper, this logic admits new proof rules by virtue of its access to Mathlib.
@@ -22,6 +24,7 @@ This page will be periodically updated with the awesome people I know to be usin
      >
      > - _Kaashoek and Zeldovich, "Extending concurrent separation logic to the hardware level to verify the xv6 OS kernel on RISC-V with AI agents"._
 - [\[ CatCrypt \]](https://github.com/spitters/CatCrypt-core) Game-based cryptographic security proofs
+- [\[ Lantana \]](https://github.com/mit-pdos/lantana) A (transfinite) concurrent separation logic for liveness
 
 ## Industry
 - [\[ Ship Your Interpreter \]](https://github.com/BasisResearch/ship-your-interpreter) Defining program semantics from an interpreter binary
@@ -40,4 +43,4 @@ This page will be periodically updated with the awesome people I know to be usin
 
 ## Hey, where am I?
 
-If you're using Iris-Lean to do awesome things, email `mjd9606@nyu.edu` with a link to your project, and the title "Awesome Iris Lean".
+If you're using Iris-Lean to do awesome things, email `mjd9606@nyu.edu` with a link to your project.
