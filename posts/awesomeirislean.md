@@ -4,7 +4,7 @@ date: 'Oct 29, 2026'
 content: 'Iris'
 ...
 
-This page will be periodically updated with the people I know to be using Iris-Lean. Excludes companies and papers who are in stealth.
+This page will be periodically updated with the awesome people I know to be using Iris-Lean. 
 
 ## Academia
 - [CTE](https://github.com/markusdemedeiros/Metrology/tree/main/Metrology/TotalEris) A continuous probabilistic program logic
