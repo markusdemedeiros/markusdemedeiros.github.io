@@ -16,9 +16,8 @@ body {
   margin: 0 auto;
   max-width: 45em;
   line-height: 1.5;
-  padding: 4em 1em;
+  padding: 4em 1em 6em;
   color: #3D3D3D;
-  padding-bottom: 20em;
 }
 
 hr {
@@ -28,13 +27,25 @@ hr {
 }
 
 h2 {
-  margin-top: 1em;
-  padding-top: 1em;
+  margin-top: 1.5em;
 }
 
-h2 {
-  margin-top: 1em;
-  padding-top: 1em;
+/* Pandoc renders some lists "loose" (items wrapped in <p>) and some
+ * "tight"; these rules make both spread the same way. */
+li {
+  margin: 0.25em 0;
+}
+
+li > p {
+  margin: 0.25em 0;
+}
+
+.post-header {
+  text-align: center;
+}
+
+.post-header h2 {
+  margin: 0 0 0.25em;
 }
 
 h1,
