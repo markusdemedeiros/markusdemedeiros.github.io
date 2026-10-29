@@ -8,9 +8,7 @@ _My Dinner With André_ is a 1981 comedy film centering around a schizophrenic c
 
 In other news, I've been chatting with Claude code while I work. 
 
-<p align="center">
-![](../img/andre.jpeg "The titular André"){#id .class width=400} 
-</p>
+![](../img/andre.jpeg "The titular André"){width=400}
 
 #### AI? Gross. 
 

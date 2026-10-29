@@ -56,7 +56,7 @@ which is super valuable while I'm still developing my own sense of research tast
 Despite a long history of hating presentations, it turns out that I love a crowd when it's something I really care about! 
 The high point had to be pointing at a slide of Iris rules and calling it "eye candy for the deranged".
 
-![*Fig 1. The aformentioned eye candy.*](../img/Eris_Iris_Screenshot.png "A bunch of Iris rules on a slide"){#id .class width=500} 
+![*Fig 1. The aformentioned eye candy.*](../img/Eris_Iris_Screenshot.png "A bunch of Iris rules on a slide"){width=500} 
 
 I'm really looking forward to presenting more!
 

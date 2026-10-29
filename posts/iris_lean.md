@@ -11,7 +11,7 @@ As it stands now, the project is mainly a formalization of Iris Proof Mode front
 I want to understand concretely what ``iris-lean`` has accomplished, in order to judge how it might be used for mechanizing other separation logics in Lean. 
 To do this, I worked my way up the project's import graph, and made an inventory of which kind of theorems are in each file. 
 
-![](../img/lean_iris_graph.png "Import graph for iris-lean"){#id .class width=700} 
+![](../img/lean_iris_graph.png "Import graph for iris-lean"){width=700} 
 [Higher-res version](../pdf/iris_lean_import_graph.pdf)
 
 

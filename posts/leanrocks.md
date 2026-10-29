@@ -20,9 +20,7 @@ Circuit garbling is the most passive-aggressive possible way to evaluate a logic
 The key idea is pretty simple. 
 You, the garbler,[^1] start off with a logical circuit known to both parties:
 
-<p align="center">
-![](../img/FullAdder.svg "A full adder circuit, credit WikiMedia"){#id .class width=60%} 
-</p>
+![](../img/FullAdder.svg "A full adder circuit, credit WikiMedia"){width=60%}
 
 Then, for each wire `W`, you generate two encryption keys: a key to represent that <span style="color:#FF4F00">[🔑 W is False]</span>, and another for when <span style="color:#0099FF">[🔑 W is True]</span>.
 Using these keys you can generate truth tables for each gate in the circuit, for example that of an `AND` gate:

@@ -198,3 +198,17 @@ sup {
 }
 
 .margin-img--joel  { top: 105em; }
+
+figure {
+  text-align: center;
+}
+
+figure img {
+  display: block;
+  margin: 0 auto;
+}
+
+p > img:only-child {
+  display: block;
+  margin: 0 auto;
+}
