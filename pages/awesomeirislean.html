@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Awesome Iris Lean</title>
+    <link rel="stylesheet" type="text/css" href="../stylesheet.css">
+  </head>
+
+  <body>
+    <center>
+      <h2>Awesome Iris Lean</h2>
+      <aside>Oct 29, 2026</aside>
+    </center>
+
+    <hr>
+    <br>
+
+    <p>This page will be periodically updated with the people I know to
+    be using Iris-Lean. Excludes companies and papers who are in
+    stealth.</p>
+    <h2 id="academia">Academia</h2>
+    <ul>
+    <li><p><a
+    href="https://github.com/markusdemedeiros/Metrology/tree/main/Metrology/TotalEris">CTE</a>
+    A continuous probabilistic program logic</p>
+    <ul>
+    <li>As described in the Iris-Lean paper, this logic admits new proof
+    rules by virtue of its access to Mathlib.</li>
+    </ul></li>
+    <li><p><a href="https://github.com/edwin1729/bppl-logic">BPPL</a> A
+    formalization of the Lilac probabilistic separation logic</p>
+    <ul>
+    <li>Before this project, Lilac was not formalized in a theorem
+    prover.</li>
+    </ul></li>
+    <li><p><a
+    href="https://github.com/suhr/iris-tutorial">Iris-Tutorial</a> A
+    work in progress port of the Iris tutorial</p></li>
+    <li><p><a
+    href="https://github.com/zilberstein/pcol-iris/tree/main">pcOL</a>
+    Probabilistic Concurrent Outcome Logic (pcOL)</p></li>
+    <li><p><a
+    href="https://github.com/mit-pdos/perennial/tree/lean">Perennial</a>
+    A program logic for distributed Go programs</p></li>
+    <li><p><a
+    href="https://github.com/mit-pdos/xv6iris/tree/lean/MachCSL">MachCSL</a>
+    A separation logic for verifying the correctness of an operating
+    system</p>
+    <blockquote>
+    <p>Porting to Lean. After we had finished doing all of this
+    verification work in Rocq, we asked an agent to port the whole
+    verification framework and proofs to Lean. This required some
+    supervision, but far less than the original development. The
+    resulting Lean port was about half the size of the Rocq development,
+    in terms of lines of proof, and it compiled (checking all of the
+    proofs) about 5x faster, through a combination of cleanup,
+    simplifications, and better optimizations in Lean itself. (This
+    paper, including all of the reported numbers, describes the original
+    Rocq development.)</p>
+    <p>One surprising finding is that, when one of the authors of this
+    paper switched the git repo from Rocq to Lean, the other author
+    barely noticed (aside from the performance improvements), since the
+    level of discussion with the agent was far above the specific syntax
+    differences between Rocq and Lean; the agent was able to switch all
+    of its work from Rocq to Lean transparently.</p>
+    <ul>
+    <li><em>Kaashoek and Zeldovich, &#x201C;Extending concurrent separation
+    logic to the hardware level to verify the xv6 OS kernel on RISC-V
+    with AI agents&#x201D;.</em></li>
+    </ul>
+    </blockquote></li>
+    <li><p><a
+    href="https://github.com/spitters/CatCrypt-core">CatCrypt</a>
+    Game-based cryptographic security proofs</p></li>
+    </ul>
+    <h2 id="industry">Industry</h2>
+    <ul>
+    <li><a
+    href="https://github.com/BasisResearch/ship-your-interpreter">Ship
+    Your Interpreter</a> Defining program semantics from an interpreter
+    binary
+    <ul>
+    <li>Initially written without Iris-Lean. Got stuck on scaling up;
+    switching to Iris-Lean helped surpass that barrier.</li>
+    </ul></li>
+    <li><a
+    href="https://github.com/Verified-zkEVM/Foxglove">Foxglove</a>
+    Probabilistic separation logic; Etherium foundation
+    <ul>
+    <li>Combines probabilistic separation logic with VCVio&#x2019;s security
+    oracles</li>
+    </ul></li>
+    <li><em>(unconfirmed)</em> <a
+    href="https://www.harmonic.fun/news/aristotle-software-hardware-verification/">Aristotle
+    for C</a>
+    <ul>
+    <li>They didn&#x2019;t say as much, but an early version of their website
+    had a funny tell: <img src="../img/harmonic.png"
+    style="width:60.0%" /></li>
+    </ul></li>
+    <li><em>(unconfirmed)</em> <a
+    href="https://andtruth.com/blog/shoulders-of-giants/">&amp;Truth</a>
+    <ul>
+    <li><p>On their website, they say:</p>
+    <blockquote>
+    <p>A new version of Iris for Lean is a crucial building block in the
+    logical foundations of &amp;Truth&#x2019;s tools.</p>
+    </blockquote>
+    <p>I don&#x2019;t know if they use Iris-Lean, but I&#x2019;ll settle for being
+    crucial.</p></li>
+    </ul></li>
+    </ul>
+    <h2 id="hey-where-am-i">Hey, where am I?</h2>
+    <p>If you&#x2019;re using Iris-Lean to do awesome things, email
+    <code>mjd9606@nyu.edu</code> with a link to your project, and the
+    title &#x201C;Awesome Iris Lean&#x201D;.</p>
+
+  </body>
+</html>
