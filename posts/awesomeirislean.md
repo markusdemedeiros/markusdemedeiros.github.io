@@ -25,6 +25,9 @@ At least, the ones who aren't in stealth 😉
      > - _Kaashoek and Zeldovich, "Extending concurrent separation logic to the hardware level to verify the xv6 OS kernel on RISC-V with AI agents"._
 - [\[ CatCrypt \]](https://github.com/spitters/CatCrypt-core) Game-based cryptographic security proofs
 - [\[ Lantana \]](https://github.com/mit-pdos/lantana) A (transfinite) concurrent separation logic for liveness
+- [\[ Wander \]](https://github.com/ayhon/wander) Diaframe-inspired ProofMode automation
+- [\[ ISTA ITrees \]](https://github.com/ISTA-PLV/iris-lean/tree/wpi) _Program Logics a la Carte_
+    - Being merged into Iris-Lean core.
 
 ## Industry
 - [\[ Ship Your Interpreter \]](https://github.com/BasisResearch/ship-your-interpreter) Defining program semantics from an interpreter binary
