@@ -44,3 +44,5 @@ At least, the ones who aren't in stealth 😉
 ## Hey, where am I?
 
 If you're using Iris-Lean to do awesome things, email `mjd9606@nyu.edu` with a link to your project.
+
+Iris-Lean builds off of a lot of awesome [\[ Iris \]](https://iris-project.org#publications). You should check out the developments there, and when you're inspired enough, build your next project with [\[ Iris-Lean \]](https://github.com/leanprover-community/iris-lean).
