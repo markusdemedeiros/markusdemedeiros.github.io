@@ -28,6 +28,7 @@ At least, the ones who aren't in stealth 😉
 - [\[ Wander \]](https://github.com/ayhon/wander) Diaframe-inspired ProofMode automation
 - [\[ ISTA ITrees \]](https://github.com/ISTA-PLV/iris-lean/tree/wpi) _Program Logics a la Carte_
     - Being merged into Iris-Lean core.
+- [\[ Cryptis Lean \]](https://github.com/chandradeepdey/cryptis-lean) A separation logic for symbolic cryptography.
 
 ## Industry
 - [\[ Ship Your Interpreter \]](https://github.com/BasisResearch/ship-your-interpreter) Defining program semantics from an interpreter binary
