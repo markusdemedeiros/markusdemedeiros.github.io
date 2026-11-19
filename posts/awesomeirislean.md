@@ -35,9 +35,7 @@ At least, the ones who aren't in stealth 😉
     - Initially written without Iris-Lean. Got stuck on scaling up; switching to Iris-Lean helped surpass that barrier.
 - [\[ Foxglove \]](https://github.com/Verified-zkEVM/Foxglove) Probabilistic separation logic; Etherium foundation
     - Combines probabilistic separation logic with VCVio's security oracles
-- _(unconfirmed)_ [\[ Aristotle for C \]](https://www.harmonic.fun/news/aristotle-software-hardware-verification/)
-    - They didn't say as much, but an early version of their website had a funny tell:
-    ![](../img/harmonic.png){width=60%}
+- [\[ Aristotle for C \]](https://www.harmonic.fun/news/aristotle-software-hardware-verification/) Confirmed that they use Iris-Lean.
 - _(unconfirmed)_ [\[ &Truth \]](https://andtruth.com/blog/shoulders-of-giants/)
     - On their website, they say:
 
