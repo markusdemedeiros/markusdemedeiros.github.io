@@ -26,12 +26,19 @@ jobs:
             | sh -s -- -y --default-toolchain none
           echo "$HOME/.elan/bin" >> "$GITHUB_PATH"
 
-      # Verso and Iris-Lean take a long time to compile, so keep them between runs.
+      # Iris-Lean, Verso and the other dependencies. They only change when the
+      # toolchain or the manifest does, so this is saved once and reused as is.
       - uses: actions/cache@v4
         with:
-          path: .lake
-          key: lake-${{ hashFiles('lean-toolchain', 'lake-manifest.json') }}-${{ github.sha }}
-          restore-keys: lake-${{ hashFiles('lean-toolchain', 'lake-manifest.json') }}-
+          path: .lake/packages
+          key: deps-${{ runner.os }}-${{ hashFiles('lean-toolchain', 'lake-manifest.json') }}
+
+      # The site's own build. Restore the latest one so only edited posts recompile.
+      - uses: actions/cache@v4
+        with:
+          path: .lake/build
+          key: site-${{ runner.os }}-${{ hashFiles('lean-toolchain', 'lake-manifest.json') }}-${{ github.sha }}
+          restore-keys: site-${{ runner.os }}-${{ hashFiles('lean-toolchain', 'lake-manifest.json') }}-
 
       - name: Build the site
         run: lake exe site
