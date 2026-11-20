@@ -7,3 +7,7 @@
 /.psc*
 /.purs*
 /.psa*
+
+# Verso build
+/.lake/
+/_site/
